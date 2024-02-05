@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+
+const ADS_TABLE_COLLECTION_NAME = "ads";
 
 enum AdTableColumn{
   AD_CREATER,
@@ -104,5 +105,25 @@ class Ad{
       AdTableColumn.AD_AIDER_NUMBERS.name:_aiderNumbers,
       AdTableColumn.AD_CREATED.name:_created,
     };
+  }
+
+  factory Ad.fromMap(Map<String, dynamic> mapArg){
+    return Ad(
+      creater: mapArg[AdTableColumn.AD_CREATER.name], 
+      imageUrl: mapArg[AdTableColumn.AD_IMAGE_URL.name], 
+      title: mapArg[AdTableColumn.AD_TITLE.name], 
+      detail: mapArg[AdTableColumn.AD_DETAIL.name], 
+      totalMoneyAmount: mapArg[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name], 
+      targetMoneyAmount: mapArg[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name], 
+      deadline: mapArg[AdTableColumn.AD_DEADLINE.name], 
+      creaters: mapArg[AdTableColumn.AD_CREATER_NUMBERS.name], 
+      createrNumbers: mapArg[AdTableColumn.AD_TARGET_AIDOL.name], 
+      targetIdol: mapArg[AdTableColumn.AD_TARGET_AIDOL.name], 
+      targetPlatform: mapArg[AdTableColumn.AD_TARGET_PLATFORM],
+      category: mapArg[AdTableColumn.AD_CATEGORY], 
+      hashtag: mapArg[AdTableColumn.AD_HASHTAG],
+      aiders: mapArg[AdTableColumn.AD_AIDERS.name],
+      aiderNumbers: mapArg[AdTableColumn.AD_AIDER_NUMBERS.name]
+    );
   }
 }
