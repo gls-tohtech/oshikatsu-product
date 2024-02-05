@@ -12,7 +12,7 @@ class UserAuthentifier{
   bool get isLogin => _isLogin;
 
   UserAuthentifier(this._userAuthInfo){
-    if(_userAuthInfo == "" || _userAuthInfo == ""){
+    if(_userAuthInfo.email == "" || _userAuthInfo.password == ""){
       throw Exception(
         "non-exist property in _userAuthInfo, email:[${_userAuthInfo.email}] - password:[${_userAuthInfo.password}]"
       );
@@ -23,9 +23,10 @@ class UserAuthentifier{
     return await _userAuthController.createUserWithEmailAndPassWord(_userAuthInfo);
   }
 
-  Future signInWithEmailAndPassWord() async {
+  Future<User?> signInWithEmailAndPassWord() async {
     final User? user = await _userAuthController.signInWithEmailAndPassWord(_userAuthInfo);
     if(user != null) _isLogin = true;
+    return user;
   }
 
   void signOut() async {

@@ -6,7 +6,7 @@ import '../models/users/UserProfile.dart';
 
 class UserController{
   late final UserAuthentifier _auth;
-  late final UserResistry _resistry;
+  final UserResistry _resistry = UserResistry();
   late final UserDataFetcher _fetcher;
 
   late final UserAuthInfo _userAuthInfo;
