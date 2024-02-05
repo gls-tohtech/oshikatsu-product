@@ -4,7 +4,7 @@ import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:test/test.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
-import 'package:oshikatsu_product/utils/UserController.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
 
 void main() async{  
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,12 +31,6 @@ void main() async{
     await userController.signInWithEmailAndPassWord();
     userController.addToStore();
 
-    print("isLogin = ${userController.isLogin}"); 
-
     expect(userController.isLogin, true);
-
-    // await Future.delayed(const Duration(seconds: 5), () {
-    //   expect(userController.isLogin, true);
-    // });
   });
 }

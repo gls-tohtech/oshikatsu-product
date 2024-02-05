@@ -115,14 +115,14 @@ class Ad{
       detail: mapArg[AdTableColumn.AD_DETAIL.name], 
       totalMoneyAmount: mapArg[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name], 
       targetMoneyAmount: mapArg[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name], 
-      deadline: mapArg[AdTableColumn.AD_DEADLINE.name], 
-      creaters: mapArg[AdTableColumn.AD_CREATER_NUMBERS.name], 
-      createrNumbers: mapArg[AdTableColumn.AD_TARGET_AIDOL.name], 
+      deadline: mapArg[AdTableColumn.AD_DEADLINE.name].toDate(), 
+      creaters: mapArg[AdTableColumn.AD_CREATERS.name].split(","), 
+      createrNumbers: mapArg[AdTableColumn.AD_CREATER_NUMBERS.name], 
       targetIdol: mapArg[AdTableColumn.AD_TARGET_AIDOL.name], 
-      targetPlatform: mapArg[AdTableColumn.AD_TARGET_PLATFORM],
-      category: mapArg[AdTableColumn.AD_CATEGORY], 
-      hashtag: mapArg[AdTableColumn.AD_HASHTAG],
-      aiders: mapArg[AdTableColumn.AD_AIDERS.name],
+      targetPlatform: mapArg[AdTableColumn.AD_TARGET_PLATFORM.name],
+      category: mapArg[AdTableColumn.AD_CATEGORY.name].split(","), 
+      hashtag: mapArg[AdTableColumn.AD_HASHTAG.name].split(","),
+      aiders: mapArg[AdTableColumn.AD_AIDERS.name].split(","),
       aiderNumbers: mapArg[AdTableColumn.AD_AIDER_NUMBERS.name]
     );
   }
