@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ShowAdImgComponent extends StatelessWidget{
+class AdListItemImgComponent extends StatelessWidget{
   late final String _imageUrl;
 
-  ShowAdImgComponent(this._imageUrl);
+  AdListItemImgComponent(this._imageUrl);
 
   @override
   Widget build(BuildContext context){
