@@ -1,43 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/models/ads/ad.dart';
 import 'package:oshikatsu_product/providers/adProvider.dart';
+import 'package:oshikatsu_product/widgets/adDetailFragment/adDetailFragment.dart';
 import 'adListItemGoalCom.dart';
 import 'adListItemImgCom.dart';
 import 'adListItemNumbersCom.dart';
 import 'adListItemHashtagCom.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AdList extends ConsumerStatefulWidget {
-  const AdList({super.key});
+class AdListItem extends ConsumerStatefulWidget {
+  late final String _adId;
+
+  AdListItem({required String adId}){
+    _adId = adId;
+  }
 
   @override
-  _AdListItemState createState() => _AdListItemState();
+  _AdListItemState createState() => _AdListItemState(_adId);
 }
 
-class _AdListItemState extends ConsumerState<AdList> {
-  late final Function() _adTappedCallback = () {}; 
+class _AdListItemState extends ConsumerState<AdListItem> {
+  late final String _adId;
+
+  _AdListItemState(String adId){
+    _adId = adId;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final streamProv = ref.watch(adStreamProvider);
+    final streamProv = ref.watch(adStreamProvider(_adId));
     return Scaffold(
       body: streamProv.when(
-        data: (List<Ad> ad){
-          return buildAdList(context, ad);
+        data: (Ad ad){
+          return buildAdListItem(context, ad);
         }, error:((error, stackTrace) {
           return Text("error = \n${error.toString()}");
         }), 
         loading: () => Container()
-      )
-    );
-  }
-
-  Widget buildAdList(BuildContext context, List<Ad> ad){
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          for(var ele in ad) buildAdListItem(context, ele),
-        ],
       )
     );
   }
@@ -49,7 +48,14 @@ class _AdListItemState extends ConsumerState<AdList> {
       child: Card(
         elevation: 8,
         child: InkWell(
-          onTap: _adTappedCallback(),
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+              return AdDetailFragment(
+                ad: ad,
+                bookmarkTapped: (){},
+              );
+            }));
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

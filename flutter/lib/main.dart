@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
-import 'package:oshikatsu_product/widgets/showAd/showAdCom.dart';
+import 'package:oshikatsu_product/widgets/showAd/adListItemCom.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentPageIndex = 0;
 
   List<Widget> _pages = [
-    AdListItem(),
+    AdListItem(adId: "rerurate:これはテスト:Timestamp(seconds=1707152278, nanoseconds=366325000)",),
     Text("search"),
     Text("submit"),
     Text("support"),
