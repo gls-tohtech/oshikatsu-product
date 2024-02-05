@@ -52,7 +52,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
   Widget buildTitle(BuildContext context){
     return Text(
       _title,
-      textScaler: TextScaler.linear(2),
+      textScaler: const TextScaler.linear(2),
       style: const TextStyle(fontWeight: FontWeight.bold),
     );
   }
@@ -66,7 +66,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
         children: [
           const Text(
             "達成度",
-            textScaler: const TextScaler.linear(1.2),
+            textScaler: TextScaler.linear(1.2),
           ),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
@@ -119,7 +119,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             Padding(padding: EdgeInsets.symmetric(horizontal: size.width * 0.015)),
             SizedBox(
               width: size.width * 0.3,
-              child: Text("現在の応援金額"),
+              child: const Text("現在の応援金額"),
             ),
             SizedBox(
               width: size.width * 0.2,
@@ -141,7 +141,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             Padding(padding: EdgeInsets.symmetric(horizontal: size.width * 0.015)),
             SizedBox(
               width: size.width * 0.3,
-              child: Text("画像応援"),
+              child: const Text("画像応援"),
             ),
             SizedBox(
               width: size.width * 0.2,
@@ -156,7 +156,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             Padding(padding: EdgeInsets.symmetric(horizontal: size.width * 0.015)),
             SizedBox(
               width: size.width * 0.3,
-              child: Text("クリエイター"),
+              child: const Text("クリエイター"),
             ),
             SizedBox(
               width: size.width * 0.2,
@@ -165,7 +165,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             const Text("人")
           ],
         ),
-        const Padding(padding: const EdgeInsets.symmetric(vertical: 4)),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
       ],
     );
   }
@@ -208,9 +208,16 @@ class AdDetailTopInfoComponent extends StatelessWidget{
     return Row(
       children: [
         const Icon(Icons.schedule),
-        Text("残り ${_deadLine.toDate().day} 日")
+        Text("残り ${calcDaysRemaining(_deadLine.toDate())} 日")
       ],
     );
+  }
+
+  int calcDaysRemaining(DateTime deadline){
+    DateTime now = DateTime.now();
+    Duration difference = deadline.difference(now);
+    int days = difference.inDays;
+    return days;
   }
 }
 

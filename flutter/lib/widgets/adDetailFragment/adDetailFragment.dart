@@ -67,7 +67,7 @@ class AdDetailFragment extends StatelessWidget{
                     totalMoneyAmount: _totalMoneyAmount, 
                     aiderNumbers: _aiderNumbers, 
                     createrNumbers: _createrNumbers, 
-                    deadLine: Timestamp.now()
+                    deadLine: _deadLine
                   ),
                   Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
                   AdDetailTextComponent(
