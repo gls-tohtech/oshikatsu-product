@@ -1,10 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:test/test.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/utils/UserController.dart';
 
-void main(){
-  test("user-store", () {
+void main() async{  
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
+
+  test("user-store", () async {
     final userController = UserController(
       UserAuthInfo(
         "rerurateyuto@gmail.com", 
@@ -19,9 +28,15 @@ void main(){
     );
 
     userController.createUserWithEmailAndPassWord();
-    userController.signInWithEmailAndPassWord();
+    await userController.signInWithEmailAndPassWord();
     userController.addToStore();
 
+    print("isLogin = ${userController.isLogin}"); 
+
     expect(userController.isLogin, true);
+
+    // await Future.delayed(const Duration(seconds: 5), () {
+    //   expect(userController.isLogin, true);
+    // });
   });
 }

@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "206930114075",
+    "firebase_url": "https://oshikatsu-dev-8bb0d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "oshikatsu-dev-8bb0d",
+    "storage_bucket": "oshikatsu-dev-8bb0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206930114075:android:5824cb5bb287963d46eabe",
+        "android_client_info": {
+          "package_name": "com.example.oshikatsu_product"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6YJErF9qj-iH8oYQuVr0RpYMGEVf-LFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206930114075:android:513e34474ec7b7f246eabe",
+        "android_client_info": {
+          "package_name": "com.example.oshikatsutest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6YJErF9qj-iH8oYQuVr0RpYMGEVf-LFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
