@@ -11,13 +11,11 @@ enum AdTableColumn{
   AD_TOTAL_MONEY_AMOUNT,
   AD_DEADLINE,
   AD_CREATERS,
-  AD_CREATER_NUMBERS,
   AD_TARGET_AIDOL,
   AD_TARGET_PLATFORM,
   AD_CATEGORY,
   AD_HASHTAG,
   AD_AIDERS,
-  AD_AIDER_NUMBERS,
   AD_CREATED,
 }
 
@@ -32,13 +30,11 @@ class Ad{
   late final int _totalMoneyAmount;
   late final Timestamp _deadline;
   late final String _creaters;
-  late final int _createrNumbers;
   late final String _targetIdol;
   late final String _targetPlatform;
   late final String _category;
   late final String _hashtag;
   late final String _aiders;
-  late final int _aiderNumbers;
   late final Timestamp _created;
 
   late Map<String, dynamic> _dbProcessedMap;
@@ -55,13 +51,11 @@ class Ad{
     required int targetMoneyAmount,
     required DateTime deadline,
     required List<String> creaters,
-    required int createrNumbers,
     required String targetIdol,
     required String targetPlatform,
     required List<String> category,
     required List<String> hashtag,
     required List<String> aiders,
-    required int aiderNumbers
   }){
     _creater = creater;
     _imageUrl = imageUrl;
@@ -71,13 +65,11 @@ class Ad{
     _targetMoneyAmount = targetMoneyAmount;
     _deadline = Timestamp.fromDate(deadline);
     _creaters = creaters.join(",");
-    _createrNumbers = createrNumbers;
     _targetIdol = targetIdol;
     _targetPlatform = targetPlatform;
     _category = category.join(",");
     _hashtag = hashtag.join(",");
     _aiders = aiders.join(",");
-    _aiderNumbers = aiderNumbers;
 
     _created = Timestamp.now();
 
@@ -96,13 +88,11 @@ class Ad{
       AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name:_totalMoneyAmount,
       AdTableColumn.AD_DEADLINE.name:_deadline,
       AdTableColumn.AD_CREATERS.name:_creaters,
-      AdTableColumn.AD_CREATER_NUMBERS.name:_createrNumbers,
       AdTableColumn.AD_TARGET_AIDOL.name:_targetIdol,
       AdTableColumn.AD_TARGET_PLATFORM.name:_targetPlatform,
       AdTableColumn.AD_CATEGORY.name:_category,
       AdTableColumn.AD_HASHTAG.name:_hashtag,
       AdTableColumn.AD_AIDERS.name:_aiders,
-      AdTableColumn.AD_AIDER_NUMBERS.name:_aiderNumbers,
       AdTableColumn.AD_CREATED.name:_created,
     };
   }
@@ -115,15 +105,13 @@ class Ad{
       detail: mapArg[AdTableColumn.AD_DETAIL.name], 
       totalMoneyAmount: mapArg[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name], 
       targetMoneyAmount: mapArg[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name], 
-      deadline: mapArg[AdTableColumn.AD_DEADLINE.name].toDate(), 
+      deadline: mapArg[AdTableColumn.AD_DEADLINE.name].toDate(),  
       creaters: mapArg[AdTableColumn.AD_CREATERS.name].split(","), 
-      createrNumbers: mapArg[AdTableColumn.AD_CREATER_NUMBERS.name], 
       targetIdol: mapArg[AdTableColumn.AD_TARGET_AIDOL.name], 
       targetPlatform: mapArg[AdTableColumn.AD_TARGET_PLATFORM.name],
       category: mapArg[AdTableColumn.AD_CATEGORY.name].split(","), 
       hashtag: mapArg[AdTableColumn.AD_HASHTAG.name].split(","),
       aiders: mapArg[AdTableColumn.AD_AIDERS.name].split(","),
-      aiderNumbers: mapArg[AdTableColumn.AD_AIDER_NUMBERS.name]
     );
   }
 }

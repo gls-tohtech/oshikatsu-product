@@ -25,14 +25,12 @@ class AdController{
       totalMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name] + additionalMoney, 
       targetMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name], 
       deadline: existedAdInfo.dbProcessedMap[AdTableColumn.AD_DEADLINE.name], 
-      creaters: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATER_NUMBERS.name], 
-      createrNumbers: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_AIDOL.name], 
+      creaters: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATERS.name], 
       targetIdol: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_AIDOL.name], 
       targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM],
       category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY], 
       hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG],
-      aiders: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name] + 1,
-      aiderNumbers: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDER_NUMBERS.name]
+      aiders: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name]
     );
 
     _resistry.update(newAdData: newAdInfo, column: AdTableColumn.AD_TOTAL_MONEY_AMOUNT);
