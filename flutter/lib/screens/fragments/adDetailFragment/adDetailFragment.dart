@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../../models/ads/ad.dart';
+import '../../../models/ads/ad.dart';
 import 'adDetailAiderCom.dart';
 import 'adDetailBorderCom.dart';
 import 'adDetailBottomInfoCom.dart';
@@ -54,7 +54,12 @@ class AdDetailFragment extends StatelessWidget{
       body: SingleChildScrollView(
         child: Column(
           children: [
-            AdDetailImgComponent(_imageUrl, (){ Navigator.of(context).pop(); }),
+            AdDetailImgComponent(
+              _imageUrl, 
+              () => {
+                Navigator.of(context).pop() 
+              }
+            ),
             Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
@@ -86,7 +91,7 @@ class AdDetailFragment extends StatelessWidget{
                   AdDetailBorderComponent(),
                   AdDetailFooterComponent(
                     bookmarkTapped: _bookmarkTapped, 
-                    moveSupportUIButtonTapped: (){}
+                    ad: _ad,
                   ),
                   Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
                 ],

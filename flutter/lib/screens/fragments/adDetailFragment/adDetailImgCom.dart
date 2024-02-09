@@ -11,13 +11,23 @@ class AdDetailImgComponent extends StatelessWidget{
     final Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        // IconButton(
-        //   onPressed: _movePreviousButtonTapped, 
-        //   icon: const Icon(Icons.skip_previous)
-        // ),
         Image.network(
           _imageUrl,
           width: size.width,
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child:  Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(1024),
+            ),
+            child: IconButton(
+              onPressed: () => { 
+                Navigator.of(context).pop(),
+              }, 
+              icon: const Icon(Icons.close)
+            ),
+          )
         )
       ],
     );
