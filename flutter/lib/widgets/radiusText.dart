@@ -3,26 +3,33 @@ import 'package:flutter/widgets.dart';
 
 class RadiusTextComponent extends StatelessWidget{
   late final String _text;
+  late final Alignment _alignment;
   late final Function() _textTapped;
   late final double _widthRaio;
+  late final double _widthFactorRatio;
 
   RadiusTextComponent(
-    String text,
+    String text, {
+    Alignment? alignment,
     Function()? textTapped,
-    double? widthRaio
-  ){
+    double? widthRaio,
+    double? widthFactorRatio
+  }){
     _text = text;
+    alignment != null ? _alignment = alignment : _alignment = Alignment.center;
     textTapped != null ? _textTapped = textTapped : _textTapped = (() => {});
     widthRaio != null ? _widthRaio = widthRaio : _widthRaio = 0.2;
+    widthFactorRatio != null ? _widthFactorRatio = widthFactorRatio : _widthFactorRatio = 1;
   }
 
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
     return Align(
-      alignment: Alignment.center,
+      alignment: _alignment,
+      widthFactor: _widthFactorRatio,
       child: Container(
-        width: size.width * 0.5,
+        width: size.width * _widthRaio,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.black,
