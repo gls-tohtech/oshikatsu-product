@@ -8,7 +8,7 @@ class AdListItemGaolComponent extends StatelessWidget{
     this._targetMoneyAmount,
     this._totalMoneyAmount
   );
-
+  
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
@@ -19,7 +19,7 @@ class AdListItemGaolComponent extends StatelessWidget{
         children: [
           const Text(
             "達成度",
-            textScaler: const TextScaler.linear(1.1),
+            textScaler: TextScaler.linear(1.1),
           ),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(

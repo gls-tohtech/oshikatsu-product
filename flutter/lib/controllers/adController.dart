@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/ads/ad.dart';
 import '../models/ads/adStore.dart';
 import '../models/ads/adStorage.dart';
@@ -22,15 +24,15 @@ class AdController{
       imageUrl: existedAdInfo.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name], 
       title: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TITLE.name], 
       detail: existedAdInfo.dbProcessedMap[AdTableColumn.AD_DETAIL.name], 
-      totalMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name] + additionalMoney, 
-      targetMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name], 
-      deadline: existedAdInfo.dbProcessedMap[AdTableColumn.AD_DEADLINE.name], 
-      creaters: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATERS.name], 
+      totalMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name] + additionalMoney, 
+      targetMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name], 
+      deadline: existedAdInfo.dbProcessedMap[AdTableColumn.AD_DEADLINE.name].toDate(), 
+      creaters: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATERS.name].split(","), 
       targetIdol: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_AIDOL.name], 
       targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM.name],
-      category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY.name], 
-      hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG.name],
-      aiders: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name].push(aiderName),
+      category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY.name].split(","), 
+      hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG.name].split(","),
+      aiders: (existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name].split(","))..add(aiderName),
       created: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATED.name]
     );
 
