@@ -15,8 +15,12 @@ final adStreamProvider = StreamProvider.autoDispose.family((ref, String adId){
   return ad;
 });
 
-  // final adsSnapshots = adsRef.snapshots();
-  // final ads = 
-  //   adsSnapshots.map((querySnapshot) => querySnapshot.docs.map((doc){
-  //     return Ad.fromMap(doc.data());
-  //   }).toList());
+final adsStreamProvider = StreamProvider.autoDispose((ref){
+  final adsSnapshot = adsRef.snapshots();
+  final ads = 
+    adsSnapshot.map((querySnapshot) => querySnapshot.docs.map((doc){
+      return Ad.fromMap(doc.data());
+    }).toList());
+
+  return ads;
+});

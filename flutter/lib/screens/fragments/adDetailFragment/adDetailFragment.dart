@@ -42,9 +42,9 @@ class AdDetailFragment extends StatelessWidget{
     _platform = _ad.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM.name];
     _deadLine = _ad.dbProcessedMap[AdTableColumn.AD_DEADLINE.name];
     _creaters = _ad.dbProcessedMap[AdTableColumn.AD_CREATERS.name].split(",");;
-    _createrNumbers = _ad.dbProcessedMap[AdTableColumn.AD_CREATER_NUMBERS.name];
+    _createrNumbers = _ad.dbProcessedMap[AdTableColumn.AD_CREATERS.name].length;
     _aiders = _ad.dbProcessedMap[AdTableColumn.AD_AIDERS.name].split(",");;
-    _aiderNumbers = _ad.dbProcessedMap[AdTableColumn.AD_AIDER_NUMBERS.name];
+    _aiderNumbers = _ad.dbProcessedMap[AdTableColumn.AD_AIDERS.name].length;
     _bookmarkTapped = bookmarkTapped;
   }
 

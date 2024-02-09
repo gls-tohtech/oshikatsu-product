@@ -39,7 +39,7 @@ class RadiusTextComponent extends StatelessWidget{
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(256),
-          onTap: _textTapped(),
+          onTap: _textTapped,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.005),
             child: Align(

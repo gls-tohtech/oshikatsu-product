@@ -28,7 +28,7 @@ class AdListItemHashtagListComponent extends StatelessWidget{
               color: Colors.black,
               width: 2,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(13),
           ),
           child: Padding(
             padding: const EdgeInsets.all(2),

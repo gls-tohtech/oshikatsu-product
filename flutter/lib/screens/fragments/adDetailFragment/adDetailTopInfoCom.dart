@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/widgets/hashtags.dart';
 
 class AdDetailTopInfoComponent extends StatelessWidget{
   late final String _title;
@@ -42,7 +43,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
         buildNumbers(context),
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
-        buildHashtagListWidget(context),
+        HashtagsComponent(hashtags: _hashtags),
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
         buildDeadLine(context),
       ],
@@ -167,40 +168,6 @@ class AdDetailTopInfoComponent extends StatelessWidget{
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
       ],
-    );
-  }
-
-  Widget buildHashtagListWidget(BuildContext context){
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for(String hashtag in _hashtags) hashtagWidget(hashtag),
-        ],
-      );
-  }
-
-  Widget hashtagWidget(String hashtagArg){
-    return Flexible(
-      child: Card(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(2),
-            child: Row(
-              children: [
-                const Icon(Icons.tag),
-                Flexible(child: Text(hashtagArg),)
-              ],
-            ),
-          )
-        ),
-      )
     );
   }
 

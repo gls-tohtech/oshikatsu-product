@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/models/ads/ad.dart';
+import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'adCheckBorderCom.dart';
 
@@ -163,7 +164,11 @@ class AdCheckFragment extends StatelessWidget{
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(256),
-          onTap: () => {},
+          onTap: () => {
+            showDialog(context: context, builder: (BuildContext context){
+              return SPSucecssPopupComponent();
+            })
+          },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.005),
             child: const Align(

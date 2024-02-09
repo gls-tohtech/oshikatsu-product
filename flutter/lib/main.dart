@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
+import 'package:oshikatsu_product/screens/pages/homeUI.dart';
 import 'package:oshikatsu_product/widgets/adListItemComponent/adListItemCom.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
@@ -43,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentPageIndex = 0;
 
   List<Widget> _pages = [
-    AdListItem(adId: "rerurate:これはテスト:Timestamp(seconds=1707152278, nanoseconds=366325000)",),
+    HomePage(),
     SPSucecssPopupComponent(),
     Text("submit"),
     Text("support"),
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: _pages[_currentPageIndex],),
+      body: _pages[_currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentPageIndex,
         onTap: _onItemTapped,

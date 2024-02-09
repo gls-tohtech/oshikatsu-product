@@ -19,7 +19,7 @@ class HashtagsComponent extends StatelessWidget{
               color: Colors.black,
               width: 2,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
             padding: const EdgeInsets.all(2),
