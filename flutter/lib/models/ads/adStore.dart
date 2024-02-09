@@ -11,7 +11,7 @@ class AdResistry{
       .set(newAdData.dbProcessedMap);
   }
 
-  Future update({required Ad newAdData, required AdTableColumn column}) async{
+  Future update({required Ad newAdData}) async{
     await db
       .collection(ADS_TABLE_COLLECTION_NAME)
       .doc(newAdData.adId)

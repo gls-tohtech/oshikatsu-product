@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/controllers/adController.dart';
 import 'package:oshikatsu_product/models/ads/ad.dart';
+import 'package:oshikatsu_product/models/ads/adStore.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'adCheckBorderCom.dart';
@@ -151,6 +153,7 @@ class AdCheckFragment extends StatelessWidget{
 
   Widget buildButton(BuildContext context){
     final Size size = MediaQuery.of(context).size;
+    final adController = AdController();
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -165,6 +168,9 @@ class AdCheckFragment extends StatelessWidget{
         child: InkWell(
           borderRadius: BorderRadius.circular(256),
           onTap: () => {
+            adController.updateTotalMoneyAmount(
+              existedAdInfo: _ad, aiderName: "", additionalMoney: _supportMoneyAmount
+            ),
             showDialog(context: context, builder: (BuildContext context){
               return SPSucecssPopupComponent();
             })

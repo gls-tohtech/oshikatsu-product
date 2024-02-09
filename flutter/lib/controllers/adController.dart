@@ -16,7 +16,7 @@ class AdController{
     _resistry.add(newAdData: newAdDataArg);
   }
 
-  Future<void> updateTotalMoneyAmount({required int additionalMoney, required Ad existedAdInfo}) async {
+  Future<void> updateTotalMoneyAmount({required Ad existedAdInfo, required String aiderName, required int additionalMoney}) async {
     final Ad newAdInfo = Ad(
       creater: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATER.name], 
       imageUrl: existedAdInfo.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name], 
@@ -27,14 +27,14 @@ class AdController{
       deadline: existedAdInfo.dbProcessedMap[AdTableColumn.AD_DEADLINE.name], 
       creaters: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATERS.name], 
       targetIdol: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_AIDOL.name], 
-      targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM],
-      category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY], 
-      hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG],
-      aiders: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name],
+      targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM.name],
+      category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY.name], 
+      hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG.name],
+      aiders: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name].push(aiderName),
       created: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATED.name]
     );
 
-    _resistry.update(newAdData: newAdInfo, column: AdTableColumn.AD_TOTAL_MONEY_AMOUNT);
+    _resistry.update(newAdData: newAdInfo);
   }
 
   Future<void> fetchFromStorage({required String adId}) async {
