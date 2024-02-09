@@ -44,7 +44,8 @@ class _AdListItemState extends ConsumerState<AdListItem> {
     final Size size = MediaQuery.of(context).size;
     return IntrinsicHeight(
       child: Card(
-        elevation: 8,
+        color: Color.fromARGB(255, 255, 255, 255),
+        elevation: 4,
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context){
@@ -57,6 +58,7 @@ class _AdListItemState extends ConsumerState<AdListItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              StandartPaddingComponent(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal:size.width * 0.018),
                 child: Text(
