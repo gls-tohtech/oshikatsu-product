@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import '../../../models/ads/ad.dart';
 import 'adDetailAiderCom.dart';
 import 'adDetailBorderCom.dart';
@@ -60,7 +61,7 @@ class AdDetailFragment extends StatelessWidget{
                 Navigator.of(context).pop() 
               }
             ),
-            Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
+            StandartPaddingComponent(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
               child: Column(
@@ -85,15 +86,15 @@ class AdDetailFragment extends StatelessWidget{
                     deadLine: _deadLine
                   ),
                   AdDetailBorderComponent(),
-                  Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
+                  StandartPaddingComponent(),
                   AdDetailAiderComponent(aiders: _aiders),
-                  Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
+                  StandartPaddingComponent(),
                   AdDetailBorderComponent(),
                   AdDetailFooterComponent(
                     bookmarkTapped: _bookmarkTapped, 
                     ad: _ad,
                   ),
-                  Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
+                  StandartPaddingComponent(),
                 ],
               )
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
 class AdDetailTextComponent extends StatelessWidget{
   late final String _detailText;
@@ -22,7 +23,7 @@ class AdDetailTextComponent extends StatelessWidget{
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
+        StandartPaddingComponent(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.035),
           child: Text(_detailText),

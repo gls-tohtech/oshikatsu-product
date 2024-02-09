@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
 class AdCheckBorderComponent extends StatelessWidget{
   @override
@@ -6,13 +7,13 @@ class AdCheckBorderComponent extends StatelessWidget{
     final Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
+        StandartPaddingComponent(),
         Container(
           width: size.width * 1,
           height: size.height * 0.002,
           color: Colors.grey,
         ),
-        Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
+        StandartPaddingComponent(),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/models/ads/ad.dart';
 import 'package:oshikatsu_product/screens/fragments/adCheckFragment/adCheckFragment.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'spBorderCom.dart';
 
 class SpContentsComponent extends StatelessWidget{
@@ -101,7 +102,7 @@ class SpContentsComponent extends StatelessWidget{
           textScaler: TextScaler.linear(1.1),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005),),
+        StandartPaddingComponent(),
         TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
