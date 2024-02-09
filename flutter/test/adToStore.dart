@@ -17,10 +17,10 @@ void main() async{
     final ad = Ad(
       creater: "rerurate", 
       imageUrl: "https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2FGCG_hGObAAAziDK.jpg?alt=media&token=642b8e45-1802-4a59-af01-2e4eef5b9643",
-      title: "これはテストAd",
+      title: "これはテストAdfs",
       detail: "f ewf ewf ewf ew fwe fewf ",
-      totalMoneyAmount: 21412324,
-      targetMoneyAmount: 43243, 
+      totalMoneyAmount: 100000,
+      targetMoneyAmount: 10000, 
       deadline: DateTime(2024,12,31), 
       creaters: ["dwa","cewf"], 
       targetIdol: "reru",

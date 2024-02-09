@@ -30,7 +30,8 @@ class AdController{
       targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM],
       category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY], 
       hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG],
-      aiders: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name]
+      aiders: existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name],
+      created: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATED.name]
     );
 
     _resistry.update(newAdData: newAdInfo, column: AdTableColumn.AD_TOTAL_MONEY_AMOUNT);
