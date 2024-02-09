@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,19 +17,18 @@ void main() async{
     final ad = Ad(
       creater: "rerurate", 
       imageUrl: "https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2FGCG_hGObAAAziDK.jpg?alt=media&token=642b8e45-1802-4a59-af01-2e4eef5b9643",
-      title: "これはテスト",
-      detail: "vefjk enufviusfhuvewfuivwehgweuvgfwuvfe",
-      totalMoneyAmount: 214124,
+      title: "これはテストAd",
+      detail: "f ewf ewf ewf ew fwe fewf ",
+      totalMoneyAmount: 21412324,
       targetMoneyAmount: 43243, 
-      deadline: DateTime(12,3,1,3), 
+      deadline: DateTime(2024,12,31), 
       creaters: ["dwa","cewf"], 
-      createrNumbers: 2,
       targetIdol: "reru",
-      targetPlatform: "X", 
+      targetPlatform: "X, Instagram", 
       category: ["32dwa","342f","fewa"],
-      hashtag: ["3429ifd3","fewiueo","fves f"], 
+      hashtag: ["3429ifd3","fewiueo","fves f", "dawd"], 
       aiders: ["xaw","few","fes"],
-      aiderNumbers: 3
+      created: Timestamp.now()
     );
 
     resitry.add(newAdData: ad);

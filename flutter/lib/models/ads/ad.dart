@@ -56,6 +56,7 @@ class Ad{
     required List<String> category,
     required List<String> hashtag,
     required List<String> aiders,
+    required Timestamp created
   }){
     _creater = creater;
     _imageUrl = imageUrl;
@@ -71,7 +72,7 @@ class Ad{
     _hashtag = hashtag.join(",");
     _aiders = aiders.join(",");
 
-    _created = Timestamp.now();
+    _created = created;
 
     _adId = "$_creater:$_title:${_created.toString()}";
 
@@ -112,6 +113,7 @@ class Ad{
       category: mapArg[AdTableColumn.AD_CATEGORY.name].split(","), 
       hashtag: mapArg[AdTableColumn.AD_HASHTAG.name].split(","),
       aiders: mapArg[AdTableColumn.AD_AIDERS.name].split(","),
+      created: mapArg[AdTableColumn.AD_CREATED.name]
     );
   }
 }
