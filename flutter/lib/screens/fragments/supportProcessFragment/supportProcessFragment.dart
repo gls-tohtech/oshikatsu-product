@@ -1,43 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/models/ads/ad.dart';
+import 'package:oshikatsu_product/widgets/termOfService.dart';
 import 'spBorderCom.dart';
 import 'spContentsCom.dart';
 import 'spImgCom.dart';
-import 'spTermOfServiceCom.dart';
 
 class SupportProcessFragment extends StatelessWidget{
+  late final Ad _ad;
   late final String _title;
   late final String _imageUrl;
 
   SupportProcessFragment({
-    required String title,
-    required String imageUrl
+    required Ad ad
   }){
-    _title = title;
-    _imageUrl = imageUrl;
+    _ad = ad;
+    _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
+    _imageUrl = _ad.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name];
   }
 
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(size.width * 0.04),
-        child: Column(
-          children: [
-            buildHeader(context),
-            SpBorderComponent(),
-            Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
-            SPImgComponent(
-              imageUrl: _imageUrl,
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
-            SpContentsComponent(
-              title: _title
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
-            SpBorderComponent(),
-            SPTermOfServiceComponent()
-          ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(size.width * 0.04),
+          child: Column(
+            children: [
+              buildHeader(context),
+              SpBorderComponent(),
+              Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
+              SPImgComponent(
+                imageUrl: _imageUrl,
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
+              SpContentsComponent(
+                ad: _ad
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
+              SpBorderComponent(),
+              TermOfServiceComponent()
+            ],
+          ),
         ),
       ),
     );

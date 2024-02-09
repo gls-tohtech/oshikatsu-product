@@ -1,33 +1,47 @@
 import 'package:flutter/material.dart';
-import 'spBorderCom.dart';
+import 'package:oshikatsu_product/models/ads/ad.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
+import 'adCheckBorderCom.dart';
 
-class SpContentsComponent extends StatelessWidget{
-  late final String  _title;
-  late final int _supportMoneyAmount = 1000;
-  String _comment = "";
+class AdCheckFragment extends StatelessWidget{
+  late final Ad _ad;
+  late final String _title;
+  late final int _supportMoneyAmount;
+  late final TextEditingController _textController;
 
-  SpContentsComponent({
-    required String title
+  AdCheckFragment({
+    required Ad ad,
+    required int supportMoneyAmount,
+    required String comment
   }){
-    _title = title;
+    _ad = ad; 
+    _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
+    _supportMoneyAmount = supportMoneyAmount;
+    _textController = TextEditingController(text: comment);
   }
 
-  @override 
+  @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildTitle(),
-        SpBorderComponent(),
-        buildChoicePayment(context),
-        SpBorderComponent(),
-        buildSupportMoneyAmount(context),
-        SpBorderComponent(),
-        buildCommentSubmitForm(context),
-        Padding(padding: EdgeInsets.symmetric(vertical:  size.height * 0.01)),
-        buildButton(context)
-      ],
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.all(size.width * 0.04),
+        child: Column(
+          children: [
+            buildHeader(context),
+            AdCheckBorderComponent(),
+            buildTitle(),
+            AdCheckBorderComponent(),
+            buildChoicePayment(context),
+            AdCheckBorderComponent(),
+            buildSupportMoneyAmount(context),
+            AdCheckBorderComponent(),
+            buildCommentSubmitForm(context),
+            Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.02)),
+            buildButton(context)
+          ],
+        ),
+      ),
     );
   }
 
@@ -39,23 +53,46 @@ class SpContentsComponent extends StatelessWidget{
     );
   }
 
+
+  Widget buildHeader(BuildContext context){
+    final Size size = MediaQuery.of(context).size;
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.only(top: size.height * 0.01),
+            child: const Text(
+              "応援内容の確認",
+              textScaler: TextScaler.linear(1.5),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          )
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child:  IconButton(
+            onPressed: () => { 
+              Navigator.of(context).pop(),
+            }, 
+            icon: const Icon(Icons.close)
+          ),
+        )
+      ],
+    );
+  }
+
   Widget buildChoicePayment(BuildContext context){
     final Size size = MediaQuery.of(context).size;
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
+        Text(
           "支払方法",
           textScaler: TextScaler.linear(1.2),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        IconButton(
-          onPressed: () => {}, 
-          icon: const Icon(
-            Icons.arrow_forward_ios,
-            size: 32,
-          )
-        )
+        
       ],
     );
   }
@@ -68,7 +105,10 @@ class SpContentsComponent extends StatelessWidget{
         const Text(
           "応援金額",
           textScaler: TextScaler.linear(1.2),
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.red
+          ),
         ),
         Container(
           decoration: BoxDecoration(
@@ -97,8 +137,9 @@ class SpContentsComponent extends StatelessWidget{
           textScaler: TextScaler.linear(1.1),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005),),
+        StandartPaddingComponent(),
         TextFormField(
+          controller: _textController,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
@@ -116,7 +157,7 @@ class SpContentsComponent extends StatelessWidget{
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.black,
-            width: 2,
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(256),
         ),

@@ -1,41 +1,38 @@
 import 'package:flutter/material.dart';
-import 'adCheckBorderCom.dart';
+import 'package:oshikatsu_product/models/ads/ad.dart';
+import 'package:oshikatsu_product/screens/fragments/adCheckFragment/adCheckFragment.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
+import 'spBorderCom.dart';
 
-class AdCheckFragment extends StatelessWidget{
-  late final String _title;
-  late final int _supportMoneyAmount;
-  late final TextEditingController _textController;
+class SpContentsComponent extends StatelessWidget{
+  late final Ad _ad;
+  late final String  _title;
+  late final int _supportMoneyAmount = 1000;
+  String _comment = "";
 
-  AdCheckFragment({
-    required String title,
-    required int supportMoneyAmount,
-    required String comment
+  SpContentsComponent({
+    required Ad ad
   }){
-    _title = title;
-    _supportMoneyAmount = supportMoneyAmount;
-    _textController = TextEditingController(text: comment);
+    _ad = ad;
+    _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
   }
 
-  @override
+  @override 
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.all(size.width * 0.04),
-      child: Column(
-        children: [
-          buildHeader(context),
-          AdCheckBorderComponent(),
-          buildTitle(),
-          AdCheckBorderComponent(),
-          buildChoicePayment(context),
-          AdCheckBorderComponent(),
-          buildSupportMoneyAmount(context),
-          AdCheckBorderComponent(),
-          buildCommentSubmitForm(context),
-          Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.02)),
-          buildButton(context)
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildTitle(),
+        SpBorderComponent(),
+        buildChoicePayment(context),
+        SpBorderComponent(),
+        buildSupportMoneyAmount(context),
+        SpBorderComponent(),
+        buildCommentSubmitForm(context),
+        Padding(padding: EdgeInsets.symmetric(vertical:  size.height * 0.01)),
+        buildButton(context)
+      ],
     );
   }
 
@@ -44,35 +41,6 @@ class AdCheckFragment extends StatelessWidget{
       _title,
       textScaler: const TextScaler.linear(1.4),
       style: const TextStyle(fontWeight: FontWeight.bold),
-    );
-  }
-
-
-  Widget buildHeader(BuildContext context){
-    final Size size = MediaQuery.of(context).size;
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: EdgeInsets.only(top: size.height * 0.01),
-            child: const Text(
-              "応援内容の確認",
-              textScaler: TextScaler.linear(1.5),
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          )
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child:  IconButton(
-            onPressed: () => { 
-              Navigator.of(context).pop(),
-            }, 
-            icon: const Icon(Icons.close)
-          ),
-        )
-      ],
     );
   }
 
@@ -86,7 +54,13 @@ class AdCheckFragment extends StatelessWidget{
           textScaler: TextScaler.linear(1.2),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        
+        IconButton(
+          onPressed: () => {}, 
+          icon: const Icon(
+            Icons.arrow_forward_ios,
+            size: 32,
+          )
+        )
       ],
     );
   }
@@ -99,10 +73,7 @@ class AdCheckFragment extends StatelessWidget{
         const Text(
           "応援金額",
           textScaler: TextScaler.linear(1.2),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.red
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Container(
           decoration: BoxDecoration(
@@ -131,9 +102,8 @@ class AdCheckFragment extends StatelessWidget{
           textScaler: TextScaler.linear(1.1),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005),),
+        StandartPaddingComponent(),
         TextFormField(
-          controller: _textController,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
@@ -157,7 +127,15 @@ class AdCheckFragment extends StatelessWidget{
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(256),
-          onTap: () => {},
+          onTap: () => {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+              return AdCheckFragment(
+                ad: _ad,
+                supportMoneyAmount: _supportMoneyAmount, 
+                comment: _comment
+              );
+            }))
+          },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.005),
             child: const Align(

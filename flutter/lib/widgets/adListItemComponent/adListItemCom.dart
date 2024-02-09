@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/models/ads/ad.dart';
 import 'package:oshikatsu_product/providers/adProvider.dart';
-import 'package:oshikatsu_product/widgets/adDetailFragment/adDetailFragment.dart';
+import 'package:oshikatsu_product/screens/fragments/adDetailFragment/adDetailFragment.dart';
 import 'adListItemGoalCom.dart';
 import 'adListItemImgCom.dart';
 import 'adListItemNumbersCom.dart';

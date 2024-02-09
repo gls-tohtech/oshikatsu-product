@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
-import 'package:oshikatsu_product/widgets/showAd/adListItemCom.dart';
+import 'package:oshikatsu_product/widgets/adListItemComponent/adListItemCom.dart';
+import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
+        debugShowCheckedModeBanner: false,
         home: const MyHomePage(),
       )
     );
@@ -42,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _pages = [
     AdListItem(adId: "rerurate:これはテスト:Timestamp(seconds=1707152278, nanoseconds=366325000)",),
-    Text("search"),
+    SPSucecssPopupComponent(),
     Text("submit"),
     Text("support"),
     Text("profile"),
