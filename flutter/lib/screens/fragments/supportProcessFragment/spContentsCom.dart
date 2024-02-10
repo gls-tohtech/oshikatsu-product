@@ -7,7 +7,7 @@ import 'spBorderCom.dart';
 class SpContentsComponent extends StatelessWidget{
   late final Ad _ad;
   late final String  _title;
-  late final int _supportMoneyAmount = 1000;
+  int _supportMoneyAmount = 1000;
   String _comment = "";
 
   SpContentsComponent({
@@ -85,7 +85,7 @@ class SpContentsComponent extends StatelessWidget{
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-            child: Text("$_supportMoneyAmount  円"),
+            child: MoneyAmountSelectMenuComponent((p0) => {_supportMoneyAmount = p0})
           )
         )
       ],
@@ -149,6 +149,53 @@ class SpContentsComponent extends StatelessWidget{
           )
         ),
       )
+    );
+  }
+}
+
+class MoneyAmountSelectMenuComponent extends StatefulWidget {
+  late final Function(int) _setMoneyAmount;
+
+  MoneyAmountSelectMenuComponent(this._setMoneyAmount);
+
+  @override
+  _MoneyAmountSelectMenuComponentState createState() => _MoneyAmountSelectMenuComponentState(this._setMoneyAmount);
+}
+
+class _MoneyAmountSelectMenuComponentState extends State<MoneyAmountSelectMenuComponent> {
+  late final Function(int) _setMoneyAmount;
+  int _selectedValue = 1000;
+
+  _MoneyAmountSelectMenuComponentState(this._setMoneyAmount);
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      items: const[
+        DropdownMenuItem(
+          child: Text("1000 円"),
+          value: 1000
+        ),
+        DropdownMenuItem(
+          child: Text("5000 円"),
+          value: 5000
+        ),
+        DropdownMenuItem(
+          child: Text("10000 円"),
+          value: 10000
+        ),
+        DropdownMenuItem(
+          child: Text("20000 円"),
+          value: 20000
+        ),
+      ], 
+      value: _selectedValue,
+      onChanged: (value) {
+        setState(() {
+          _selectedValue = value!;
+          _setMoneyAmount(_selectedValue);
+        });
+      }
     );
   }
 }
