@@ -109,9 +109,12 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             ),
             SizedBox(
               width: size.width * 0.2,
-              child: Text("$_targetMoneyAmount"),
+              child: Text(
+                "$_targetMoneyAmount",
+                textAlign: TextAlign.right,
+              ),
             ),
-            const Text("円")
+            const Text("    円")
           ],
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
@@ -124,9 +127,12 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             ),
             SizedBox(
               width: size.width * 0.2,
-              child: Text("$_totalMoneyAmount"),
+              child: Text(
+                "$_totalMoneyAmount",
+                textAlign: TextAlign.right,
+              ),
             ),
-            const Text("円")
+            const Text("    円")
           ],
         ),
       ],
@@ -146,9 +152,12 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             ),
             SizedBox(
               width: size.width * 0.2,
-              child: Text("$_aiderNumbers"),
+              child: Text(
+                "$_aiderNumbers",
+                textAlign: TextAlign.right,
+              ),
             ),
-            const Text("人")
+            const Text("    人")
           ],
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
@@ -161,9 +170,12 @@ class AdDetailTopInfoComponent extends StatelessWidget{
             ),
             SizedBox(
               width: size.width * 0.2,
-              child: Text("$_createrNumbers"),
+              child: Text(
+                "$_createrNumbers",
+                textAlign: TextAlign.right,
+              ),
             ),
-            const Text("人")
+            const Text("    人")
           ],
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
