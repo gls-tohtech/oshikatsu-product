@@ -1,7 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
+import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
+import 'package:oshikatsu_product/models/users/UserProfile.dart';
+import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
 import 'package:oshikatsu_product/screens/pages/myPageUI.dart';
 import 'package:oshikatsu_product/screens/pages/submitUI.dart';
@@ -10,9 +14,7 @@ import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -23,16 +25,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-      child:  MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: const MyHomePage(),
-      )
-    );
+        child: MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const MyHomePage(),
+    ));
   }
 }
 
@@ -49,11 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     SPSucecssPopupComponent(),
     Text("Submit"),
-    Text("support"),
+    RoomsPage(),
     MyPage(),
   ];
 
-  void _onItemTapped(int indexArg){
+  void initState() {
+    final _userController = UserController();
+    _userController.setUserInfo(
+        userAuthInfo: UserAuthInfo("rerurateyuto@gmail.com", "ujmyhntgb"),
+        userProfile: UserProfile(
+            nameArg: "nameArg",
+            birthdayYearArg: 2024,
+            birthdayMonthArg: 2,
+            genderArg: "genderArg"));
+    //_userController.createUserWithEmailAndPassWord();
+    _userController.signInWithEmailAndPassWord();
+    super.initState();
+  }
+
+  void _onItemTapped(int indexArg) {
     setState(() {
       _currentPageIndex = indexArg;
     });
@@ -67,26 +82,11 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _currentPageIndex,
         onTap: _onItemTapped,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "ホーム"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "検索"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: "投稿"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.campaign),
-            label: "応援広告"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "マイページ"
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "ホーム"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "検索"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: "投稿"),
+          BottomNavigationBarItem(icon: Icon(Icons.campaign), label: "応援広告"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "マイページ"),
         ],
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
