@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
@@ -5,6 +6,15 @@ import '../models/users/Users.dart';
 import '../models/users/UserProfile.dart';
 
 class UserController{
+  UserController._();
+
+  static UserController? _instance;
+
+  factory UserController(){
+    _instance ??= UserController._();
+    return _instance!;
+  }
+
   late final UserAuthentifier _auth;
   final UserResistry _resistry = UserResistry();
   late final UserDataFetcher _fetcher;
@@ -15,8 +25,12 @@ class UserController{
   late final User? _user;
 
   bool get isLogin => _auth.isLogin;
+  String get uid => _userStoreInfo.uid;
 
-  UserController(this._userAuthInfo, this._userProfile){
+  void setUserInfo({required UserAuthInfo userAuthInfo, required UserProfile userProfile}){
+    _userAuthInfo = userAuthInfo;
+    _userProfile = userProfile;
+
     _auth = UserAuthentifier(_userAuthInfo);
   }
 
