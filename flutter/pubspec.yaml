@@ -44,6 +44,8 @@ dependencies:
   flutter_riverpod: ^2.4.10
   flutter_firebase_chat_core: ^1.6.7
   flutter_chat_ui: ^1.6.12
+  file_picker: ^6.1.1
+  open_filex: ^4.4.0
 
 dev_dependencies:
   flutter_test:
