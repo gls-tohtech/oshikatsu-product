@@ -1,9 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
 import '../models/users/Users.dart';
 import '../models/users/UserProfile.dart';
+
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class UserController{
   UserController._();
@@ -45,7 +47,22 @@ class UserController{
       return;
     }
     
-    _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile);
+    _userStoreInfo = UserStoreInfo(uidArg: _user.uid, profileArg: _userProfile);
+  }
+
+  Future createChatCoreUserAccount(String userName) async {
+    try{
+      await FirebaseChatCore.instance.createUserInFirestore(
+        types.User(
+          firstName: userName,
+          id: uid,
+          lastName: "",
+        ),
+      );
+    }
+    catch(e){
+      print("Failed to create user account of FirebaseChatCore in createChatCoreUserAccount method of userController class");
+    }
   }
 
   void sendPasswordResetEmail() async {
