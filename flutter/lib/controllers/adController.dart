@@ -19,6 +19,9 @@ class AdController{
   }
 
   Future<void> updateTotalMoneyAmount({required Ad existedAdInfo, required String aiderName, required int additionalMoney}) async {
+    List<String> aiders = existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name].split(",");;
+    if (!aiders.contains(aiderName)) aiders.add(aiderName);
+    
     final Ad newAdInfo = Ad(
       creater: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATER.name], 
       imageUrl: existedAdInfo.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name], 
@@ -32,7 +35,7 @@ class AdController{
       targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM.name],
       category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY.name].split(","), 
       hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG.name].split(","),
-      aiders: (existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name].split(","))..add(aiderName),
+      aiders: aiders,
       created: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATED.name]
     );
 
