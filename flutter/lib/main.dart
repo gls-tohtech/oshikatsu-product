@@ -57,12 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     final _userController = UserController();
     _userController.setUserInfo(
-        userAuthInfo: UserAuthInfo("rerurateyuto@gmail.com", "ujmyhntgb"),
-        userProfile: UserProfile(
-            nameArg: "nameArg",
-            birthdayYearArg: 2024,
-            birthdayMonthArg: 2,
-            genderArg: "genderArg"));
+      userAuthInfo: UserAuthInfo(
+        "rerurateyuto@gmail.com", 
+        "qwertyuiop"
+      ), 
+      userProfile: UserProfile(
+        nameArg: "nameArg",
+        birthdayYearArg: 2024,
+        birthdayMonthArg: 2,
+        genderArg: "genderArg"
+      )
+    );
     //_userController.createUserWithEmailAndPassWord();
     _userController.signInWithEmailAndPassWord();
     super.initState();
