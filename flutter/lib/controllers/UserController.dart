@@ -36,7 +36,7 @@ class UserController{
     _auth = UserAuthentifier(_userAuthInfo);
   }
 
-  void createUserWithEmailAndPassWord() async {
+  Future createUserWithEmailAndPassWord() async {
     await _auth.createUserWithEmailAndPassWord();
   }
 

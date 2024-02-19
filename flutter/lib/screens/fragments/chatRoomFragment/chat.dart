@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:oshikatsu_product/controllers/roomController.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ChatPage extends StatefulWidget {
@@ -27,6 +28,10 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   bool _isAttachmentUploading = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() => _scaffoldKey.currentState!.openDrawer();
+  void _closeDrawer() => _scaffoldKey.currentState!.closeDrawer();
 
   void _handleAtachmentPressed() {
     showModalBottomSheet<void>(
@@ -199,29 +204,81 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-          title: Text(widget.room.name ?? "chat"),
-        ),
-        body: StreamBuilder<types.Room>(
-          initialData: widget.room,
-          stream: FirebaseChatCore.instance.room(widget.room.id),
-          builder: (context, snapshot) => StreamBuilder<List<types.Message>>(
-            initialData: const [],
-            stream: FirebaseChatCore.instance.messages(snapshot.data!),
-            builder: (context, snapshot) => Chat(
-              isAttachmentUploading: _isAttachmentUploading,
-              messages: snapshot.data ?? [],
-              onAttachmentPressed: _handleAtachmentPressed,
-              onMessageTap: _handleMessageTap,
-              onPreviewDataFetched: _handlePreviewDataFetched,
-              onSendPressed: _handleSendPressed,
-              user: types.User(
-                id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
-              ),
+  Widget build(BuildContext context){
+    final Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        title: Text(widget.room.name ?? "chat"),
+        actions: [
+          IconButton(
+            onPressed: _openDrawer,
+            icon: const Icon(Icons.menu)
+          )
+        ],
+      ),
+      body: StreamBuilder<types.Room>(
+        initialData: widget.room,
+        stream: FirebaseChatCore.instance.room(widget.room.id),
+        builder: (context, snapshot) => StreamBuilder<List<types.Message>>(
+          initialData: const [],
+          stream: FirebaseChatCore.instance.messages(snapshot.data!),
+          builder: (context, snapshot) => Chat(
+            isAttachmentUploading: _isAttachmentUploading,
+            messages: snapshot.data ?? [],
+            onAttachmentPressed: _handleAtachmentPressed,
+            onMessageTap: _handleMessageTap,
+            onPreviewDataFetched: _handlePreviewDataFetched,
+            onSendPressed: _handleSendPressed,
+            user: types.User(
+              id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
             ),
           ),
         ),
-      );
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.1)),
+            buildDrawerItem(
+              () {
+                var roomController = RoomController();
+                roomController.deleteUserFromRoom(widget.room);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              Icons.delete,
+              "このワークスペースから退出する。"
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildDrawerItem(Function() onPressed, IconData iconData, String rowText){
+    final Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.all(size.width * 0.01),
+      child: InkWell(
+        onTap: onPressed,
+        child: Row(
+          children: [
+            Icon(
+              iconData,
+              size: 64,
+            ),
+            Flexible(
+              child: Text(
+                rowText,
+                style: const TextStyle(fontSize: 20),
+              )
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }

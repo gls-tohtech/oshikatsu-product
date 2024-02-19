@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _userController.setUserInfo(
       userAuthInfo: UserAuthInfo(
         "rerurateyuto@gmail.com", 
-        "ujmyhntgb"
+        "qwertyuiop"
       ), 
       userProfile: UserProfile(
         nameArg: "nameArg",
