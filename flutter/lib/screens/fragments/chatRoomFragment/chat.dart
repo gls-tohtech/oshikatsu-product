@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:oshikatsu_product/controllers/chatController.dart';
 import 'package:oshikatsu_product/controllers/roomController.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -29,6 +30,8 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   bool _isAttachmentUploading = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final ChatController _chatController = ChatController();
 
   void _openDrawer() => _scaffoldKey.currentState!.openDrawer();
   void _closeDrawer() => _scaffoldKey.currentState!.closeDrawer();
@@ -77,124 +80,30 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleFileSelection() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-    );
-
-    if (result != null && result.files.single.path != null) {
-      _setAttachmentUploading(true);
-      final name = result.files.single.name;
-      final filePath = result.files.single.path!;
-      final file = File(filePath);
-
-      try {
-        final reference = FirebaseStorage.instance.ref(name);
-        await reference.putFile(file);
-        final uri = await reference.getDownloadURL();
-
-        final message = types.PartialFile(
-          mimeType: lookupMimeType(filePath),
-          name: name,
-          size: result.files.single.size,
-          uri: uri,
-        );
-
-        FirebaseChatCore.instance.sendMessage(message, widget.room.id);
-        _setAttachmentUploading(false);
-      } finally {
-        _setAttachmentUploading(false);
-      }
-    }
+    _setAttachmentUploading(true);
+    _chatController.handleFileSelection(widget.room);
+    _setAttachmentUploading(false);
   }
 
   void _handleImageSelection() async {
-    final result = await ImagePicker().pickImage(
-      imageQuality: 70,
-      maxWidth: 1440,
-      source: ImageSource.gallery,
-    );
-
-    if (result != null) {
-      _setAttachmentUploading(true);
-      final file = File(result.path);
-      final size = file.lengthSync();
-      final bytes = await result.readAsBytes();
-      final image = await decodeImageFromList(bytes);
-      final name = result.name;
-
-      try {
-        final reference = FirebaseStorage.instance.ref(name);
-        await reference.putFile(file);
-        final uri = await reference.getDownloadURL();
-
-        final message = types.PartialImage(
-          height: image.height.toDouble(),
-          name: name,
-          size: size,
-          uri: uri,
-          width: image.width.toDouble(),
-        );
-
-        FirebaseChatCore.instance.sendMessage(
-          message,
-          widget.room.id,
-        );
-        _setAttachmentUploading(false);
-      } finally {
-        _setAttachmentUploading(false);
-      }
-    }
+    _setAttachmentUploading(true);
+    _chatController.handleImageSelection(widget.room);
+    _setAttachmentUploading(false);
   }
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
-    if (message is types.FileMessage) {
-      var localPath = message.uri;
-
-      if (message.uri.startsWith('http')) {
-        try {
-          final updatedMessage = message.copyWith(isLoading: true);
-          FirebaseChatCore.instance.updateMessage(
-            updatedMessage,
-            widget.room.id,
-          );
-
-          final client = http.Client();
-          final request = await client.get(Uri.parse(message.uri));
-          final bytes = request.bodyBytes;
-          final documentsDir = (await getApplicationDocumentsDirectory()).path;
-          localPath = '$documentsDir/${message.name}';
-
-          if (!File(localPath).existsSync()) {
-            final file = File(localPath);
-            await file.writeAsBytes(bytes);
-          }
-        } finally {
-          final updatedMessage = message.copyWith(isLoading: false);
-          FirebaseChatCore.instance.updateMessage(
-            updatedMessage,
-            widget.room.id,
-          );
-        }
-      }
-
-      await OpenFilex.open(localPath);
-    }
+    _chatController.handleMessageTap(_, message, widget.room);
   }
 
   void _handlePreviewDataFetched(
     types.TextMessage message,
     types.PreviewData previewData,
   ) {
-    final updatedMessage = message.copyWith(previewData: previewData);
-
-    FirebaseChatCore.instance.updateMessage(updatedMessage, widget.room.id);
+    _chatController.handlePreviewDataFetched(message, previewData, widget.room);
   }
 
   void _handleSendPressed(types.PartialText message) {
-    FirebaseChatCore.instance.sendMessage(
-      message,
-      widget.room.id,
-    );
+    _chatController.handleSendPressed(message, widget.room);
   }
 
   void _setAttachmentUploading(bool uploading) {
