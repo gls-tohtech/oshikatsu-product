@@ -1,15 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 class UserProfile{
   late final String _name;
   late final int _birthdayYear;
   late final int _birthdayMonth;
   late final String _gender;
 
-  late final String _iconImageUrl = "";
-  late final String _userProfileDetail = "";
-  late final String _geometry = "";
+  late final String _iconImageUrl;
+  late final String _userProfileDetail;
+  late final String _geometry;
 
   late final Map<String, dynamic> _dbProcessedMap;
   Map<String, dynamic> get dbProcessedMap => _dbProcessedMap; 
@@ -19,11 +16,17 @@ class UserProfile{
     required int birthdayYearArg,
     required int birthdayMonthArg,
     required String genderArg, 
+    required String iconImageUrlArg,
+    required String userProfileDetailArg,
+    required String geometryArg
   }){
     _name = nameArg;
     _birthdayYear = birthdayYearArg;
     _birthdayMonth = birthdayMonthArg;
     _gender = genderArg;
+    _iconImageUrl = iconImageUrlArg;
+    _userProfileDetail = userProfileDetailArg;
+    _geometry = geometryArg;
 
     _dbProcessedMap = {
       UserTableColumn.NAME.name: _name, 
@@ -41,7 +44,10 @@ class UserProfile{
         nameArg: mapArg[UserTableColumn.NAME.name],
         birthdayYearArg: mapArg[UserTableColumn.BIRTHDAY_YEAR.name],
         birthdayMonthArg: mapArg[UserTableColumn.BIRTHDAY_MONTH.name], 
-        genderArg: mapArg[UserTableColumn.GENDER.name]
+        genderArg: mapArg[UserTableColumn.GENDER.name],
+        iconImageUrlArg: mapArg[UserTableColumn.ICON_IMAGE_URL.name],
+        userProfileDetailArg: mapArg[UserTableColumn.USER_PROFILE_DETAIL.name],
+        geometryArg: mapArg[UserTableColumn.GEOMETRY.name]
       );
   }
 }
