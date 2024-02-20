@@ -65,13 +65,12 @@ class ChatController{
     );
 
     if (result != null && result.files.single.path != null) {
-      
       final name = result.files.single.name;
       final filePath = result.files.single.path!;
       final file = File(filePath);
 
       try {
-        final reference = FirebaseStorage.instance.ref(CHAT_FILE_STORAGE);
+        final reference = FirebaseStorage.instance.ref("$CHAT_FILE_STORAGE/$name");
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
 
@@ -98,7 +97,6 @@ class ChatController{
     );
 
     if (result != null) {
-      
       final file = File(result.path);
       final size = file.lengthSync();
       final bytes = await result.readAsBytes();
@@ -106,7 +104,7 @@ class ChatController{
       final name = result.name;
 
       try {
-        final reference = FirebaseStorage.instance.ref(CHAT_FILE_STORAGE);
+        final reference = FirebaseStorage.instance.ref("$CHAT_FILE_STORAGE/$name");
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
 
