@@ -23,7 +23,10 @@ void main() async {
         nameArg: "reru",
         birthdayYearArg: 23,
         birthdayMonthArg: 32,
-        genderArg: "male"
+        genderArg: "male",
+        iconImageUrlArg: "",
+        userProfileDetailArg: "",
+        geometryArg: ""
       )
     );
 

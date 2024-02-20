@@ -66,11 +66,14 @@ class _MyHomePageState extends State<MyHomePage> {
         nameArg: "nameArg",
         birthdayYearArg: 2024,
         birthdayMonthArg: 2,
-        genderArg: "genderArg"
+        genderArg: "genderArg",
+        iconImageUrlArg: "",
+        userProfileDetailArg: "",
+        geometryArg: "japan/tplyp"
       )
     );
-    //_userController.createUserWithEmailAndPassWord();
-    _userController.signInWithEmailAndPassWord();
+    _userController.createUserWithEmailAndPassWord();
+    //_userController.signInWithEmailAndPassWord();
     super.initState();
   }
 
