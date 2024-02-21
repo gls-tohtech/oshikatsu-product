@@ -29,32 +29,30 @@ class UserController{
   bool get isLogin => _auth.isLogin;
   String get uid => _userStoreInfo.uid;
 
-  void setUserInfo({required UserAuthInfo userAuthInfo, required UserProfile userProfile}){
+  Future createUserWithEmailAndPassWord({required UserAuthInfo userAuthInfo, required UserProfile userProfile}) async {
     _userAuthInfo = userAuthInfo;
-    _userProfile = userProfile;
-
     _auth = UserAuthentifier(_userAuthInfo);
-  }
 
-  Future createUserWithEmailAndPassWord() async {
     await _auth.createUserWithEmailAndPassWord();
+    _addToStore();
   }
 
-  Future signInWithEmailAndPassWord() async { 
-    _user = await _auth.signInWithEmailAndPassWord();
+  Future signInWithEmailAndPassWord({required UserAuthInfo userAuthInfo}) async { 
+    _auth = UserAuthentifier(_userAuthInfo);
+    _user ??= await _auth.signInWithEmailAndPassWord();
     if(_user == null) {
       print("_user variable is null in createUserWithEmailAndPassWord method of userController class");
       return;
     }
-    
+    await _fetchUserDataFromStore();
     _userStoreInfo = UserStoreInfo(uidArg: _user.uid, profileArg: _userProfile);
   }
 
-  Future createChatCoreUserAccount(String userName) async {
+  Future<void> createChatCoreUserAccount() async {
     try{
       await FirebaseChatCore.instance.createUserInFirestore(
         types.User(
-          firstName: userName,
+          firstName: _userProfile.dbProcessedMap[UserTableColumn.NAME.name],
           id: uid,
           lastName: "",
         ),
@@ -74,7 +72,7 @@ class UserController{
     _auth.signOut();
   } 
 
-  void addToStore() { 
+  void _addToStore() { 
     if(!isLogin) return;
     _resistry.add(newUserDataArg: _userStoreInfo);
   }
@@ -84,10 +82,10 @@ class UserController{
     _resistry.update(newUserDataArg: newUserDataArg, columnArg: columnArg);
   }
 
-  ///Mapデータを取得するときは、取得した変数[UsersTableColumn.カラム名（データベースの項目名）.name]と記述する。
-  void fetchFromStore(){
+  Future<void> _fetchUserDataFromStore() async {
     if(!isLogin) return;
     if(_userStoreInfo.uid == "") return;
-    _fetcher.fetch(targetUidArg: _userStoreInfo.uid);
+    Map<String, dynamic> fetchedData = await _fetcher.fetch(targetUidArg: _userStoreInfo.uid);
+    _userProfile = UserProfile.fromMap(fetchedData);
   }
 }
