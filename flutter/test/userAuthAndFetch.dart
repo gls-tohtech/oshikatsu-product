@@ -14,12 +14,11 @@ void main() async {
   test("user-store", () async {
     final userController = UserController();
 
-    userController.setUserInfo(
-      userAuthInfo: UserAuthInfo(
+    var auth = UserAuthInfo(
         "rerurateyuto@gmail.com", 
         "qwertyuiop"
-      ),
-      userProfile: UserProfile(
+    );
+    var userProfile = UserProfile(
         nameArg: "reru",
         birthdayYearArg: 23,
         birthdayMonthArg: 32,
@@ -27,13 +26,10 @@ void main() async {
         iconImageUrlArg: "",
         userProfileDetailArg: "",
         geometryArg: ""
-      )
     );
 
-    await userController.createUserWithEmailAndPassWord();
-    await userController.signInWithEmailAndPassWord();
-    await userController.createChatCoreUserAccount("rerurate");
-    userController.addToStore();
+    await userController.createUserWithEmailAndPassWord(userAuthInfo: auth, userProfile: userProfile);
+    await userController.signInWithEmailAndPassWord(userAuthInfo: auth);
 
     expect(userController.isLogin, true);
   });
