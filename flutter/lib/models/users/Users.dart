@@ -22,7 +22,7 @@ class UserStoreInfo{
   }
 }
 
-class UserResistry{
+class UserRegistry{
   final db = FirebaseFirestore.instance;
 
   Future add({required UserStoreInfo newUserDataArg}) async{
@@ -32,7 +32,7 @@ class UserResistry{
       .set(newUserDataArg.dbProcessedMap);
   }
 
-  Future update({required UserStoreInfo newUserDataArg, required UserTableColumn columnArg}) async{
+  Future update({required UserStoreInfo newUserDataArg}) async{
     await db
       .collection(USERS_TABLE_COLLECTION_NAME)
       .doc(newUserDataArg.uid)

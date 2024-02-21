@@ -17,43 +17,57 @@ class UserController{
     return _instance!;
   }
 
-  late final UserAuthentifier _auth;
-  final UserResistry _resistry = UserResistry();
-  late final UserDataFetcher _fetcher;
+  final UserRegistry _registry = UserRegistry();
+  final UserDataFetcher _fetcher = UserDataFetcher();
 
-  late final UserAuthInfo _userAuthInfo;
-  late final UserProfile _userProfile;
-  late final UserStoreInfo _userStoreInfo;
-  late final User? _user;
+  UserAuthentifier? _auth;
+  UserAuthInfo? _userAuthInfo;
+  UserProfile? _userProfile;
+  UserStoreInfo? _userStoreInfo;
+  User? _user;
 
-  bool get isLogin => _auth.isLogin;
-  String get uid => _userStoreInfo.uid;
+  bool _isAccountCreated = false;
+
+  bool get isLogin => _auth!.isLogin;
+  String get uid => _userStoreInfo!.uid;
 
   Future createUserWithEmailAndPassWord({required UserAuthInfo userAuthInfo, required UserProfile userProfile}) async {
     _userAuthInfo = userAuthInfo;
-    _auth = UserAuthentifier(_userAuthInfo);
+    _userProfile = userProfile;
+    _auth = UserAuthentifier(_userAuthInfo!);
 
-    await _auth.createUserWithEmailAndPassWord();
+    _user = await _auth!.createUserWithEmailAndPassWord();
+    _createChatCoreUserAccount();
+
+    _isAccountCreated = true;
+
+    _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
     _addToStore();
   }
 
   Future signInWithEmailAndPassWord({required UserAuthInfo userAuthInfo}) async { 
-    _auth = UserAuthentifier(_userAuthInfo);
-    _user ??= await _auth.signInWithEmailAndPassWord();
+    _userAuthInfo = userAuthInfo;
+    
+    _auth = UserAuthentifier(_userAuthInfo!);
+    _user = await _auth!.signInWithEmailAndPassWord();
+
+    final UserProfile? userProfile = await _fetchUserDataFromStore();
+    if(userProfile != null) _userProfile = userProfile;
+
     if(_user == null) {
       print("_user variable is null in createUserWithEmailAndPassWord method of userController class");
       return;
     }
     await _fetchUserDataFromStore();
-    _userStoreInfo = UserStoreInfo(uidArg: _user.uid, profileArg: _userProfile);
+    _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
   }
 
-  Future<void> createChatCoreUserAccount() async {
+  Future<void> _createChatCoreUserAccount() async {
     try{
       await FirebaseChatCore.instance.createUserInFirestore(
         types.User(
-          firstName: _userProfile.dbProcessedMap[UserTableColumn.NAME.name],
-          id: uid,
+          firstName: _userProfile!.dbProcessedMap[UserTableColumn.NAME.name],
+          id: _user!.uid,
           lastName: "",
         ),
       );
@@ -64,28 +78,28 @@ class UserController{
   }
 
   void sendPasswordResetEmail() async {
-    _auth.sendPasswordResetEmail();
+    _auth!.sendPasswordResetEmail();
   }
 
   void signOut(){
     if(!isLogin) return;
-    _auth.signOut();
+    _auth!.signOut();
   } 
 
   void _addToStore() { 
-    if(!isLogin) return;
-    _resistry.add(newUserDataArg: _userStoreInfo);
+    if(!_isAccountCreated) return;
+    _registry.add(newUserDataArg: _userStoreInfo!);
   }
 
-  void updateToStore(UserStoreInfo newUserDataArg, UserTableColumn columnArg) {
+  void updateToStore(UserStoreInfo newUserDataArg) {
     if(!isLogin) return;
-    _resistry.update(newUserDataArg: newUserDataArg, columnArg: columnArg);
+    _registry.update(newUserDataArg: newUserDataArg);
   }
 
-  Future<void> _fetchUserDataFromStore() async {
-    if(!isLogin) return;
-    if(_userStoreInfo.uid == "") return;
-    Map<String, dynamic> fetchedData = await _fetcher.fetch(targetUidArg: _userStoreInfo.uid);
-    _userProfile = UserProfile.fromMap(fetchedData);
+  Future<UserProfile?> _fetchUserDataFromStore() async {
+    if(!isLogin) return null;
+    if(_user!.uid == "") return null;
+    Map<String, dynamic> fetchedData = await _fetcher.fetch(targetUidArg: _user!.uid);
+    return UserProfile.fromMap(fetchedData);
   }
 }

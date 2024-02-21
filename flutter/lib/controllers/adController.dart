@@ -5,7 +5,7 @@ import '../models/ads/adStore.dart';
 import '../models/ads/adStorage.dart';
 
 class AdController{
-  final AdResistry _resistry = AdResistry();
+  final AdRegistry _registry = AdRegistry();
   final AdDataFetcher _fetcher = AdDataFetcher();
   final AdImageUploader _uploader = AdImageUploader();
 
@@ -15,7 +15,7 @@ class AdController{
   }
 
   Future<void> addToStorage({required Ad newAdDataArg}) async {
-    _resistry.add(newAdData: newAdDataArg);
+    _registry.add(newAdData: newAdDataArg);
   }
 
   Future<void> updateTotalMoneyAmount({required Ad existedAdInfo, required String aiderName, required int additionalMoney}) async {
@@ -39,7 +39,7 @@ class AdController{
       created: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATED.name]
     );
 
-    _resistry.update(newAdData: newAdInfo);
+    _registry.update(newAdData: newAdInfo);
   }
 
   Future<void> fetchFromStorage({required String adId}) async {
