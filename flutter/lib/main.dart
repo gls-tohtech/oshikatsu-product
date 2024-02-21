@@ -54,25 +54,15 @@ class _MyHomePageState extends State<MyHomePage> {
     MyPage(),
   ];
 
-  void initState() {
-    final _userController = UserController();
-    _userController.setUserInfo(
-      userAuthInfo: UserAuthInfo(
+  void initState(){
+    final _userController = UserController(); 
+
+    var userAuthInfo = UserAuthInfo(
         "rerurateyuto@gmail.com", 
         "qwertyuiop"
-      ), 
-      userProfile: UserProfile(
-        nameArg: "nameArg",
-        birthdayYearArg: 2024,
-        birthdayMonthArg: 2,
-        genderArg: "genderArg",
-        iconImageUrlArg: "",
-        userProfileDetailArg: "",
-        geometryArg: "japan/tplyp"
-      )
     );
-    _userController.createUserWithEmailAndPassWord();
-    //_userController.signInWithEmailAndPassWord();
+
+    _userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
     super.initState();
   }
 
