@@ -6,30 +6,30 @@ import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/controllers/UserController.dart';
 
-void main() async{  
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   test("user-store", () async {
-    final userController = UserController(
-      UserAuthInfo(
+    final userController = UserController();
+
+    var auth = UserAuthInfo(
         "rerurateyuto@gmail.com", 
         "qwertyuiop"
-      ), 
-      UserProfile(
-        nameArg: "reru", 
-        birthdayYearArg: 23, 
-        birthdayMonthArg: 32, 
-        genderArg: "male"
-      )
+    );
+    var userProfile = UserProfile(
+        nameArg: "reru",
+        birthdayYearArg: 23,
+        birthdayMonthArg: 32,
+        genderArg: "male",
+        iconImageUrlArg: "",
+        userProfileDetailArg: "",
+        geometryArg: ""
     );
 
-    userController.createUserWithEmailAndPassWord();
-    await userController.signInWithEmailAndPassWord();
-    userController.addToStore();
+    await userController.createUserWithEmailAndPassWord(userAuthInfo: auth, userProfile: userProfile);
+    await userController.signInWithEmailAndPassWord(userAuthInfo: auth);
 
     expect(userController.isLogin, true);
   });

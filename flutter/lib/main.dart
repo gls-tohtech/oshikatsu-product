@@ -1,7 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
+import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
+import 'package:oshikatsu_product/models/users/UserProfile.dart';
+import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
 import 'package:oshikatsu_product/widgets/adListItemComponent/adListItemCom.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
@@ -47,9 +51,21 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     SPSucecssPopupComponent(),
     Text("submit"),
-    Text("support"),
+    RoomsPage(),
     Text("profile"),
   ];
+
+  void initState(){
+    final _userController = UserController(); 
+
+    var userAuthInfo = UserAuthInfo(
+        "rerurateyuto@gmail.com", 
+        "qwertyuiop"
+    );
+
+    _userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
+    super.initState();
+  }
 
   void _onItemTapped(int indexArg){
     setState(() {
