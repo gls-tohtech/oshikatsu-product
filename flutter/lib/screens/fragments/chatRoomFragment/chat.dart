@@ -1,19 +1,12 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
-import 'package:mime/mime.dart';
-import 'package:open_filex/open_filex.dart';
 import 'package:oshikatsu_product/controllers/chatController.dart';
 import 'package:oshikatsu_product/controllers/roomController.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:oshikatsu_product/widgets/memberLIst.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -150,7 +143,17 @@ class _ChatPageState extends State<ChatPage> {
       drawer: Drawer(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.1)),
+            StandartPaddingComponent(),
+            Icon(
+              Icons.settings,
+              size: size.width * 0.2,
+            ),
+            StandartPaddingComponent(),
+            const Text(
+              "メニュー",
+              style: TextStyle(fontSize: 32),
+            ),
+            StandartPaddingComponent(),
             buildDrawerItem(
               () {
                 var roomController = RoomController();
@@ -160,6 +163,16 @@ class _ChatPageState extends State<ChatPage> {
               },
               Icons.delete,
               "このワークスペースから退出する。"
+            ),
+            StandartPaddingComponent(),
+            buildDrawerItem(
+              () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                  return RoomMemberList(room: widget.room);
+                }));
+              }, 
+              Icons.person, 
+              "メンバ一覧を表示する。"
             )
           ],
         ),
