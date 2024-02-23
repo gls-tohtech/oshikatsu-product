@@ -1,7 +1,6 @@
-import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
-typedef User = types.User;
+// typedef User = types.User;
 typedef Role = types.Role;
 
 enum RoomUserTableColumn{
@@ -55,7 +54,7 @@ class RoomUser{
   late final Role? role;
   late final int? updatedAt;
 
-  factory RoomUser.createFromUser({required User userArg}) {
+  factory RoomUser.createFromUser({required types.User userArg}) {
     return RoomUser(
       id: userArg.id,
       firstName: userArg.firstName,
@@ -69,9 +68,9 @@ class RoomUser{
     );
   }
 
-  User toUser(){
+  types.User toUser(){
     final RoomUser roomUser = this;
-    return User(
+    return types.User(
       id: roomUser.id,
       firstName: roomUser.firstName,
       imageUrl: roomUser.imageUrl,

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:oshikatsu_product/controllers/UserController.dart';
-import 'package:oshikatsu_product/providers/userProvider.dart';
 
 class RoomController{
   final FirebaseChatCore CHAT_CORE = FirebaseChatCore.instance;
@@ -12,7 +11,12 @@ class RoomController{
   final UserController _userController = UserController();
 
   Future<types.Room> createRoom() async {
-    final types.User user = types.User(id: _userController.uid);
+    final String uid;
+
+    if(_userController.uid != null) { uid = _userController.uid!; }
+    else { throw Exception("Failed to create room in createRoom method of RoomController class, uid[${_userController.uid}] is null"); }
+
+    final types.User user = types.User(id: uid);
     return await CHAT_CORE.createRoom(user);
   }
 

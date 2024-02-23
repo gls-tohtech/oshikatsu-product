@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:oshikatsu_product/models/users/roomUser.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
 import '../models/users/Users.dart';
@@ -24,12 +25,16 @@ class UserController{
   UserAuthInfo? _userAuthInfo;
   UserProfile? _userProfile;
   UserStoreInfo? _userStoreInfo;
+  RoomUser? _roomUser;
   User? _user;
 
   bool _isAccountCreated = false;
 
-  bool get isLogin => _auth!.isLogin;
-  String get uid => _userStoreInfo!.uid;
+  bool get isLogin => _auth != null ? _auth!.isLogin : false;
+  String? get uid => _userStoreInfo != null ? _userStoreInfo!.uid : "";
+
+  UserProfile? get userProfile => _userProfile;
+  RoomUser? get roomUser => _roomUser;
 
   Future createUserWithEmailAndPassWord({required UserAuthInfo userAuthInfo, required UserProfile userProfile}) async {
     _userAuthInfo = userAuthInfo;
@@ -51,14 +56,16 @@ class UserController{
     _auth = UserAuthentifier(_userAuthInfo!);
     _user = await _auth!.signInWithEmailAndPassWord();
 
-    final UserProfile? userProfile = await _fetchUserProfileFromStore();
-    if(userProfile != null) _userProfile = userProfile;
-
     if(_user == null) {
       print("_user variable is null in createUserWithEmailAndPassWord method of userController class");
       return;
     }
-    await _fetchUserProfileFromStore();
+
+    final UserProfile? userProfile = await _fetchUserProfileFromStore();
+    if(userProfile != null) _userProfile = userProfile;
+
+    _userProfile = await _fetchUserProfileFromStore();
+    _roomUser = await _fetchRoomUserFromStore();
     _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
   }
 
@@ -104,6 +111,13 @@ class UserController{
     if(!isLogin) return null;
     if(_user!.uid == "") return null;
     UserProfile fetchedData = await _fetcher.fetchUserProfile(targetUidArg: _user!.uid);
+    return fetchedData;
+  }
+  
+  Future<RoomUser?> _fetchRoomUserFromStore() async {
+    if(!isLogin) return null;
+    if(_user!.uid == "") return null;
+    RoomUser fetchedData = await _fetcher.fetchRoomUserData(targetUidArg: _user!.uid);
     return fetchedData;
   }
 }
