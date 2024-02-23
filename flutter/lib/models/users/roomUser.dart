@@ -55,7 +55,7 @@ class RoomUser{
   late final Role? role;
   late final int? updatedAt;
 
-  factory RoomUser.createRoomUser({required User userArg}) {
+  factory RoomUser.createFromUser({required User userArg}) {
     return RoomUser(
       id: userArg.id,
       firstName: userArg.firstName,
@@ -66,6 +66,21 @@ class RoomUser{
       metadata: userArg.metadata,
       role: userArg.role,
       updatedAt: userArg.updatedAt,
+    );
+  }
+
+  User toUser(){
+    final RoomUser roomUser = this;
+    return User(
+      id: roomUser.id,
+      firstName: roomUser.firstName,
+      imageUrl: roomUser.imageUrl,
+      lastName: roomUser.lastName,
+      createdAt: roomUser.createdAt,
+      lastSeen: roomUser.lastSeen,
+      metadata: roomUser.metadata,
+      role: roomUser.role, 
+      updatedAt: roomUser.updatedAt,
     );
   }
   
