@@ -51,24 +51,28 @@ class UserController{
     _auth = UserAuthentifier(_userAuthInfo!);
     _user = await _auth!.signInWithEmailAndPassWord();
 
-    final UserProfile? userProfile = await _fetchUserDataFromStore();
+    final UserProfile? userProfile = await _fetchUserProfileFromStore();
     if(userProfile != null) _userProfile = userProfile;
 
     if(_user == null) {
       print("_user variable is null in createUserWithEmailAndPassWord method of userController class");
       return;
     }
-    await _fetchUserDataFromStore();
+    await _fetchUserProfileFromStore();
     _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
   }
 
   Future<void> _createChatCoreUserAccount() async {
     try{
+      final String? iconImageUrl = _userProfile!.dbProcessedMap[UserTableColumn.ICON_IMAGE_URL.name] != ""
+        ? _userProfile!.dbProcessedMap[UserTableColumn.ICON_IMAGE_URL.name]
+        : null;
       await FirebaseChatCore.instance.createUserInFirestore(
         types.User(
           firstName: _userProfile!.dbProcessedMap[UserTableColumn.NAME.name],
           id: _user!.uid,
           lastName: "",
+          imageUrl: iconImageUrl
         ),
       );
     }
@@ -96,10 +100,10 @@ class UserController{
     _registry.update(newUserDataArg: newUserDataArg);
   }
 
-  Future<UserProfile?> _fetchUserDataFromStore() async {
+  Future<UserProfile?> _fetchUserProfileFromStore() async {
     if(!isLogin) return null;
     if(_user!.uid == "") return null;
-    Map<String, dynamic> fetchedData = await _fetcher.fetch(targetUidArg: _user!.uid);
-    return UserProfile.fromMap(fetchedData);
+    UserProfile fetchedData = await _fetcher.fetchUserProfile(targetUidArg: _user!.uid);
+    return fetchedData;
   }
 }

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oshikatsu_product/models/users/roomUser.dart';
 import './UserProfile.dart';
 
 const USERS_TABLE_COLLECTION_NAME = "users";
+const CHAT_USERS_TABLE_COLLECTION_NAME = "room_users";
 
 ///このデータベースでのdocumentId(uid)はFirebase Authenticationで取得できるuidとなる。
 class UserStoreInfo{
@@ -44,12 +46,25 @@ class UserDataFetcher{
   final db = FirebaseFirestore.instance;
 
   ///Mapデータを取得するときは、取得した変数[UsersTableColumn.カラム名（データベースの項目名）.name]と記述する。
-  Future<Map<String, dynamic>> fetch({required String targetUidArg}) async{
+  Future<UserProfile> fetchUserProfile({required String targetUidArg}) async{
     final fetchedUser = await db
       .collection(USERS_TABLE_COLLECTION_NAME)
       .doc(targetUidArg)
       .get();
 
-    return fetchedUser.data() ?? {};
+    return UserProfile.fromMap(fetchedUser.data() ?? {});
+  }
+
+    ///Mapデータを取得するときは、取得した変数[UsersTableColumn.カラム名（データベースの項目名）.name]と記述する。
+  Future<RoomUser> fetchRoomUserData({required String targetUidArg}) async{
+    final fetchedUser = await db
+      .collection(CHAT_USERS_TABLE_COLLECTION_NAME)
+      .doc(targetUidArg)
+      .get();
+
+    return RoomUser.fromMap(
+      idArg: targetUidArg, 
+      mapArg: fetchedUser.data() ?? {}
+    );
   }
 }
