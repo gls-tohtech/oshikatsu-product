@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:oshikatsu_product/controllers/UserController.dart';
+import 'package:oshikatsu_product/models/rooms.dart';
 
 class RoomController{
   final FirebaseChatCore CHAT_CORE = FirebaseChatCore.instance;
@@ -32,7 +33,7 @@ class RoomController{
   }
 
   Future deleteUserFromRoom(types.Room room) async {
-    DocumentReference<Map<String, dynamic>> docRef = FIRESTORE.collection("rooms").doc(room.id);
+    DocumentReference<Map<String, dynamic>> docRef = FIRESTORE.collection(ROOM_TABLE_COLLECTION_NAME).doc(room.id);
     await docRef.update({
       'userIds': FieldValue.arrayRemove([_userController.uid])
     });
