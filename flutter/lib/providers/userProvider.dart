@@ -7,7 +7,7 @@ import 'package:oshikatsu_product/models/users/roomUser.dart';
 
 final FirebaseFirestore firesotre = FirebaseFirestore.instance;
 final usersRef = firesotre.collection(USERS_TABLE_COLLECTION_NAME);
-final roomUsersRef = firesotre.collection(CHAT_USERS_TABLE_COLLECTION_NAME);
+final roomUsersRef = firesotre.collection(ROOM_USERS_TABLE_COLLECTION_NAME);
 
 final userStreamProvider = StreamProvider.autoDispose.family((ref, String userId){
   final usersSnapshot = usersRef.doc(userId).snapshots();
@@ -19,7 +19,7 @@ final userStreamProvider = StreamProvider.autoDispose.family((ref, String userId
   return user;
 });
 
-final roomUserStreamProvider = StreamProvider.autoDispose.family((ref, String userId){
+final roomUserStreamProvider = FutureProvider.autoDispose.family((ref, String userId){
   final roomUsersSnapshot = roomUsersRef.doc(userId).snapshots();
   final roomUser = 
     roomUsersSnapshot.map((snapshot) => 

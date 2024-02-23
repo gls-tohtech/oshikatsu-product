@@ -9,7 +9,6 @@ enum RoomUserTableColumn{
   ID,
   IMAGE_URL,
   LAST_NAME,
-  LAST_SEEN,
   METADATA,
   ROLE,
   UPDATEDAT
@@ -23,7 +22,6 @@ extension RoomUserTableColumnEx on RoomUserTableColumn{
       case RoomUserTableColumn.ID: return "id";
       case RoomUserTableColumn.IMAGE_URL: return "imageUrl";
       case RoomUserTableColumn.LAST_NAME: return "lastName";
-      case RoomUserTableColumn.LAST_SEEN: return "lastSeen";
       case RoomUserTableColumn.METADATA: return "metadata";
       case RoomUserTableColumn.ROLE: return "role";
       case RoomUserTableColumn.UPDATEDAT: return "updatedAt";
@@ -33,15 +31,14 @@ extension RoomUserTableColumnEx on RoomUserTableColumn{
 
 class RoomUser{
   RoomUser({
-    int? createdAt,
-    String? firstName,
-    String? id,
-    String? imageUrl,
-    String? lastName,
-    int? lastSeen,
-    Map<String, dynamic>? metadata,
-    Role? role,
-    int? updatedAt,
+    this.createdAt,
+    this.firstName,
+    required String id,
+    this.imageUrl,
+    this.lastName,
+    this.metadata,
+    this.role,
+    this.updatedAt,
   });
 
   late final int? createdAt;
@@ -49,7 +46,6 @@ class RoomUser{
   late final String id;
   late final String? imageUrl;
   late final String? lastName;
-  late final int? lastSeen;
   late final Map<String, dynamic>? metadata;
   late final Role? role;
   late final int? updatedAt;
@@ -59,9 +55,7 @@ class RoomUser{
       id: userArg.id,
       firstName: userArg.firstName,
       imageUrl: userArg.imageUrl,
-      lastName: userArg.lastName,
       createdAt: userArg.createdAt,
-      lastSeen: userArg.lastSeen,
       metadata: userArg.metadata,
       role: userArg.role,
       updatedAt: userArg.updatedAt,
@@ -74,9 +68,7 @@ class RoomUser{
       id: roomUser.id,
       firstName: roomUser.firstName,
       imageUrl: roomUser.imageUrl,
-      lastName: roomUser.lastName,
       createdAt: roomUser.createdAt,
-      lastSeen: roomUser.lastSeen,
       metadata: roomUser.metadata,
       role: roomUser.role, 
       updatedAt: roomUser.updatedAt,
@@ -89,11 +81,10 @@ class RoomUser{
       firstName: mapArg[RoomUserTableColumn.FIRST_NAME.name],
       imageUrl: mapArg[RoomUserTableColumn.IMAGE_URL.name],
       lastName: mapArg[RoomUserTableColumn.LAST_NAME.name],
-      createdAt: mapArg[RoomUserTableColumn.CREATEDAT],
-      lastSeen: mapArg[RoomUserTableColumn.LAST_SEEN.name],
+      createdAt: mapArg[RoomUserTableColumn.CREATEDAT]?.millisecondsSinceEpoch,
       metadata: mapArg[RoomUserTableColumn.METADATA.name],
       role: mapArg[RoomUserTableColumn.ROLE.name],
-      updatedAt: mapArg[RoomUserTableColumn.UPDATEDAT.name],
+      updatedAt: mapArg[RoomUserTableColumn.UPDATEDAT.name]?.millisecondsSinceEpoch,
     );
   }
 }
