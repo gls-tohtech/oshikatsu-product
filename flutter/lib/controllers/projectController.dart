@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/models/projects/projectStorage.dart';
 import 'package:oshikatsu_product/models/projects/projectStore.dart';
@@ -16,9 +17,9 @@ class ProjectController{
     _registry.add(newProjectData: newProjectDataArg);
   }
 
-  Future<void> updateTotalMoneyAmount({required Project existedProjectInfo, required String aiderName, required int additionalMoney}) async {
-    List<String> donaters = existedProjectInfo.dbProcessedMap[ProjectTableColumn.DONATERS.name].split(",");;
-    if (!donaters.contains(aiderName)) donaters.add(aiderName);
+  Future<void> updateTotalMoneyAmount({required Project existedProjectInfo, required DocumentReference donaterRef, required int additionalMoney}) async {
+    List<DocumentReference> donaters = existedProjectInfo.donaters;
+    if (!donaters.contains(donaterRef)) donaters.add(donaterRef);
     
     final Project newProjectInfo = Project(
       createdAt: existedProjectInfo.createdAt,

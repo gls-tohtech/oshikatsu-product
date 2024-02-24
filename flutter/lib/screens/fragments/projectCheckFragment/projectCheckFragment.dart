@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/controllers/projectController.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/screens/fragments/projectCheckFragment/projectCheckBorderCom.dart';
@@ -10,6 +11,8 @@ class ProjectCheckFragment extends StatelessWidget{
   late final String _title;
   late final int _supportMoneyAmount;
   late final TextEditingController _textController;
+
+  final UserController _userController = UserController();
 
   ProjectCheckFragment({
     required Project project,
@@ -168,7 +171,7 @@ class ProjectCheckFragment extends StatelessWidget{
           borderRadius: BorderRadius.circular(256),
           onTap: () => {
             projectController.updateTotalMoneyAmount(
-              existedProjectInfo: _project, aiderName: "", additionalMoney: _supportMoneyAmount
+              existedProjectInfo: _project, donaterRef: _userController.userRef, additionalMoney: _supportMoneyAmount
             ),
             showDialog(context: context, builder: (BuildContext context){
               return SPSucecssPopupComponent();

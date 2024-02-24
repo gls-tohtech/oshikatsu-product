@@ -10,10 +10,8 @@ class UserStoreInfo{
   late final String _uid;
   late final UserProfile _profile;
 
-  late final Map<String, dynamic> _dbProcessedMap;
-
   String get uid => _uid;
-  Map<String, dynamic> get dbProcessedMap => _profile.dbProcessedMap; 
+  Map<String, dynamic> get dbProcessedMap => _profile.getDbProcessedMap(); 
 
   UserStoreInfo({
     required String uidArg,

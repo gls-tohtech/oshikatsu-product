@@ -19,11 +19,11 @@ void main() async {
         "qwertyuiop"
     );
     var userProfile = UserProfile(
-        nameArg: "reru",
-        birthdayYearArg: 23,
-        birthdayMonthArg: 32,
-        genderArg: "male",
-        iconImageUrlArg: "",
+        name: "reru",
+        birthdayYear: 23,
+        birthdayMonth: 32,
+        gender: "male",
+        iconImageUrl: "",
         biography: "",
     );
 

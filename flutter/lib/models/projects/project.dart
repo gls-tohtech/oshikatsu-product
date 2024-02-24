@@ -18,85 +18,50 @@ enum ProjectTableColumn{
 }
 
 class Project{
-  late final String _projectId;
+  final Timestamp createdAt;
+  final DocumentReference createdBy;
+  final List<DocumentReference> admins;
+  final List<DocumentReference> members;
+  final List<DocumentReference> donaters;
+  final String title;
+  final String discription;
+  final Timestamp deadline;
+  final List<String> hashtags;
+  final String thumbnailUrl;
+  final int moneyGoal;
+  final int moneyDonated;
 
-  late final Timestamp _createdAt;
-  late final DocumentReference _createdBy;
-  late final List<DocumentReference> _admins;
-  late final List<DocumentReference> _members;
-  late final List<DocumentReference> _donaters;
-  late final String _title;
-  late final String _discription;
-  late final Timestamp _deadline;
-  late final List<String> _hashtags;
-  late final String _thumbnailUrl;
-  late final int _moneyGoal;
-  late final int _moneyDonated;
+  String get projectId => "$createdBy-$title-$createdAt";
 
-  late Map<String, dynamic> _dbProcessedMap;
+  const Project({
+    required this.createdAt,
+    required this.createdBy,
+    required this.admins,
+    required this.members,
+    required this.donaters,
+    required this.title,
+    required this.discription,
+    required this.deadline,
+    required this.hashtags,
+    required this.thumbnailUrl,
+    required this.moneyGoal,
+    required this.moneyDonated,
+  });
 
-  String get projectId => _projectId;
-  Map<String, dynamic> get dbProcessedMap => _dbProcessedMap; 
-
-  Timestamp get createdAt => _createdAt;
-  DocumentReference get createdBy => _createdBy;
-  List<DocumentReference> get admins => _admins;
-  List<DocumentReference> get members => _members;
-  List<DocumentReference> get donaters => _donaters;
-  String get title => _title;
-  String get discription => _discription;
-  Timestamp get deadline => _deadline;
-  List<String> get hashtags => _hashtags;
-  String get thumbnailUrl => _thumbnailUrl;
-  int get moneyGoal => _moneyGoal;
-  int get moneyDonated => _moneyDonated;
-
-  Project({
-    required Timestamp createdAt,
-    required DocumentReference createdBy,
-    required List<DocumentReference> admins,
-    required List<DocumentReference> members,
-    required List<DocumentReference> donaters,
-    required String title,
-    required String discription,
-    required Timestamp deadline,
-    required List<String> hashtags,
-    required String thumbnailUrl,
-    required int moneyGoal,
-    required int moneyDonated,
-  }){
-    _createdAt = createdAt;
-    _createdBy = createdBy;
-    _admins = admins;
-    _members = members;
-    _donaters = donaters;
-    _title = title;
-    _discription = discription;
-    _deadline = deadline;
-    _hashtags = hashtags;
-    _thumbnailUrl = thumbnailUrl;
-    _moneyGoal = moneyGoal;
-    _moneyDonated = moneyDonated;
-
-    _projectId = "$_createdBy:$_title:${_createdAt.toString()}";
-
-    _dbProcessedMap = _createDbProcessedMap();
-  } 
-
-  Map<String, dynamic> _createDbProcessedMap(){
+  Map<String, dynamic> getDbProcessedMap(){
     return {
-      ProjectTableColumn.CREATED_AT.name: _createdAt,
-      ProjectTableColumn.CREATED_BY.name: _createdBy,
-      ProjectTableColumn.ADMINS.name: _admins,
-      ProjectTableColumn.MEMBERS.name: _members,
-      ProjectTableColumn.DONATERS.name: _donaters,
-      ProjectTableColumn.TITLE.name: _title,
-      ProjectTableColumn.DISCRIPTION.name: _discription,
-      ProjectTableColumn.DEADLINE.name: _deadline,
-      ProjectTableColumn.HASHTAGS.name: _hashtags,
-      ProjectTableColumn.THUMBNAIL_URL.name: _thumbnailUrl,
-      ProjectTableColumn.MONEY_GOAL.name: _moneyGoal,
-      ProjectTableColumn.MONEY_DONATED.name: _moneyDonated,
+      ProjectTableColumn.CREATED_AT.name: createdAt,
+      ProjectTableColumn.CREATED_BY.name: createdBy,
+      ProjectTableColumn.ADMINS.name: admins,
+      ProjectTableColumn.MEMBERS.name: members,
+      ProjectTableColumn.DONATERS.name: donaters,
+      ProjectTableColumn.TITLE.name: title,
+      ProjectTableColumn.DISCRIPTION.name: discription,
+      ProjectTableColumn.DEADLINE.name: deadline,
+      ProjectTableColumn.HASHTAGS.name: hashtags,
+      ProjectTableColumn.THUMBNAIL_URL.name: thumbnailUrl,
+      ProjectTableColumn.MONEY_GOAL.name: moneyGoal,
+      ProjectTableColumn.MONEY_DONATED.name: moneyDonated,
     };
   }
 

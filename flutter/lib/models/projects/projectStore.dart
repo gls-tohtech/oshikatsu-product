@@ -8,14 +8,14 @@ class ProjectRegistry{
     await db
       .collection(PROJECTS_TABLE_COLLECTION_NAME)
       .doc(newProjectData.projectId)
-      .set(newProjectData.dbProcessedMap);
+      .set(newProjectData.getDbProcessedMap());
   }
 
   Future update({required Project newProjectData}) async{
     await db
       .collection(PROJECTS_TABLE_COLLECTION_NAME)
       .doc(newProjectData.projectId)
-      .update(newProjectData.dbProcessedMap);
+      .update(newProjectData.getDbProcessedMap());
   }
 }
 
