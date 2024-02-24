@@ -78,7 +78,7 @@ class Project{
     _moneyGoal = moneyGoal;
     _moneyDonated = moneyDonated;
 
-    _projectId = "$_createdBy:$_title:${_createdBy.toString()}";
+    _projectId = "$_createdBy:$_title:${_createdAt.toString()}";
 
     _dbProcessedMap = _createDbProcessedMap();
   } 
@@ -100,20 +100,20 @@ class Project{
     };
   }
 
-factory Project.fromMap(Map<String, dynamic> mapArg){
-  return Project(
-    createdAt: mapArg[ProjectTableColumn.CREATED_AT.name] as Timestamp,
-    createdBy: mapArg[ProjectTableColumn.CREATED_BY.name] as DocumentReference,
-    admins: List<DocumentReference>.from(mapArg[ProjectTableColumn.ADMINS.name] as List),
-    members: List<DocumentReference>.from(mapArg[ProjectTableColumn.MEMBERS.name] as List),
-    donaters: List<DocumentReference>.from(mapArg[ProjectTableColumn.DONATERS.name] as List),
-    title: mapArg[ProjectTableColumn.TITLE.name] as String,
-    discription: mapArg[ProjectTableColumn.DISCRIPTION.name] as String,
-    deadline: mapArg[ProjectTableColumn.DEADLINE.name] as Timestamp,
-    hashtags: List<String>.from(mapArg[ProjectTableColumn.HASHTAGS.name] as List),
-    thumbnailUrl: mapArg[ProjectTableColumn.THUMBNAIL_URL.name] as String,
-    moneyGoal: mapArg[ProjectTableColumn.MONEY_GOAL.name] as int,
-    moneyDonated: mapArg[ProjectTableColumn.MONEY_DONATED.name] as int,
-  );
-}
+  factory Project.fromMap(Map<String, dynamic> mapArg){
+    return Project(
+      createdAt: mapArg[ProjectTableColumn.CREATED_AT.name] as Timestamp,
+      createdBy: mapArg[ProjectTableColumn.CREATED_BY.name] as DocumentReference,
+      admins: List<DocumentReference>.from(mapArg[ProjectTableColumn.ADMINS.name] as List),
+      members: List<DocumentReference>.from(mapArg[ProjectTableColumn.MEMBERS.name] as List),
+      donaters: List<DocumentReference>.from(mapArg[ProjectTableColumn.DONATERS.name] as List),
+      title: mapArg[ProjectTableColumn.TITLE.name] as String,
+      discription: mapArg[ProjectTableColumn.DISCRIPTION.name] as String,
+      deadline: mapArg[ProjectTableColumn.DEADLINE.name] as Timestamp,
+      hashtags: List<String>.from(mapArg[ProjectTableColumn.HASHTAGS.name] as List),
+      thumbnailUrl: mapArg[ProjectTableColumn.THUMBNAIL_URL.name] as String,
+      moneyGoal: mapArg[ProjectTableColumn.MONEY_GOAL.name] as int,
+      moneyDonated: mapArg[ProjectTableColumn.MONEY_DONATED.name] as int,
+    );
+  }
 }
