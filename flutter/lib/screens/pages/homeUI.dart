@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:oshikatsu_product/models/ads/ad.dart';
-import 'package:oshikatsu_product/providers/adProvider.dart';
-import 'package:oshikatsu_product/widgets/adListItemComponent/adListItemCom.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/providers/projectProvider.dart';
+import 'package:oshikatsu_product/widgets/projectListItemComponent/projectListItemCom.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,41 +13,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<Widget> _adItems;
-
-  @override
-  void initState(){
-    super.initState();
-
-  }
-
   @override
   Widget build(BuildContext context) {
-    return AdList();
+    return const ProjectList();
   }
 }
 
-class AdList extends ConsumerStatefulWidget {
-  const AdList({super.key});
+class ProjectList extends ConsumerStatefulWidget {
+  const ProjectList({super.key});
 
   @override
-  _AdListState createState() => _AdListState();
+  _ProjectListState createState() => _ProjectListState();
 }
 
-class _AdListState extends ConsumerState<AdList> {
+class _ProjectListState extends ConsumerState<ProjectList> {
   @override
   Widget build(BuildContext context) {
-    final streamProv = ref.watch(adsStreamProvider);
+    final streamProv = ref.watch(projectsStreamProvider);
     return Scaffold(
       body: streamProv.when(
-        data: (List<Ad> ad){
+        data: (List<Project> ad){
           return SingleChildScrollView(
             child: Column(
               children: [
-                for(Ad item in ad) Column(
+                for(Project item in ad) Column(
                   children: [
                     StandartPaddingComponent(),
-                    AdListItem(adId: item.adId),
+                    ProjectListItem(projectId: item.projectId),
                   ],
                 )
               ],
@@ -62,6 +54,6 @@ class _AdListState extends ConsumerState<AdList> {
   }
 }
 
-class AdRecommender{
+class ProjectRecommender{
 
 }

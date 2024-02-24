@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'adDetailBorderCom.dart';
+import 'package:oshikatsu_product/screens/fragments/projectDetailFragment/projectDetailBorderCom.dart';
 
-class AdDetailBottomInfoComponent extends StatelessWidget{
+class ProjectDetailBottomInfoComponent extends StatelessWidget{
   late final String _creater;
   late final String _platform;
   late final Timestamp _deadLine;
 
 
-  AdDetailBottomInfoComponent({
+  ProjectDetailBottomInfoComponent({
     required String creater,
     required String platform,
     required Timestamp deadLine,
@@ -31,7 +31,7 @@ class AdDetailBottomInfoComponent extends StatelessWidget{
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        AdDetailBorderComponent(),
+        ProjectDetailBorderComponent(),
         buildInfo(context),
       ],
     );

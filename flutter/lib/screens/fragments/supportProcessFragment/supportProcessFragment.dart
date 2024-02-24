@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:oshikatsu_product/models/ads/ad.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/widgets/termOfService.dart';
 import 'spBorderCom.dart';
 import 'spContentsCom.dart';
 import 'spImgCom.dart';
 
 class SupportProcessFragment extends StatelessWidget{
-  late final Ad _ad;
-  late final String _title;
-  late final String _imageUrl;
+  late final Project _project;
 
   SupportProcessFragment({
-    required Ad ad
+    required Project project
   }){
-    _ad = ad;
-    _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
-    _imageUrl = _ad.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name];
+    _project = project;
   }
 
   @override
@@ -31,11 +27,11 @@ class SupportProcessFragment extends StatelessWidget{
               SpBorderComponent(),
               Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
               SPImgComponent(
-                imageUrl: _imageUrl,
+                imageUrl: _project.thumbnailUrl,
               ),
               Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
               SpContentsComponent(
-                ad: _ad
+                project: _project
               ),
               Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
               SpBorderComponent(),

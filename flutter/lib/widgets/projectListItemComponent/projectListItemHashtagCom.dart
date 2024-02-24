@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AdListItemHashtagListComponent extends StatelessWidget{
+class ProjectListItemHashtagListComponent extends StatelessWidget{
   late final List<String> _hashtags;
 
-  AdListItemHashtagListComponent(this._hashtags);
+  ProjectListItemHashtagListComponent(this._hashtags);
 
   @override
   Widget build(BuildContext context){

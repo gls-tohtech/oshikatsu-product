@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
-class AdDetailBorderComponent extends StatelessWidget{
+class ProjectDetailBorderComponent extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;

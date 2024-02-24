@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/widgets/hashtags.dart';
 
-class AdDetailTopInfoComponent extends StatelessWidget{
+class ProjectDetailTopInfoComponent extends StatelessWidget{
   late final String _title;
   late final List<String> _hashtags;
   late final int _targetMoneyAmount;
@@ -12,7 +12,7 @@ class AdDetailTopInfoComponent extends StatelessWidget{
   late final Timestamp _deadLine;
 
 
-  AdDetailTopInfoComponent({
+  ProjectDetailTopInfoComponent({
     required String title,
     required List<String> hashtagList,
     required int targetMoneyAmount,

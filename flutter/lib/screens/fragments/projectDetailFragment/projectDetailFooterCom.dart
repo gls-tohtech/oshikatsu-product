@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:oshikatsu_product/models/ads/ad.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/screens/fragments/supportProcessFragment/supportProcessFragment.dart';
 
-class AdDetailFooterComponent extends StatelessWidget{
+class ProjectDetailFooterComponent extends StatelessWidget{
   late final Function() _bookmarkTapped;
 
-  late final Ad _ad;
+  late final Project _project;
 
-  AdDetailFooterComponent({
-    required Ad ad,
+  ProjectDetailFooterComponent({
+    required Project project,
     required Function() bookmarkTapped,
   }){
-    _ad = ad;
+    _project = project;
     _bookmarkTapped = bookmarkTapped;
   }
 
@@ -60,7 +60,7 @@ class AdDetailFooterComponent extends StatelessWidget{
               borderRadius: BorderRadius.circular(256),
               onTap: () => {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                  return SupportProcessFragment(ad: _ad);
+                  return SupportProcessFragment(project: _project);
                 })),
               },
               child: Padding(

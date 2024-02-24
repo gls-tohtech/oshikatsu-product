@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:oshikatsu_product/models/ads/ad.dart';
-import 'package:oshikatsu_product/screens/fragments/adCheckFragment/adCheckFragment.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/screens/fragments/projectCheckFragment/projectCheckFragment.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'spBorderCom.dart';
 
 class SpContentsComponent extends StatelessWidget{
-  late final Ad _ad;
+  late final Project _project;
   late final String  _title;
   int _supportMoneyAmount = 1000;
   String _comment = "";
 
   SpContentsComponent({
-    required Ad ad
+    required Project project
   }){
-    _ad = ad;
-    _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
+    _project = project;
+    _title = _project.title;
   }
 
   @override 
@@ -129,8 +129,8 @@ class SpContentsComponent extends StatelessWidget{
           borderRadius: BorderRadius.circular(256),
           onTap: () => {
             Navigator.of(context).push(MaterialPageRoute(builder: (context){
-              return AdCheckFragment(
-                ad: _ad,
+              return ProjectCheckFragment(
+                project: _project,
                 supportMoneyAmount: _supportMoneyAmount, 
                 comment: _comment
               );

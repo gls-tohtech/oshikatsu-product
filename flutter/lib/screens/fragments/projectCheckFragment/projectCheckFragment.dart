@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:oshikatsu_product/controllers/adController.dart';
-import 'package:oshikatsu_product/models/ads/ad.dart';
-import 'package:oshikatsu_product/models/ads/adStore.dart';
+import 'package:oshikatsu_product/controllers/projectController.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/screens/fragments/projectCheckFragment/projectCheckBorderCom.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
-import 'adCheckBorderCom.dart';
 
-class AdCheckFragment extends StatelessWidget{
-  late final Ad _ad;
+class ProjectCheckFragment extends StatelessWidget{
+  late final Project _project;
   late final String _title;
   late final int _supportMoneyAmount;
   late final TextEditingController _textController;
 
-  AdCheckFragment({
-    required Ad ad,
+  ProjectCheckFragment({
+    required Project project,
     required int supportMoneyAmount,
     required String comment
   }){
-    _ad = ad; 
-    _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
+    _project = project; 
+    _title = _project.title;
     _supportMoneyAmount = supportMoneyAmount;
     _textController = TextEditingController(text: comment);
   }
@@ -32,13 +31,13 @@ class AdCheckFragment extends StatelessWidget{
         child: Column(
           children: [
             buildHeader(context),
-            AdCheckBorderComponent(),
+            ProjectCheckBorderComponent(),
             buildTitle(),
-            AdCheckBorderComponent(),
+            ProjectCheckBorderComponent(),
             buildChoicePayment(context),
-            AdCheckBorderComponent(),
+            ProjectCheckBorderComponent(),
             buildSupportMoneyAmount(context),
-            AdCheckBorderComponent(),
+            ProjectCheckBorderComponent(),
             buildCommentSubmitForm(context),
             Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.02)),
             buildButton(context)
@@ -153,7 +152,7 @@ class AdCheckFragment extends StatelessWidget{
 
   Widget buildButton(BuildContext context){
     final Size size = MediaQuery.of(context).size;
-    final adController = AdController();
+    final projectController = ProjectController();
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -168,8 +167,8 @@ class AdCheckFragment extends StatelessWidget{
         child: InkWell(
           borderRadius: BorderRadius.circular(256),
           onTap: () => {
-            adController.updateTotalMoneyAmount(
-              existedAdInfo: _ad, aiderName: "", additionalMoney: _supportMoneyAmount
+            projectController.updateTotalMoneyAmount(
+              existedProjectInfo: _project, aiderName: "", additionalMoney: _supportMoneyAmount
             ),
             showDialog(context: context, builder: (BuildContext context){
               return SPSucecssPopupComponent();

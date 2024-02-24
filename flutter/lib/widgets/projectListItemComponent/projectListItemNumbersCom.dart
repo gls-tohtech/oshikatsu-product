@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AdListItemNumberesConponent extends StatelessWidget {
+class ProjectListItemNumberesConponent extends StatelessWidget {
   late final int _aiderNumbers;
   late final int _createrNumbers;
 
-  AdListItemNumberesConponent(
+  ProjectListItemNumberesConponent(
     this._aiderNumbers,
     this._createrNumbers
   );

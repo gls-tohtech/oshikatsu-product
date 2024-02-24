@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
-class AdDetailTextComponent extends StatelessWidget{
+class ProjectDetailTextComponent extends StatelessWidget{
   late final String _detailText;
 
-  AdDetailTextComponent({
+  ProjectDetailTextComponent({
     required String detailText
   }){
     _detailText = detailText;

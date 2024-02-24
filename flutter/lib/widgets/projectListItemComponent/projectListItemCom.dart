@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:oshikatsu_product/models/ads/ad.dart';
-import 'package:oshikatsu_product/providers/adProvider.dart';
-import 'package:oshikatsu_product/screens/fragments/adDetailFragment/adDetailFragment.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/providers/projectProvider.dart';
+import 'package:oshikatsu_product/screens/fragments/projectDetailFragment/projectDetailFragment.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
-import 'adListItemGoalCom.dart';
-import 'adListItemImgCom.dart';
-import 'adListItemNumbersCom.dart';
-import 'adListItemHashtagCom.dart';
+import 'projectListItemGoalCom.dart';
+import 'projectListItemImgCom.dart';
+import 'projectListItemNumbersCom.dart';
+import 'projectListItemHashtagCom.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AdListItem extends ConsumerStatefulWidget {
-  late final String _adId;
+class ProjectListItem extends ConsumerStatefulWidget {
+  late final String _projectId;
 
-  AdListItem({required String adId}){
-    _adId = adId;
+  ProjectListItem({required String projectId}){
+    _projectId = projectId;
   }
 
   @override
-  _AdListItemState createState() => _AdListItemState(_adId);
+  _ProjectListItemState createState() => _ProjectListItemState(_projectId);
 }
 
-class _AdListItemState extends ConsumerState<AdListItem> {
-  late final String _adId;
+class _ProjectListItemState extends ConsumerState<ProjectListItem> {
+  late final String _projectId;
 
-  _AdListItemState(String adId){
-    _adId = adId;
+  _ProjectListItemState(String projectId){
+    _projectId = projectId;
   }
 
   @override
   Widget build(BuildContext context) {
-    final streamProv = ref.watch(adStreamProvider(_adId));
+    final streamProv = ref.watch(projectStreamProvider(_projectId));
     return streamProv.when(
-        data: (Ad ad){
-          return buildAdListItem(context, ad);
+        data: (Project project){
+          return buildProjectListItem(context, project);
         }, error:((error, stackTrace) {
           return Text("error = \n${error.toString()}");
         }), 
@@ -40,7 +40,7 @@ class _AdListItemState extends ConsumerState<AdListItem> {
       );
   }
 
-  Widget buildAdListItem(BuildContext context, Ad ad){
+  Widget buildProjectListItem(BuildContext context, Project project){
     final Size size = MediaQuery.of(context).size;
     return IntrinsicHeight(
       child: Card(
@@ -49,8 +49,8 @@ class _AdListItemState extends ConsumerState<AdListItem> {
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context){
-              return AdDetailFragment(
-                ad: ad,
+              return ProjectDetailFragment(
+                project: project,
                 bookmarkTapped: (){},
               );
             }));
@@ -62,27 +62,27 @@ class _AdListItemState extends ConsumerState<AdListItem> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal:size.width * 0.018),
                 child: Text(
-                  ad.dbProcessedMap[AdTableColumn.AD_TITLE.name],
+                  project.title,
                   textScaler: const TextScaler.linear(1.5),
                 ),
               ),
-              AdListItemHashtagListComponent(ad.dbProcessedMap[AdTableColumn.AD_HASHTAG.name].split(","),),
+              ProjectListItemHashtagListComponent(project.hashtags),
               Padding(padding: EdgeInsets.all(size.height * 0.01)),
               Row(
                 children: [
-                  AdListItemImgComponent(ad.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name],),
+                  ProjectListItemImgComponent(project.thumbnailUrl,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AdListItemGaolComponent(
-                          ad.dbProcessedMap[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name], 
-                          ad.dbProcessedMap[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name],
+                        ProjectListItemGoalComponent(
+                          project.moneyGoal,
+                          project.moneyDonated
                         ),
-                        AdListItemNumberesConponent(
-                          ad.dbProcessedMap[AdTableColumn.AD_AIDERS.name].length, 
-                          ad.dbProcessedMap[AdTableColumn.AD_CREATERS.name].length,
+                        ProjectListItemNumberesConponent(
+                          project.donaters.length,
+                          project.members.length
                         )
                       ],
                     ),

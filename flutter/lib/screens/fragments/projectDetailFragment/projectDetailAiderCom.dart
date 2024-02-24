@@ -1,12 +1,13 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-class AdDetailAiderComponent extends StatelessWidget{
-  late final List<String> _aiders;
+class ProjectDetailAiderComponent extends StatelessWidget{
+  late final List<Reference> _donaters;
 
-  AdDetailAiderComponent({
-    required List<String> aiders
+  ProjectDetailAiderComponent({
+    required List<Reference> donaters
   }){
-    _aiders = aiders;
+    _donaters = donaters;
   }
 
   @override
@@ -20,7 +21,7 @@ class AdDetailAiderComponent extends StatelessWidget{
               child: const Text("応援者"),
             ),
             
-        for(var ele in _aiders) buildAider(context, ele)
+        // for(var ele in _donaters) buildAider(context, ele)
       ],
     );
   }

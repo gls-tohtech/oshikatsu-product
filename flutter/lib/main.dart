@@ -7,7 +7,7 @@ import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
-import 'package:oshikatsu_product/widgets/adListItemComponent/adListItemCom.dart';
+import 'package:oshikatsu_product/widgets/projectListItemComponent/projectListItemCom.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
 void main() async {

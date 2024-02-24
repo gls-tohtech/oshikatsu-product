@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AdListItemGaolComponent extends StatelessWidget{
+class ProjectListItemGoalComponent extends StatelessWidget{
   late final int _targetMoneyAmount;
   late final int _totalMoneyAmount;
 
-  AdListItemGaolComponent(
+  ProjectListItemGoalComponent(
     this._targetMoneyAmount,
     this._totalMoneyAmount
   );
