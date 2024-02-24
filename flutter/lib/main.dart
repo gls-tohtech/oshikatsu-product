@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final _userController = UserController(); 
 
     var userAuthInfo = UserAuthInfo(
-        "rerurateyuto@gmail.com", 
+        "nenireru@gmail.com", 
         "qwertyuiop"
     );
 

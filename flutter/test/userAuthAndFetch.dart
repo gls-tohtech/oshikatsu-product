@@ -15,7 +15,7 @@ void main() async {
     final userController = UserController();
 
     var auth = UserAuthInfo(
-        "rerurateyuto@gmail.com", 
+        "nenireru@gmail.com", 
         "qwertyuiop"
     );
     var userProfile = UserProfile(
