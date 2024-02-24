@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
 
-import 'package:oshikatsu_product/models/users/Users.dart';
+import 'package:oshikatsu_product/models/users/UserStore.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
 
 final FirebaseFirestore firesotre = FirebaseFirestore.instance;

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:oshikatsu_product/models/users/Users.dart';
+import 'package:oshikatsu_product/models/users/UserStore.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
 
 const ROOM_TABLE_COLLECTION_NAME = "rooms";

@@ -4,7 +4,7 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
-import '../models/users/Users.dart';
+import '../models/users/UserStore.dart';
 import '../models/users/UserProfile.dart';
 
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
