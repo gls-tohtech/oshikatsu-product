@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
+import 'package:oshikatsu_product/screens/pages/myPageUI.dart';
+import 'package:oshikatsu_product/screens/pages/submitUI.dart';
 import 'package:oshikatsu_product/widgets/adListItemComponent/adListItemCom.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
@@ -46,9 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _pages = [
     HomePage(),
     SPSucecssPopupComponent(),
-    Text("submit"),
+    Text("Submit"),
     Text("support"),
-    Text("profile"),
+    MyPage(),
   ];
 
   void _onItemTapped(int indexArg){
