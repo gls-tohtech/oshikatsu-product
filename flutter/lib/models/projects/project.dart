@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 const PROJECTS_TABLE_COLLECTION_NAME = "projects";
 
@@ -22,10 +21,10 @@ class Project{
   late final String _projectId;
 
   late final Timestamp _createdAt;
-  late final Reference _createdBy;
-  late final List<Reference> _admins;
-  late final List<Reference> _members;
-  late final List<Reference> _donaters;
+  late final DocumentReference _createdBy;
+  late final List<DocumentReference> _admins;
+  late final List<DocumentReference> _members;
+  late final List<DocumentReference> _donaters;
   late final String _title;
   late final String _discription;
   late final Timestamp _deadline;
@@ -40,10 +39,10 @@ class Project{
   Map<String, dynamic> get dbProcessedMap => _dbProcessedMap; 
 
   Timestamp get createdAt => _createdAt;
-  Reference get createdBy => _createdBy;
-  List<Reference> get admins => _admins;
-  List<Reference> get members => _members;
-  List<Reference> get donaters => _donaters;
+  DocumentReference get createdBy => _createdBy;
+  List<DocumentReference> get admins => _admins;
+  List<DocumentReference> get members => _members;
+  List<DocumentReference> get donaters => _donaters;
   String get title => _title;
   String get discription => _discription;
   Timestamp get deadline => _deadline;
@@ -54,10 +53,10 @@ class Project{
 
   Project({
     required Timestamp createdAt,
-    required Reference createdBy,
-    required List<Reference> admins,
-    required List<Reference> members,
-    required List<Reference> donaters,
+    required DocumentReference createdBy,
+    required List<DocumentReference> admins,
+    required List<DocumentReference> members,
+    required List<DocumentReference> donaters,
     required String title,
     required String discription,
     required Timestamp deadline,
@@ -104,10 +103,10 @@ class Project{
 factory Project.fromMap(Map<String, dynamic> mapArg){
   return Project(
     createdAt: mapArg[ProjectTableColumn.CREATED_AT.name] as Timestamp,
-    createdBy: mapArg[ProjectTableColumn.CREATED_BY.name] as Reference,
-    admins: List<Reference>.from(mapArg[ProjectTableColumn.ADMINS.name] as List),
-    members: List<Reference>.from(mapArg[ProjectTableColumn.MEMBERS.name] as List),
-    donaters: List<Reference>.from(mapArg[ProjectTableColumn.DONATERS.name] as List),
+    createdBy: mapArg[ProjectTableColumn.CREATED_BY.name] as DocumentReference,
+    admins: List<DocumentReference>.from(mapArg[ProjectTableColumn.ADMINS.name] as List),
+    members: List<DocumentReference>.from(mapArg[ProjectTableColumn.MEMBERS.name] as List),
+    donaters: List<DocumentReference>.from(mapArg[ProjectTableColumn.DONATERS.name] as List),
     title: mapArg[ProjectTableColumn.TITLE.name] as String,
     discription: mapArg[ProjectTableColumn.DISCRIPTION.name] as String,
     deadline: mapArg[ProjectTableColumn.DEADLINE.name] as Timestamp,

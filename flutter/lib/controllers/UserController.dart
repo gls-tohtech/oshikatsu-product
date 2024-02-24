@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
@@ -32,7 +33,7 @@ class UserController{
 
   bool get isLogin => _auth != null ? _auth!.isLogin : false;
   String? get uid => _userStoreInfo != null ? _userStoreInfo!.uid : "";
-
+  DocumentReference get userRef => FirebaseFirestore.instance.collection(USERS_TABLE_COLLECTION_NAME).doc("$uid");
   UserProfile? get userProfile => _userProfile;
   RoomUser? get roomUser => _roomUser;
 
