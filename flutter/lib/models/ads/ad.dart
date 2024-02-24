@@ -29,12 +29,12 @@ class Ad{
   late final int _targetMoneyAmount;
   late final int _totalMoneyAmount;
   late final Timestamp _deadline;
-  late final String _creaters;
+  late final List<String> _creaters;
   late final String _targetIdol;
-  late final String _targetPlatform;
-  late final String _category;
-  late final String _hashtag;
-  late final String _aiders;
+  late final List<String> _targetPlatform;
+  late final List<String> _category;
+  late final List<String> _hashtag;
+  late final List<String> _aiders;
   late final Timestamp _created;
 
   late Map<String, dynamic> _dbProcessedMap;
@@ -52,7 +52,7 @@ class Ad{
     required DateTime deadline,
     required List<String> creaters,
     required String targetIdol,
-    required String targetPlatform,
+    required List<String> targetPlatform,
     required List<String> category,
     required List<String> hashtag,
     required List<String> aiders,
@@ -65,12 +65,12 @@ class Ad{
     _totalMoneyAmount = totalMoneyAmount;
     _targetMoneyAmount = targetMoneyAmount;
     _deadline = Timestamp.fromDate(deadline);
-    _creaters = creaters.join(",");
+    _creaters = creaters;
     _targetIdol = targetIdol;
     _targetPlatform = targetPlatform;
-    _category = category.join(",");
-    _hashtag = hashtag.join(",");
-    _aiders = aiders.join(",");
+    _category = category;
+    _hashtag = hashtag;
+    _aiders = aiders;
 
     _created = created;
 
@@ -107,12 +107,12 @@ class Ad{
       totalMoneyAmount: mapArg[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name], 
       targetMoneyAmount: mapArg[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name], 
       deadline: mapArg[AdTableColumn.AD_DEADLINE.name].toDate(),  
-      creaters: mapArg[AdTableColumn.AD_CREATERS.name].split(","), 
+      creaters: mapArg[AdTableColumn.AD_CREATERS.name], 
       targetIdol: mapArg[AdTableColumn.AD_TARGET_AIDOL.name], 
       targetPlatform: mapArg[AdTableColumn.AD_TARGET_PLATFORM.name],
-      category: mapArg[AdTableColumn.AD_CATEGORY.name].split(","), 
-      hashtag: mapArg[AdTableColumn.AD_HASHTAG.name].split(","),
-      aiders: mapArg[AdTableColumn.AD_AIDERS.name].split(","),
+      category: mapArg[AdTableColumn.AD_CATEGORY.name], 
+      hashtag: mapArg[AdTableColumn.AD_HASHTAG.name],
+      aiders: mapArg[AdTableColumn.AD_AIDERS.name],
       created: mapArg[AdTableColumn.AD_CREATED.name]
     );
   }
