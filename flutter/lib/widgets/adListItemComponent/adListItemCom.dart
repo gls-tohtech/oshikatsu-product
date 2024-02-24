@@ -66,7 +66,7 @@ class _AdListItemState extends ConsumerState<AdListItem> {
                   textScaler: const TextScaler.linear(1.5),
                 ),
               ),
-              AdListItemHashtagListComponent(ad.dbProcessedMap[AdTableColumn.AD_HASHTAG.name].split(","),),
+              AdListItemHashtagListComponent(ad.dbProcessedMap[AdTableColumn.AD_HASHTAG.name]),
               Padding(padding: EdgeInsets.all(size.height * 0.01)),
               Row(
                 children: [

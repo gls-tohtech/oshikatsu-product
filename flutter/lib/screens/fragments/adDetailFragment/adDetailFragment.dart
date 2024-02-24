@@ -35,15 +35,15 @@ class AdDetailFragment extends StatelessWidget{
     _createrUID = _ad.dbProcessedMap[AdTableColumn.AD_CREATER.name];
     _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
     _adDetail = _ad.dbProcessedMap[AdTableColumn.AD_DETAIL.name];
-    _hashtags = _ad.dbProcessedMap[AdTableColumn.AD_HASHTAG.name].split(",");
+    _hashtags = _ad.dbProcessedMap[AdTableColumn.AD_HASHTAG.name];
     _imageUrl = _ad.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name];
     _targetMoneyAmount = _ad.dbProcessedMap[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name];
     _totalMoneyAmount = _ad.dbProcessedMap[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name];
     _platform = _ad.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM.name];
     _deadLine = _ad.dbProcessedMap[AdTableColumn.AD_DEADLINE.name];
-    _creaters = _ad.dbProcessedMap[AdTableColumn.AD_CREATERS.name].split(",");;
+    _creaters = _ad.dbProcessedMap[AdTableColumn.AD_CREATERS.name];
     _createrNumbers = _ad.dbProcessedMap[AdTableColumn.AD_CREATERS.name].length;
-    _aiders = _ad.dbProcessedMap[AdTableColumn.AD_AIDERS.name].split(",");;
+    _aiders = _ad.dbProcessedMap[AdTableColumn.AD_AIDERS.name];
     _aiderNumbers = _ad.dbProcessedMap[AdTableColumn.AD_AIDERS.name].length;
     _bookmarkTapped = bookmarkTapped;
   }
