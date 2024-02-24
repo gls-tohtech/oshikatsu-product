@@ -19,7 +19,7 @@ class AdController{
   }
 
   Future<void> updateTotalMoneyAmount({required Ad existedAdInfo, required String aiderName, required int additionalMoney}) async {
-    List<String> aiders = existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name].split(",");;
+    List<String> aiders = existedAdInfo.dbProcessedMap[AdTableColumn.AD_AIDERS.name];
     if (!aiders.contains(aiderName)) aiders.add(aiderName);
     
     final Ad newAdInfo = Ad(
@@ -30,11 +30,11 @@ class AdController{
       totalMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TOTAL_MONEY_AMOUNT.name] + additionalMoney, 
       targetMoneyAmount: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_MONEY_AMOUNT.name], 
       deadline: existedAdInfo.dbProcessedMap[AdTableColumn.AD_DEADLINE.name].toDate(), 
-      creaters: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATERS.name].split(","), 
+      creaters: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATERS.name], 
       targetIdol: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_AIDOL.name], 
       targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM.name],
-      category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY.name].split(","), 
-      hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG.name].split(","),
+      category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY.name], 
+      hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG.name],
       aiders: aiders,
       created: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATED.name]
     );
