@@ -54,13 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
     MyPage(),
   ];
 
-  void initState(){
-    final _userController = UserController(); 
+  void initState() {
+    final _userController = UserController();
 
-    var userAuthInfo = UserAuthInfo(
-        "rerurateyuto@gmail.com", 
-        "qwertyuiop"
-    );
+    var userAuthInfo = UserAuthInfo("rerurateyuto@gmail.com", "qwertyuiop");
 
     _userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
     super.initState();
