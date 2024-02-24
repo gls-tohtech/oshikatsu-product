@@ -24,8 +24,7 @@ void main() async {
         birthdayMonthArg: 32,
         genderArg: "male",
         iconImageUrlArg: "",
-        userProfileDetailArg: "",
-        geometryArg: ""
+        biography: "",
     );
 
     await userController.createUserWithEmailAndPassWord(userAuthInfo: auth, userProfile: userProfile);

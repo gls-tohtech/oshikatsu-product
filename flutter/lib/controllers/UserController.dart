@@ -71,12 +71,12 @@ class UserController{
 
   Future<void> _createChatCoreUserAccount() async {
     try{
-      final String? iconImageUrl = _userProfile!.dbProcessedMap[UserTableColumn.ICON_IMAGE_URL.name] != ""
-        ? _userProfile!.dbProcessedMap[UserTableColumn.ICON_IMAGE_URL.name]
+      final String? iconImageUrl = _userProfile!.name != ""
+        ? _userProfile!.iconImageUrl
         : null;
       await FirebaseChatCore.instance.createUserInFirestore(
         types.User(
-          firstName: _userProfile!.dbProcessedMap[UserTableColumn.NAME.name],
+          firstName: _userProfile!.name,
           id: _user!.uid,
           lastName: "",
           imageUrl: iconImageUrl

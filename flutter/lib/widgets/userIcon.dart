@@ -46,8 +46,8 @@ class UserIconState extends ConsumerState<UserIcon> {
   }
 
   Widget buildIcon(UserProfile userProfile){
-    final String iconImageUrl = userProfile.dbProcessedMap[UserTableColumn.ICON_IMAGE_URL.name];
-    final String userName = userProfile.dbProcessedMap[UserTableColumn.NAME.name];
+    final String iconImageUrl = userProfile.iconImageUrl;
+    final String userName = userProfile.name;
     return iconImageUrl != "" 
       ? CircleAvatar(
         radius: 256,
