@@ -24,7 +24,7 @@ void main() async{
       deadline: DateTime(2024,12,31), 
       creaters: ["dwa","cewf"], 
       targetIdol: "reru",
-      targetPlatform: "X, Instagram", 
+      targetPlatform: ["X", "Instagram"], 
       category: ["32dwa","342f","fewa"],
       hashtag: ["3429ifd3","fewiueo","fves f", "dawd"], 
       aiders: ["xaw","few","fes"],
