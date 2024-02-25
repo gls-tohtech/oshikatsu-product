@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:oshikatsu_product/controllers/followController.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
+import 'package:oshikatsu_product/models/users/userFollow.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
 import '../models/users/UserStore.dart';
@@ -29,6 +31,8 @@ class UserController{
   RoomUser? _roomUser;
   User? _user;
 
+  Map<String, List<Follow>>? _followDataMap;
+
   bool _isAccountCreated = false;
 
   bool get isLogin => _auth != null ? _auth!.isLogin : false;
@@ -36,6 +40,7 @@ class UserController{
   DocumentReference get userRef => FirebaseFirestore.instance.collection(USERS_TABLE_COLLECTION_NAME).doc("$uid");
   UserProfile? get userProfile => _userProfile;
   RoomUser? get roomUser => _roomUser;
+
 
   Future createUserWithEmailAndPassWord({required UserAuthInfo userAuthInfo, required UserProfile userProfile}) async {
     _userAuthInfo = userAuthInfo;
@@ -67,6 +72,7 @@ class UserController{
 
     _userProfile = await _fetchUserProfileFromStore();
     _roomUser = await _fetchRoomUserFromStore();
+    _followDataMap = await _fetchFollowData();
     _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
   }
 
@@ -120,5 +126,17 @@ class UserController{
     if(_user!.uid == "") return null;
     RoomUser fetchedData = await _fetcher.fetchRoomUserData(targetUidArg: _user!.uid);
     return fetchedData;
+  }
+
+  Future<Map<String, List<Follow>>?> _fetchFollowData() async {
+    if(!isLogin) return null;
+    if(_user!.uid == "") return null;
+    List<Followed> followed = await _fetcher.fetchFollowedList(targetUidArg: _user!.uid);
+    List<Followers> followers = await _fetcher.fetchFollowersList(targetUidArg: _user!.uid);
+
+    return {
+      FOLLOWED_SUB_COLLECTION_NAME: followed,
+      FOLLOWERS_SUB_COLLECTION_NAME: followers
+    };
   }
 }

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oshikatsu_product/controllers/followController.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
+import 'package:oshikatsu_product/models/users/userFollow.dart';
 import './UserProfile.dart';
 
 const USERS_TABLE_COLLECTION_NAME = "users";
@@ -43,7 +45,6 @@ class UserRegistry{
 class UserDataFetcher{
   final db = FirebaseFirestore.instance;
 
-  ///Mapデータを取得するときは、取得した変数[UsersTableColumn.カラム名（データベースの項目名）.name]と記述する。
   Future<UserProfile> fetchUserProfile({required String targetUidArg}) async{
     final fetchedUser = await db
       .collection(USERS_TABLE_COLLECTION_NAME)
@@ -53,7 +54,6 @@ class UserDataFetcher{
     return UserProfile.fromMap(fetchedUser.data() ?? {});
   }
 
-    ///Mapデータを取得するときは、取得した変数[UsersTableColumn.カラム名（データベースの項目名）.name]と記述する。
   Future<RoomUser> fetchRoomUserData({required String targetUidArg}) async{
     final fetchedUser = await db
       .collection(ROOM_USERS_TABLE_COLLECTION_NAME)
@@ -64,5 +64,30 @@ class UserDataFetcher{
       idArg: targetUidArg, 
       mapArg: fetchedUser.data() ?? {}
     );
+  }
+
+  Future<List<Followed>> fetchFollowedList({required String targetUidArg}) async {
+    final querySnapshot = await db
+      .collection("$USERS_TABLE_COLLECTION_NAME/$targetUidArg/$FOLLOWED_SUB_COLLECTION_NAME")
+      .get();
+
+    final followedList = querySnapshot.docs.map((doc) =>
+      Followed.fromMap(mapArg: doc.data())
+    ).toList();
+
+    return followedList;
+  }
+
+  
+  Future<List<Followers>> fetchFollowersList({required String targetUidArg}) async {
+    final querySnapshot = await db
+      .collection("$USERS_TABLE_COLLECTION_NAME/$targetUidArg/$FOLLOWERS_SUB_COLLECTION_NAME")
+      .get();
+
+    final followersList = querySnapshot.docs.map((doc) =>
+      Followers.fromMap(mapArg: doc.data())
+    ).toList();
+
+    return followersList;
   }
 }
