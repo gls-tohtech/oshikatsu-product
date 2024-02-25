@@ -1,0 +1,19 @@
+{
+  "name": "firebase",
+  "version": "1.0.0",
+  "description": "- Firestore: Configure security rules and indexes files for Firestore - Functions: Configure a Cloud Functions directory and its files - Storage: Configure a security rules file for Cloud Storage - Emulators: Set up local emulators for Firebase products   - Authentication Emulator   - Functions Emulator   - Firestore Emulator   - Storage Emulator   - Emulator UI - Remote Config: Configure a template file for Remote Config",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed-local": "node ./lib/seed.js -h localhost:8080 -c ./credentials/dev/service_account.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.0.0",
+    "firebase-admin": "^12.0.0"
+  }
+}
