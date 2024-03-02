@@ -12,13 +12,13 @@ class RadiusTextComponent extends StatelessWidget{
     String text, {
     Alignment? alignment,
     Function()? textTapped,
-    double? widthRaio,
+    double? widthRatio,
     double? widthFactorRatio
   }){
     _text = text;
     alignment != null ? _alignment = alignment : _alignment = Alignment.center;
     textTapped != null ? _textTapped = textTapped : _textTapped = (() => {});
-    widthRaio != null ? _widthRaio = widthRaio : _widthRaio = 0.2;
+    widthRatio != null ? _widthRaio = widthRatio : _widthRaio = 0.2;
     widthFactorRatio != null ? _widthFactorRatio = widthFactorRatio : _widthFactorRatio = 1;
   }
 
