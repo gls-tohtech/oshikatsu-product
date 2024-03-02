@@ -1,62 +1,124 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:oshikatsu_product/models/users/roomUser.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
-import '../models/users/Users.dart';
+import '../models/users/UserStore.dart';
 import '../models/users/UserProfile.dart';
 
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+
 class UserController{
-  late final UserAuthentifier _auth;
-  final UserResistry _resistry = UserResistry();
-  late final UserDataFetcher _fetcher;
+  UserController._();
 
-  late final UserAuthInfo _userAuthInfo;
-  late final UserProfile _userProfile;
-  late final UserStoreInfo _userStoreInfo;
-  late final User? _user;
+  static UserController? _instance;
 
-  bool get isLogin => _auth.isLogin;
-
-  UserController(this._userAuthInfo, this._userProfile){
-    _auth = UserAuthentifier(_userAuthInfo);
+  factory UserController(){
+    _instance ??= UserController._();
+    return _instance!;
   }
 
-  void createUserWithEmailAndPassWord() async {
-    await _auth.createUserWithEmailAndPassWord();
+  final UserRegistry _registry = UserRegistry();
+  final UserDataFetcher _fetcher = UserDataFetcher();
+
+  UserAuthentifier? _auth;
+  UserAuthInfo? _userAuthInfo;
+  UserProfile? _userProfile;
+  UserStoreInfo? _userStoreInfo;
+  RoomUser? _roomUser;
+  User? _user;
+
+  bool _isAccountCreated = false;
+
+  bool get isLogin => _auth != null ? _auth!.isLogin : false;
+  String? get uid => _userStoreInfo != null ? _userStoreInfo!.uid : "";
+  DocumentReference get userRef => FirebaseFirestore.instance.collection(USERS_TABLE_COLLECTION_NAME).doc("$uid");
+  UserProfile? get userProfile => _userProfile;
+  RoomUser? get roomUser => _roomUser;
+
+  Future createUserWithEmailAndPassWord({required UserAuthInfo userAuthInfo, required UserProfile userProfile}) async {
+    _userAuthInfo = userAuthInfo;
+    _userProfile = userProfile;
+    _auth = UserAuthentifier(_userAuthInfo!);
+
+    _user = await _auth!.createUserWithEmailAndPassWord();
+    _createChatCoreUserAccount();
+
+    _isAccountCreated = true;
+
+    _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
+    _addToStore();
   }
 
-  Future signInWithEmailAndPassWord() async { 
-    _user = await _auth.signInWithEmailAndPassWord();
+  Future signInWithEmailAndPassWord({required UserAuthInfo userAuthInfo}) async { 
+    _userAuthInfo = userAuthInfo;
+    
+    _auth = UserAuthentifier(_userAuthInfo!);
+    _user = await _auth!.signInWithEmailAndPassWord();
+
     if(_user == null) {
       print("_user variable is null in createUserWithEmailAndPassWord method of userController class");
       return;
     }
-    
-    _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile);
+
+    final UserProfile? userProfile = await _fetchUserProfileFromStore();
+    if(userProfile != null) _userProfile = userProfile;
+
+    _userProfile = await _fetchUserProfileFromStore();
+    _roomUser = await _fetchRoomUserFromStore();
+    _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
+  }
+
+  Future<void> _createChatCoreUserAccount() async {
+    try{
+      final String? iconImageUrl = _userProfile!.name != ""
+        ? _userProfile!.iconImageUrl
+        : null;
+      await FirebaseChatCore.instance.createUserInFirestore(
+        types.User(
+          firstName: _userProfile!.name,
+          id: _user!.uid,
+          lastName: "",
+          imageUrl: iconImageUrl
+        ),
+      );
+    }
+    catch(e){
+      print("Failed to create user account of FirebaseChatCore in createChatCoreUserAccount method of userController class");
+    }
   }
 
   void sendPasswordResetEmail() async {
-    _auth.sendPasswordResetEmail();
+    _auth!.sendPasswordResetEmail();
   }
 
   void signOut(){
     if(!isLogin) return;
-    _auth.signOut();
+    _auth!.signOut();
   } 
 
-  void addToStore() { 
-    if(!isLogin) return;
-    _resistry.add(newUserDataArg: _userStoreInfo);
+  void _addToStore() { 
+    if(!_isAccountCreated) return;
+    _registry.add(newUserDataArg: _userStoreInfo!);
   }
 
-  void updateToStore(UserStoreInfo newUserDataArg, UserTableColumn columnArg) {
+  void updateToStore(UserStoreInfo newUserDataArg) {
     if(!isLogin) return;
-    _resistry.update(newUserDataArg: newUserDataArg, columnArg: columnArg);
+    _registry.update(newUserDataArg: newUserDataArg);
   }
 
-  ///Mapデータを取得するときは、取得した変数[UsersTableColumn.カラム名（データベースの項目名）.name]と記述する。
-  void fetchFromStore(){
-    if(!isLogin) return;
-    if(_userStoreInfo.uid == "") return;
-    _fetcher.fetch(targetUidArg: _userStoreInfo.uid);
+  Future<UserProfile?> _fetchUserProfileFromStore() async {
+    if(!isLogin) return null;
+    if(_user!.uid == "") return null;
+    UserProfile fetchedData = await _fetcher.fetchUserProfile(targetUidArg: _user!.uid);
+    return fetchedData;
+  }
+  
+  Future<RoomUser?> _fetchRoomUserFromStore() async {
+    if(!isLogin) return null;
+    if(_user!.uid == "") return null;
+    RoomUser fetchedData = await _fetcher.fetchRoomUserData(targetUidArg: _user!.uid);
+    return fetchedData;
   }
 }

@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
+import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
+import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
 import 'package:oshikatsu_product/screens/pages/submitUI.dart';
 import 'package:oshikatsu_product/widgets/adListItemComponent/adListItemCom.dart';
@@ -10,6 +16,16 @@ import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  try {
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  } catch (e) {
+    // ignore: avoid_print
+    print(e);
+  }
+
   runApp(const MyApp());
 }
 
@@ -45,9 +61,18 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     SPSucecssPopupComponent(),
     SubmitUI(),
-    Text("support"),
+    RoomsPage(),
     Text("profile"),
   ];
+
+  void initState() {
+    final _userController = UserController();
+
+    var userAuthInfo = UserAuthInfo("nenireru@gmail.com", "qwertyuiop");
+
+    _userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
+    super.initState();
+  }
 
   void _onItemTapped(int indexArg) {
     setState(() {
