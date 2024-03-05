@@ -11,6 +11,15 @@
   - Emulator UI
 - Remote Config: Configure a template file for Remote Config
 
+## セットアップ
+
+各種機能を利用するため、リポジトリからのクローン後は以下を実行してください。
+
+```bash
+# firebaseフォルダに移動したのちに実行
+npm install
+```
+
 ## Emulator の使い方
 
 https://firebase.google.com/docs/emulator-suite?hl=ja
@@ -53,4 +62,16 @@ firebase emulators:start
 └────────────────┴────────────────┴─────────────────────────────────┘
   Emulator Hub running at 127.0.0.1:4400
   Other reserved ports: 4500, 9150
+```
+
+### テストデータの追加方法
+
+firestore のテストデータは lib/firestore/ 以下に json 形式のファイルとして追加します。
+ファイル名がコレクション名になります。
+
+テストデータを追加したい場合には、以下のコマンドを実行してください。
+
+```bash
+# firebaseフォルダに移動したのちに実行
+npm run seed-local
 ```

@@ -1,48 +1,40 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 class UserProfile{
-  late final String _name;
-  late final int _birthdayYear;
-  late final int _birthdayMonth;
-  late final String _gender;
+  final String name;
+  final int birthdayYear;
+  final int birthdayMonth;
+  final String gender;
+  final String iconImageUrl;
+  final String biography;
 
-  late final String _iconImageUrl = "";
-  late final String _userProfileDetail = "";
-  late final String _geometry = "";
-
-  late final Map<String, dynamic> _dbProcessedMap;
-  Map<String, dynamic> get dbProcessedMap => _dbProcessedMap; 
-
-  UserProfile({
-    required String nameArg, 
-    required int birthdayYearArg,
-    required int birthdayMonthArg,
-    required String genderArg, 
-  }){
-    _name = nameArg;
-    _birthdayYear = birthdayYearArg;
-    _birthdayMonth = birthdayMonthArg;
-    _gender = genderArg;
-
-    _dbProcessedMap = {
-      UserTableColumn.NAME.name: _name, 
-      UserTableColumn.BIRTHDAY_YEAR.name: _birthdayYear,
-      UserTableColumn.BIRTHDAY_MONTH.name: _birthdayMonth,
-      UserTableColumn.GENDER.name: _gender,
-      UserTableColumn.ICON_IMAGE_URL.name: _iconImageUrl,
-      UserTableColumn.USER_PROFILE_DETAIL.name: _userProfileDetail,
-      UserTableColumn.GEOMETRY.name: _geometry
-    };
-  }
+  const UserProfile({
+    required this.name, 
+    required this.birthdayYear,
+    required this.birthdayMonth,
+    required this.gender, 
+    required this.iconImageUrl,
+    required this.biography,
+  });
 
   factory UserProfile.fromMap(Map<String, dynamic> mapArg){
     return UserProfile(
-        nameArg: mapArg[UserTableColumn.NAME.name],
-        birthdayYearArg: mapArg[UserTableColumn.BIRTHDAY_YEAR.name],
-        birthdayMonthArg: mapArg[UserTableColumn.BIRTHDAY_MONTH.name], 
-        genderArg: mapArg[UserTableColumn.GENDER.name]
+        name: mapArg[UserTableColumn.NAME.name],
+        birthdayYear: mapArg[UserTableColumn.BIRTHDAY_YEAR.name],
+        birthdayMonth: mapArg[UserTableColumn.BIRTHDAY_MONTH.name], 
+        gender: mapArg[UserTableColumn.GENDER.name],
+        iconImageUrl: mapArg[UserTableColumn.ICON_IMAGE_URL.name],
+        biography: mapArg[UserTableColumn.BIOGRAPHY.name],
       );
+  }
+
+  Map<String, dynamic> getDbProcessedMap(){
+    return {
+      UserTableColumn.NAME.name: name, 
+      UserTableColumn.BIRTHDAY_YEAR.name: birthdayYear,
+      UserTableColumn.BIRTHDAY_MONTH.name: birthdayMonth,
+      UserTableColumn.GENDER.name: gender,
+      UserTableColumn.ICON_IMAGE_URL.name: iconImageUrl,
+      UserTableColumn.BIOGRAPHY.name: biography,
+    };
   }
 }
 
@@ -52,6 +44,5 @@ enum UserTableColumn{
   BIRTHDAY_MONTH,       //req
   GENDER,               //req
   ICON_IMAGE_URL,       
-  USER_PROFILE_DETAIL,
-  GEOMETRY,
+  BIOGRAPHY,
 }

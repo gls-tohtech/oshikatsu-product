@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:oshikatsu_product/models/ads/ad.dart';
-import 'package:oshikatsu_product/screens/fragments/adCheckFragment/adCheckFragment.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/screens/fragments/projectCheckFragment/projectCheckFragment.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'spBorderCom.dart';
 
 class SpContentsComponent extends StatelessWidget{
-  late final Ad _ad;
+  late final Project _project;
   late final String  _title;
-  late final int _supportMoneyAmount = 1000;
+  int _supportMoneyAmount = 1000;
   String _comment = "";
 
   SpContentsComponent({
-    required Ad ad
+    required Project project
   }){
-    _ad = ad;
-    _title = _ad.dbProcessedMap[AdTableColumn.AD_TITLE.name];
+    _project = project;
+    _title = _project.title;
   }
 
   @override 
@@ -85,7 +85,7 @@ class SpContentsComponent extends StatelessWidget{
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
-            child: Text("$_supportMoneyAmount  円"),
+            child: MoneyAmountSelectMenuComponent((p0) => {_supportMoneyAmount = p0})
           )
         )
       ],
@@ -129,8 +129,8 @@ class SpContentsComponent extends StatelessWidget{
           borderRadius: BorderRadius.circular(256),
           onTap: () => {
             Navigator.of(context).push(MaterialPageRoute(builder: (context){
-              return AdCheckFragment(
-                ad: _ad,
+              return ProjectCheckFragment(
+                project: _project,
                 supportMoneyAmount: _supportMoneyAmount, 
                 comment: _comment
               );
@@ -149,6 +149,53 @@ class SpContentsComponent extends StatelessWidget{
           )
         ),
       )
+    );
+  }
+}
+
+class MoneyAmountSelectMenuComponent extends StatefulWidget {
+  late final Function(int) _setMoneyAmount;
+
+  MoneyAmountSelectMenuComponent(this._setMoneyAmount);
+
+  @override
+  _MoneyAmountSelectMenuComponentState createState() => _MoneyAmountSelectMenuComponentState(this._setMoneyAmount);
+}
+
+class _MoneyAmountSelectMenuComponentState extends State<MoneyAmountSelectMenuComponent> {
+  late final Function(int) _setMoneyAmount;
+  int _selectedValue = 1000;
+
+  _MoneyAmountSelectMenuComponentState(this._setMoneyAmount);
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      items: const[
+        DropdownMenuItem(
+          child: Text("1000 円"),
+          value: 1000
+        ),
+        DropdownMenuItem(
+          child: Text("5000 円"),
+          value: 5000
+        ),
+        DropdownMenuItem(
+          child: Text("10000 円"),
+          value: 10000
+        ),
+        DropdownMenuItem(
+          child: Text("20000 円"),
+          value: 20000
+        ),
+      ], 
+      value: _selectedValue,
+      onChanged: (value) {
+        setState(() {
+          _selectedValue = value!;
+          _setMoneyAmount(_selectedValue);
+        });
+      }
     );
   }
 }
