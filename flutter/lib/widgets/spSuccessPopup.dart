@@ -40,7 +40,7 @@ class SPSucecssPopupComponent extends StatelessWidget{
                   Navigator.of(context).pop(),
                   Navigator.of(context).pop(),
                 },
-                widthRaio: 0.5,
+                widthRatio: 0.5,
                 widthFactorRatio: 1.5,
               )
             ],
