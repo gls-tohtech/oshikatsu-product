@@ -9,6 +9,7 @@ import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
+import 'package:oshikatsu_product/screens/pages/supportUI.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
 void main() async {
@@ -18,7 +19,7 @@ void main() async {
   );
 
   try {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8088);
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   } catch (e) {
@@ -61,8 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _pages = [
     HomePage(),
     SPSucecssPopupComponent(),
-    Text("submit"),
-    RoomsPage(),
+    SupportUI(),
     Text("profile"),
   ];
 
@@ -97,16 +97,12 @@ class _MyHomePageState extends State<MyHomePage> {
             label: "ホーム"
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "検索"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: "投稿"
+            icon: Icon(Icons.hail),
+            label: "みんなの推し広告"
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.campaign),
-            label: "応援広告"
+            label: "応援"
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
