@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/controllers/projectController.dart';
+import 'package:oshikatsu_product/widgets/radiusText.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
 void main() {
   runApp(MaterialApp(home: SubmitUI()));
@@ -13,6 +16,32 @@ class SubmitUI extends StatefulWidget {
 
 class _SubmitUIState extends State<SubmitUI> {
   final TextEditingController _amountController = TextEditingController();
+  int _selectedValue = 1000;
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
+
+  String _imageUrl = "";
+
+  Future<void> _pickDateTime(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: _selectedTime ?? TimeOfDay.now(),
+      );
+      if (pickedTime != null) {
+        setState(() {
+          _selectedDate = pickedDate;
+          _selectedTime = pickedTime;
+        });
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -30,10 +59,6 @@ class _SubmitUIState extends State<SubmitUI> {
         // SingleChildScrollViewを追加
         child: Center(
           child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey, width: 2),
-              borderRadius: BorderRadius.circular(12),
-            ),
             padding: const EdgeInsets.all(8.0), // constを追加
             margin: const EdgeInsets.all(8.0), // constを追加
             child: Column(
@@ -56,8 +81,21 @@ class _SubmitUIState extends State<SubmitUI> {
                 const SizedBox(height: 20), // constを追加
                 Container(
                   padding: const EdgeInsets.all(8.0), // constを追加
-                  child: Image.asset('lib/screens/pages/5-25.jpg'),
+                  child: RadiusTextComponent(
+                    "追加",
+                    textTapped: () async {
+                      ProjectController projectController = ProjectController();
+                      final result =
+                          await projectController.pickImageAndUpload();
+                      setState(() {
+                        _imageUrl = result;
+                      });
+
+                      print("$_imageUrl");
+                    },
+                  ),
                 ),
+                Image.network(_imageUrl),
                 const SizedBox(height: 20), // constを追加
                 Container(
                   alignment: Alignment.centerLeft,
@@ -117,7 +155,6 @@ class _SubmitUIState extends State<SubmitUI> {
                       child: Container(
                         height: 40.0, // ここでコンテナの高さを設定
                         child: TextFormField(
-                          controller: _amountController,
                           decoration: const InputDecoration(
                             isDense: true, // 追加：フィールドの密度を高くする
                             contentPadding: EdgeInsets.symmetric(
@@ -140,131 +177,36 @@ class _SubmitUIState extends State<SubmitUI> {
 
                 const SizedBox(height: 8), // constを追加
                 Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // 子ウィジェットを左揃えにする
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '期限',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 50, // TextFieldの横幅を指定
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: '月',
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 8.0),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            SizedBox(width: 8.0), // TextFieldとテキストの間のスペースを調整
-                            Text('月',
-                                style:
-                                    TextStyle(fontSize: 16.0)), // 月というテキストを表示
-                          ],
+                        Text(
+                          '期限',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        SizedBox(width: 8.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 50, // TextFieldの横幅を指定
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: '月',
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 8.0),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            SizedBox(width: 8.0), // TextFieldとテキストの間のスペースを調整
-                            Text('月',
-                                style:
-                                    TextStyle(fontSize: 16.0)), // 月というテキストを表示
-                          ],
-                        ),
-                        SizedBox(width: 8.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 50, // TextFieldの横幅を指定
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: '月',
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 8.0),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            SizedBox(width: 8.0), // TextFieldとテキストの間のスペースを調整
-                            Text('月',
-                                style:
-                                    TextStyle(fontSize: 16.0)), // 月というテキストを表示
-                          ],
-                        ),
-                        SizedBox(width: 8.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 50, // TextFieldの横幅を指定
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: '月',
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 8.0),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            SizedBox(width: 8.0), // TextFieldとテキストの間のスペースを調整
-                            Text('月',
-                                style:
-                                    TextStyle(fontSize: 16.0)), // 月というテキストを表示
-                          ],
-                        ),
-                        SizedBox(width: 8.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 50, // TextFieldの横幅を指定
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: '月',
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 8.0),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            SizedBox(width: 8.0), // TextFieldとテキストの間のスペースを調整
-                            Text('月',
-                                style:
-                                    TextStyle(fontSize: 16.0)), // 月というテキストを表示
-                          ],
+                        Container(
+                          child: RadiusTextComponent("期限を選択",
+                              widthRaio: 0.3,
+                              textTapped: () => _pickDateTime(context)),
                         ),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: _selectedDate != null && _selectedTime != null
+                          ? Text(
+                              '期限日時: ${_selectedDate!.year}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.day.toString().padLeft(2, '0')} ${_selectedTime!.hour.toString().padLeft(2, '0')}:${_selectedTime!.minute.toString().padLeft(2, '0')}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                      // 条件に合わない場合は何も表示しない
                     ),
                   ],
                 ),
@@ -286,14 +228,19 @@ class _SubmitUIState extends State<SubmitUI> {
                       ),
                     ),
                     Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        controller: _amountController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: '掲載場所',
+                      flex: 2,
+                      child: Container(
+                        height: 40.0, // ここでコンテナの高さを設定
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            isDense: true, // 追加：フィールドの密度を高くする
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                            border: OutlineInputBorder(),
+                            hintText: '掲載場所',
+                          ),
+                          keyboardType: TextInputType.number,
                         ),
-                        keyboardType: TextInputType.number,
                       ),
                     ),
                   ],
@@ -315,14 +262,19 @@ class _SubmitUIState extends State<SubmitUI> {
                       ),
                     ),
                     Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        controller: _amountController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'ハッシュタグを追加する',
+                      flex: 2,
+                      child: Container(
+                        height: 40.0, // ここでコンテナの高さを設定
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            isDense: true, // 追加：フィールドの密度を高くする
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                            border: OutlineInputBorder(),
+                            hintText: 'ハッシュタグを追加する',
+                          ),
+                          keyboardType: TextInputType.number,
                         ),
-                        keyboardType: TextInputType.number,
                       ),
                     ),
                   ],
@@ -331,20 +283,36 @@ class _SubmitUIState extends State<SubmitUI> {
                   color: Colors.grey,
                   thickness: 1,
                 ),
-                Row(
+                Column(
                   children: [
-                    Expanded(
-                      child: Text(
-                        '支援して欲しいもの',
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "支援して欲しいもの", // 見出しテキスト
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 16, // フォントサイズを適宜調整
+                          fontWeight: FontWeight.bold, // フォントを太く
                         ),
                       ),
                     ),
-                    _buildButton(context, 'お金'),
-                    _buildButton(context, '素材'),
-                    _buildButton(context, 'クリエイター'),
+                    //const SizedBox(height: 10),
+                    StandartPaddingComponent(),
+                    Row(
+                      children: [
+                        RadiusTextComponent('お金'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        RadiusTextComponent('素材'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        RadiusTextComponent(
+                          'クリエイター',
+                          widthRaio: 0.3,
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 const Divider(
@@ -373,10 +341,17 @@ class _SubmitUIState extends State<SubmitUI> {
                   ),
                 ),
                 const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
-                TextField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'グループ名を入力', // ユーザーがテキストフィールドに何を入力すべきか示すラベル
+                Container(
+                  height: 40.0, // ここでコンテナの高さを設定
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      isDense: true, // 追加：フィールドの密度を高くする
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                      border: OutlineInputBorder(),
+                      hintText: 'グループ名',
+                    ),
+                    keyboardType: TextInputType.number,
                   ),
                 ),
                 const SizedBox(height: 15), // 見出しとテキストフィールドの間のスペース
@@ -394,12 +369,16 @@ class _SubmitUIState extends State<SubmitUI> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 200, // ここで希望の幅を指定
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        suffixText: '人', // 人を表す絵文字
-                      ),
+                    width: 200,
+                    height: 40.0, // ここでコンテナの高さを設定
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          isDense: true, // 追加：フィールドの密度を高くする
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                          border: OutlineInputBorder(),
+                          suffixText: '人'),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ),
@@ -418,22 +397,24 @@ class _SubmitUIState extends State<SubmitUI> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 200, // ここで希望の幅を指定
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        suffixText: '人', // 人を表す絵文字
-                      ),
+                    width: 200,
+                    height: 40.0, // ここでコンテナの高さを設定
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          isDense: true, // 追加：フィールドの密度を高くする
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                          border: OutlineInputBorder(),
+                          suffixText: '人'),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ),
                 const SizedBox(height: 20), // constを追加
-                ElevatedButton(
-                  onPressed: () {
-                    // ここにボタンが押された時の処理を書く
-                  },
-                  child: const Text('保存する'), // constを追加
-                ),
+                RadiusTextComponent(
+                  '投稿する',
+                  widthRaio: 0.7,
+                )
               ],
             ),
           ),
