@@ -16,14 +16,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  try {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-  } catch (e) {
-    // ignore: avoid_print
-    print(e);
-  }
+  // try {
+  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  //   FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  // } catch (e) {
+  //   // ignore: avoid_print
+  //   print(e);
+  // }
 
   runApp(const MyApp());
 }
