@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oshikatsu_product/utils/formatIntToSixDigits.dart';
 
 const PROJECTS_TABLE_COLLECTION_NAME = "projects";
 
@@ -31,7 +32,7 @@ class Project{
   final int moneyGoal;
   final int moneyDonated;
 
-  String get projectId => "$createdBy-$title-$createdAt";
+  String get projectId => "${title.codeUnitAt(6)}${discription.codeUnitAt(6)}${createdAt.toString().codeUnitAt(6)}${moneyGoal.formatIntToSixDigits}";
 
   const Project({
     required this.createdAt,
@@ -66,9 +67,10 @@ class Project{
   }
 
   factory Project.fromMap(Map<String, dynamic> mapArg){
+    if(mapArg == {}) throw Exception("failed to convert, $mapArg.fromMap");
     return Project(
-      createdAt: mapArg[ProjectTableColumn.CREATED_AT.name] as Timestamp,
-      createdBy: mapArg[ProjectTableColumn.CREATED_BY.name] as DocumentReference,
+      createdAt: mapArg[ProjectTableColumn.CREATED_AT.name],
+      createdBy: mapArg[ProjectTableColumn.CREATED_BY.name],
       admins: List<DocumentReference>.from(mapArg[ProjectTableColumn.ADMINS.name] ?? []),
       members: List<DocumentReference>.from(mapArg[ProjectTableColumn.MEMBERS.name] ?? []),
       donaters: List<DocumentReference>.from(mapArg[ProjectTableColumn.DONATERS.name] ?? []),
