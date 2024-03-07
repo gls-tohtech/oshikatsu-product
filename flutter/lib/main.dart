@@ -9,6 +9,7 @@ import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
+import 'package:oshikatsu_product/screens/pages/submitUI.dart';
 import 'package:oshikatsu_product/screens/pages/supportUI.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _pages = [
     HomePage(),
     SPSucecssPopupComponent(),
-    SupportUI(),
+    SubmitUI(),
     Text("profile"),
   ];
 

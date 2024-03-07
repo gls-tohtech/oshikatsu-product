@@ -18,12 +18,17 @@ class ProjectImageUploader{
   
 
   Future<File?> _pickImageFromLocal() async {
-    final pickerFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(pickerFile == null) return null;
+    try{
+      final pickerFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(pickerFile == null) return null;
 
-    File file = File(pickerFile.path);
+      File file = File(pickerFile.path);
 
-    return file;
+      return file;
+    }
+    catch(e){
+      return null;
+    }
   }
 }
 
