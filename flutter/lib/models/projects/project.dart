@@ -32,7 +32,7 @@ class Project{
   final int moneyGoal;
   final int moneyDonated;
 
-  String get projectId => "${title.codeUnitAt(6)}${discription.codeUnitAt(6)}${createdAt.toString().codeUnitAt(6)}${moneyGoal.formatIntToSixDigits}";
+  String get projectId => "${((title + discription).hashCode.formatIntToAnyDigits(16))}${createdAt.toString().hashCode.formatIntToAnyDigits(8)}${moneyGoal.formatIntToAnyDigits(8)}";
 
   const Project({
     required this.createdAt,
