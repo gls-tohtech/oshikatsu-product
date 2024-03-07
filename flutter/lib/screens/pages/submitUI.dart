@@ -3,10 +3,6 @@ import 'package:oshikatsu_product/controllers/projectController.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
-void main() {
-  runApp(MaterialApp(home: SubmitUI()));
-}
-
 class SubmitUI extends StatefulWidget {
   const SubmitUI({Key? key}) : super(key: key);
 
@@ -30,6 +26,7 @@ class _SubmitUIState extends State<SubmitUI> {
       lastDate: DateTime(2025),
     );
     if (pickedDate != null) {
+      // ignore: use_build_context_synchronously
       final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
         initialTime: _selectedTime ?? TimeOfDay.now(),
@@ -90,8 +87,6 @@ class _SubmitUIState extends State<SubmitUI> {
                       setState(() {
                         _imageUrl = result;
                       });
-
-                      print("$_imageUrl");
                     },
                   ),
                 ),
@@ -108,8 +103,8 @@ class _SubmitUIState extends State<SubmitUI> {
                   ),
                 ),
                 const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
-                TextField(
-                  decoration: const InputDecoration(
+                const TextField(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'タイトルを入力', // ユーザーがテキストフィールドに何を入力すべきか示すラベル
                   ),
@@ -126,9 +121,9 @@ class _SubmitUIState extends State<SubmitUI> {
                   ),
                 ),
                 const SizedBox(height: 8), // constを追加
-                TextField(
+                const TextField(
                   maxLines: 4,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: '広告の説明',
                   ),
@@ -140,9 +135,9 @@ class _SubmitUIState extends State<SubmitUI> {
                 ),
                 Row(
                   children: <Widget>[
-                    Expanded(
+                    const Expanded(
                       flex: 2,
-                      child: const Text(
+                      child: Text(
                         '目標金額',
                         style: TextStyle(
                           fontSize: 16.0,
@@ -152,7 +147,7 @@ class _SubmitUIState extends State<SubmitUI> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: Container(
+                      child: SizedBox(
                         height: 40.0, // ここでコンテナの高さを設定
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -182,18 +177,16 @@ class _SubmitUIState extends State<SubmitUI> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           '期限',
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          child: RadiusTextComponent("期限を選択",
-                              widthRaio: 0.3,
-                              textTapped: () => _pickDateTime(context)),
-                        ),
+                        RadiusTextComponent("期限を選択",
+                            widthRaio: 0.3,
+                            textTapped: () => _pickDateTime(context)),
                       ],
                     ),
                     Padding(
@@ -201,11 +194,11 @@ class _SubmitUIState extends State<SubmitUI> {
                       child: _selectedDate != null && _selectedTime != null
                           ? Text(
                               '期限日時: ${_selectedDate!.year}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.day.toString().padLeft(2, '0')} ${_selectedTime!.hour.toString().padLeft(2, '0')}:${_selectedTime!.minute.toString().padLeft(2, '0')}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                               ),
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       // 条件に合わない場合は何も表示しない
                     ),
                   ],
@@ -217,9 +210,9 @@ class _SubmitUIState extends State<SubmitUI> {
                 ),
                 Row(
                   children: <Widget>[
-                    Expanded(
+                    const Expanded(
                       flex: 2,
-                      child: const Text(
+                      child: Text(
                         '掲載場所',
                         style: TextStyle(
                           fontSize: 16.0,
@@ -229,7 +222,7 @@ class _SubmitUIState extends State<SubmitUI> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: Container(
+                      child: SizedBox(
                         height: 40.0, // ここでコンテナの高さを設定
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -251,9 +244,9 @@ class _SubmitUIState extends State<SubmitUI> {
                 ),
                 Row(
                   children: <Widget>[
-                    Expanded(
+                    const Expanded(
                       flex: 2,
-                      child: const Text(
+                      child: Text(
                         'ハッシュタグ',
                         style: TextStyle(
                           fontSize: 16.0,
@@ -263,7 +256,7 @@ class _SubmitUIState extends State<SubmitUI> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: Container(
+                      child: SizedBox(
                         height: 40.0, // ここでコンテナの高さを設定
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -300,11 +293,11 @@ class _SubmitUIState extends State<SubmitUI> {
                     Row(
                       children: [
                         RadiusTextComponent('お金'),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         RadiusTextComponent('素材'),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         RadiusTextComponent(
@@ -319,9 +312,9 @@ class _SubmitUIState extends State<SubmitUI> {
                   color: Colors.grey,
                   thickness: 1,
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: const Text(
+                  child: Text(
                     "共同制作部屋の作成", // 見出しテキスト
                     style: TextStyle(
                       fontSize: 22, // フォントサイズを適宜調整
@@ -341,7 +334,7 @@ class _SubmitUIState extends State<SubmitUI> {
                   ),
                 ),
                 const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
-                Container(
+                SizedBox(
                   height: 40.0, // ここでコンテナの高さを設定
                   child: TextFormField(
                     decoration: const InputDecoration(
@@ -368,7 +361,7 @@ class _SubmitUIState extends State<SubmitUI> {
                 const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
+                  child: SizedBox(
                     width: 200,
                     height: 40.0, // ここでコンテナの高さを設定
                     child: TextFormField(
@@ -396,7 +389,7 @@ class _SubmitUIState extends State<SubmitUI> {
                 const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
+                  child: SizedBox(
                     width: 200,
                     height: 40.0, // ここでコンテナの高さを設定
                     child: TextFormField(
@@ -419,19 +412,6 @@ class _SubmitUIState extends State<SubmitUI> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildButton(BuildContext context, String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: ElevatedButton(
-        onPressed: () {
-          // ボタンが押された時のアクションをここに書く
-          print('$label button pressed');
-        },
-        child: Text(label),
       ),
     );
   }
