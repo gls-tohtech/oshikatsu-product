@@ -529,7 +529,9 @@ class _SubmitUIState extends State<SubmitUI> {
                       widthRatio: 0.7,
                       textTapped: () {
                         _submitButtonTapped();
-                        _isShowSuccessPopup = !_isShowSuccessPopup;
+                        setState(() {
+                          _isShowSuccessPopup = !_isShowSuccessPopup;
+                        });
                       },
                     ),
                     // StandartPaddingComponent(),
