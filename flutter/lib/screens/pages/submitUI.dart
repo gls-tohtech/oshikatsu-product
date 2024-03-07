@@ -185,7 +185,7 @@ class _SubmitUIState extends State<SubmitUI> {
                           ),
                         ),
                         RadiusTextComponent("期限を選択",
-                            widthRaio: 0.3,
+                            widthRatio: 0.3,
                             textTapped: () => _pickDateTime(context)),
                       ],
                     ),
@@ -302,7 +302,7 @@ class _SubmitUIState extends State<SubmitUI> {
                         ),
                         RadiusTextComponent(
                           'クリエイター',
-                          widthRaio: 0.3,
+                          widthRatio: 0.3,
                         ),
                       ],
                     )
@@ -406,7 +406,7 @@ class _SubmitUIState extends State<SubmitUI> {
                 const SizedBox(height: 20), // constを追加
                 RadiusTextComponent(
                   '投稿する',
-                  widthRaio: 0.7,
+                  widthRatio: 0.7,
                 )
               ],
             ),
