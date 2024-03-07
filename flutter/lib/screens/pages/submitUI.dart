@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/controllers/projectController.dart';
+import 'package:oshikatsu_product/controllers/roomController.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/models/projects/projectStore.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
+import 'package:oshikatsu_product/widgets/termOfService.dart';
 
 class SubmitUI extends StatefulWidget {
   const SubmitUI({Key? key}) : super(key: key);
@@ -13,31 +19,112 @@ class SubmitUI extends StatefulWidget {
 class _SubmitUIState extends State<SubmitUI> {
   final TextEditingController _amountController = TextEditingController();
   int _selectedValue = 1000;
+  String _selectedPlatform = "X";
   DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
 
+  TextEditingController _title = TextEditingController();
+  TextEditingController _discription = TextEditingController();
   String _imageUrl = "";
+  TextEditingController _moneyGoal = TextEditingController();
+  TextEditingController _roomName = TextEditingController();
+
+  void _submitButtonTapped(){
+    _uploadProject();
+  }
+
+  void _uploadProject() async {
+    final userController = UserController();
+    final registry = ProjectRegistry();
+
+    bool isExcuteable = await _checkDecided();
+    if(!isExcuteable) return;
+
+    final project = Project(
+      createdAt: Timestamp.now(), 
+      createdBy: userController.userRef, 
+      admins: [], 
+      members: [], 
+      donaters: [], 
+      title: _title.text, 
+      discription: _discription.text, 
+      deadline: Timestamp.fromDate(_selectedDate!), 
+      hashtags: [], 
+      thumbnailUrl: _imageUrl, 
+      moneyGoal: int.tryParse(_moneyGoal.text) ?? 0, 
+      moneyDonated: 0
+    );
+
+    registry.add(newProjectData: project);
+
+    _createRoom();
+  }
+
+  void _createRoom() async {
+    final userController = UserController();
+    final roomController = RoomController();
+    roomController.createGroupRoom(_roomName.text, [userController.uid!]);
+  }
 
   Future<void> _pickDateTime(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(2024),
+      lastDate: DateTime(2026),
     );
-    if (pickedDate != null) {
-      // ignore: use_build_context_synchronously
-      final TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: _selectedTime ?? TimeOfDay.now(),
-      );
-      if (pickedTime != null) {
-        setState(() {
-          _selectedDate = pickedDate;
-          _selectedTime = pickedTime;
-        });
-      }
+
+    if(pickedDate == null) return;
+    
+    setState(() {
+      _selectedDate = pickedDate;
+    });
+  }
+
+  Future<bool> _checkDecided() async {
+    if(_title.text == "") {
+      _showWarnDialog("タイトル");
+      return false;
     }
+    if(_moneyGoal.text == ""){
+      _showWarnDialog("目標金額");
+      return false;
+    }
+    if(_selectedDate == null) {
+      _showWarnDialog("期限日時");
+      return false;
+    }
+    if(_roomName.text == "") {
+      _showWarnDialog("共同制作部屋の名前");
+      return false;
+    }
+    return true;
+  }
+
+  void _showWarnDialog(String unDecidedColumn){
+    showDialog(
+      context: context, 
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 25),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.warning,
+                    size: 75,
+                  ),
+                  StandartPaddingComponent(),
+                  Text("$unDecidedColumnを"),
+                  const Text("入力してください"),
+                ],
+              )
+            ),
+          ),
+          elevation: 8,
+        );
+      }
+    );
   }
 
   @override
@@ -48,12 +135,9 @@ class _SubmitUIState extends State<SubmitUI> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Submit Page"), // constを追加
-      ),
       body: SingleChildScrollView(
-        // SingleChildScrollViewを追加
         child: Center(
           child: Container(
             padding: const EdgeInsets.all(8.0), // constを追加
@@ -75,12 +159,15 @@ class _SubmitUIState extends State<SubmitUI> {
                   color: Colors.grey,
                   thickness: 1,
                 ),
-                const SizedBox(height: 20), // constを追加
-                Container(
-                  padding: const EdgeInsets.all(8.0), // constを追加
-                  child: RadiusTextComponent(
-                    "追加",
-                    textTapped: () async {
+                StandartPaddingComponent(),
+                _imageUrl != ""
+                  ? ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(_imageUrl),
+                  )
+                  : InkWell(
+                    radius: 8,
+                    onTap: () async {
                       ProjectController projectController = ProjectController();
                       final result =
                           await projectController.pickImageAndUpload();
@@ -88,9 +175,22 @@ class _SubmitUIState extends State<SubmitUI> {
                         _imageUrl = result;
                       });
                     },
-                  ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1
+                        )
+                      ),
+                      height: 180,
+                      width: double.infinity,
+                      child: const Icon(
+                        Icons.image_search,
+                        size: 100,
+                      )
+                    ),
                 ),
-                Image.network(_imageUrl),
                 const SizedBox(height: 20), // constを追加
                 Container(
                   alignment: Alignment.centerLeft,
@@ -103,8 +203,9 @@ class _SubmitUIState extends State<SubmitUI> {
                   ),
                 ),
                 const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  controller: _title,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'タイトルを入力', // ユーザーがテキストフィールドに何を入力すべきか示すラベル
                   ),
@@ -121,9 +222,10 @@ class _SubmitUIState extends State<SubmitUI> {
                   ),
                 ),
                 const SizedBox(height: 8), // constを追加
-                const TextField(
+                TextField(
+                  controller: _discription,
                   maxLines: 4,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: '広告の説明',
                   ),
@@ -150,10 +252,12 @@ class _SubmitUIState extends State<SubmitUI> {
                       child: SizedBox(
                         height: 40.0, // ここでコンテナの高さを設定
                         child: TextFormField(
+                          controller: _moneyGoal,
                           decoration: const InputDecoration(
                             isDense: true, // 追加：フィールドの密度を高くする
                             contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                              vertical: 10.0, horizontal: 8.0
+                            ), // 上下のパディングを調整
                             border: OutlineInputBorder(),
                             hintText: '金額を入力',
                             suffixText: '円',
@@ -191,9 +295,9 @@ class _SubmitUIState extends State<SubmitUI> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: _selectedDate != null && _selectedTime != null
+                      child: _selectedDate != null 
                           ? Text(
-                              '期限日時: ${_selectedDate!.year}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.day.toString().padLeft(2, '0')} ${_selectedTime!.hour.toString().padLeft(2, '0')}:${_selectedTime!.minute.toString().padLeft(2, '0')}',
+                              '期限日時: ${_selectedDate!.year}年 ${_selectedDate!.month.toString().padLeft(2, '0')}月 ${_selectedDate!.day.toString().padLeft(2, '0')}日',
                               style: const TextStyle(
                                 fontSize: 16.0,
                               ),
@@ -221,18 +325,30 @@ class _SubmitUIState extends State<SubmitUI> {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 1,
                       child: SizedBox(
                         height: 40.0, // ここでコンテナの高さを設定
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            isDense: true, // 追加：フィールドの密度を高くする
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
-                            border: OutlineInputBorder(),
-                            hintText: '掲載場所',
-                          ),
-                          keyboardType: TextInputType.number,
+                        child: DropdownButton(
+                          items: const[
+                            DropdownMenuItem(
+                              child: Text("X"),
+                              value: "X",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("Instagram"),
+                              value: "Instagram"
+                            ),
+                            DropdownMenuItem(
+                              child: Text("facebook"),
+                              value: "facebook",
+                            ),
+                          ], 
+                          value: _selectedPlatform,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedPlatform = value!;
+                            });
+                          },
                         ),
                       ),
                     ),
@@ -266,7 +382,6 @@ class _SubmitUIState extends State<SubmitUI> {
                             border: OutlineInputBorder(),
                             hintText: 'ハッシュタグを追加する',
                           ),
-                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ),
@@ -337,6 +452,7 @@ class _SubmitUIState extends State<SubmitUI> {
                 SizedBox(
                   height: 40.0, // ここでコンテナの高さを設定
                   child: TextFormField(
+                    controller: _roomName,
                     decoration: const InputDecoration(
                       isDense: true, // 追加：フィールドの密度を高くする
                       contentPadding: EdgeInsets.symmetric(
@@ -344,70 +460,78 @@ class _SubmitUIState extends State<SubmitUI> {
                       border: OutlineInputBorder(),
                       hintText: 'グループ名',
                     ),
-                    keyboardType: TextInputType.number,
                   ),
                 ),
-                const SizedBox(height: 15), // 見出しとテキストフィールドの間のスペース
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    "素材提供者の募集人数", // 見出しテキスト
-                    style: TextStyle(
-                      fontSize: 16, // フォントサイズを適宜調整
-                      fontWeight: FontWeight.bold, // フォントを太く
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    width: 200,
-                    height: 40.0, // ここでコンテナの高さを設定
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          isDense: true, // 追加：フィールドの密度を高くする
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
-                          border: OutlineInputBorder(),
-                          suffixText: '人'),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15), // 見出しとテキストフィールドの間のスペース
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    "クリエイターの人数", // 見出しテキスト
-                    style: TextStyle(
-                      fontSize: 16, // フォントサイズを適宜調整
-                      fontWeight: FontWeight.bold, // フォントを太く
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    width: 200,
-                    height: 40.0, // ここでコンテナの高さを設定
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          isDense: true, // 追加：フィールドの密度を高くする
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
-                          border: OutlineInputBorder(),
-                          suffixText: '人'),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ),
+                // const SizedBox(height: 15), // 見出しとテキストフィールドの間のスペース
+                // Container(
+                //   alignment: Alignment.centerLeft,
+                //   child: const Text(
+                //     "素材提供者の募集人数", // 見出しテキスト
+                //     style: TextStyle(
+                //       fontSize: 16, // フォントサイズを適宜調整
+                //       fontWeight: FontWeight.bold, // フォントを太く
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: SizedBox(
+                //     width: 200,
+                //     height: 40.0, // ここでコンテナの高さを設定
+                //     child: TextFormField(
+                //       decoration: const InputDecoration(
+                //           isDense: true, // 追加：フィールドの密度を高くする
+                //           contentPadding: EdgeInsets.symmetric(
+                //               vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                //           border: OutlineInputBorder(),
+                //           suffixText: '人'),
+                //       keyboardType: TextInputType.number,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 15), // 見出しとテキストフィールドの間のスペース
+                // Container(
+                //   alignment: Alignment.centerLeft,
+                //   child: const Text(
+                //     "クリエイターの人数", // 見出しテキスト
+                //     style: TextStyle(
+                //       fontSize: 16, // フォントサイズを適宜調整
+                //       fontWeight: FontWeight.bold, // フォントを太く
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 8), // 見出しとテキストフィールドの間のスペース
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: SizedBox(
+                //     width: 200,
+                //     height: 40.0, // ここでコンテナの高さを設定
+                //     child: TextFormField(
+                //       decoration: const InputDecoration(
+                //           isDense: true, // 追加：フィールドの密度を高くする
+                //           contentPadding: EdgeInsets.symmetric(
+                //               vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                //           border: OutlineInputBorder(),
+                //           suffixText: '人'),
+                //       keyboardType: TextInputType.number,
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20), // constを追加
                 RadiusTextComponent(
                   '投稿する',
                   widthRatio: 0.7,
-                )
+                  textTapped: () {
+                    _submitButtonTapped();
+                  },
+                ),
+                // StandartPaddingComponent(),
+                // const Divider(
+                //   color: Colors.grey,
+                //   thickness: 1,
+                // ),
+                // TermOfServiceComponent()
               ],
             ),
           ),
