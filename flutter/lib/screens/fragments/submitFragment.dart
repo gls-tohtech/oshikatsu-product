@@ -11,14 +11,14 @@ import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'package:oshikatsu_product/widgets/submitSuccessPopup.dart';
 import 'package:oshikatsu_product/widgets/termOfService.dart';
 
-class SubmitUI extends StatefulWidget {
-  const SubmitUI({Key? key}) : super(key: key);
+class SubmitFragment extends StatefulWidget {
+  const SubmitFragment({Key? key}) : super(key: key);
 
   @override
-  State<SubmitUI> createState() => _SubmitUIState();
+  State<SubmitFragment> createState() => _SubmitFragmentState();
 }
 
-class _SubmitUIState extends State<SubmitUI> {
+class _SubmitFragmentState extends State<SubmitFragment> {
   final TextEditingController _amountController = TextEditingController();
   int _selectedValue = 1000;
   String _selectedPlatform = "X";
