@@ -6,6 +6,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final projectsRef = firestore.collection(PROJECTS_TABLE_COLLECTION_NAME);
 
 final projectStreamProvider = StreamProvider.autoDispose.family((ref, String projectId){
+  print("$projectId");
   final projectsSnapshot = projectsRef.doc(projectId).snapshots();
   final project = 
     projectsSnapshot.map((snapshot) => 

@@ -27,7 +27,7 @@ class UserProfile{
         gender: mapArg[UserTableColumn.GENDER.name],
         iconImageUrl: mapArg[UserTableColumn.ICON_IMAGE_URL.name],
         biography: mapArg[UserTableColumn.BIOGRAPHY.name],
-        relatedProjects: mapArg[UserTableColumn.RELATED_PROJECTS.name] ?? []
+        relatedProjects: List<DocumentReference>.from(mapArg[UserTableColumn.RELATED_PROJECTS.name] ?? [])
       );
   }
 
