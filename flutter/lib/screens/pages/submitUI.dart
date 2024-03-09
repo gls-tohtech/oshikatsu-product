@@ -60,6 +60,10 @@ class _SubmitUIState extends State<SubmitUI> {
     registry.add(newProjectData: project);
 
     _createRoom();
+
+    setState(() {
+      _isShowSuccessPopup = !_isShowSuccessPopup;
+    });
   }
 
   void _createRoom() async {
@@ -529,9 +533,6 @@ class _SubmitUIState extends State<SubmitUI> {
                       widthRatio: 0.7,
                       textTapped: () {
                         _submitButtonTapped();
-                        setState(() {
-                          _isShowSuccessPopup = !_isShowSuccessPopup;
-                        });
                       },
                     ),
                     // StandartPaddingComponent(),
