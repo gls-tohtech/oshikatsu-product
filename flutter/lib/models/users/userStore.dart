@@ -65,4 +65,10 @@ class UserDataFetcher{
       mapArg: fetchedUser.data() ?? {}
     );
   }
+
+  Future<UserProfile> fetchUserProfileFromRef({required DocumentReference userRef}) async {
+    final userSnapshot = await userRef.get();
+    final userData = userSnapshot.data() as Map<String, dynamic>;
+    return UserProfile.fromMap(userData);
+  }
 }
