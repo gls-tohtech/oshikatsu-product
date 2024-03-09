@@ -54,7 +54,7 @@ class ProjectDetailFragment extends StatelessWidget{
                   ),
                   Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),
                   ProjectDetailBottomInfoComponent(
-                    creater: _project.createdBy.toString(), 
+                    createrRef: _project.createdBy, 
                     platform: "", 
                     deadLine: _project.deadline
                   ),
