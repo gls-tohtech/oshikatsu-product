@@ -1,0 +1,19 @@
+{
+  "name": "PROJECT_IMAGE_STORAGE/14600000-File: datauser0com.example.oshikatsu_productcache55ac3d72-a952-414f-a498-3f66c77cba3d1000000033.png",
+  "bucket": "oshikatsu-dev-8bb0d.appspot.com",
+  "metageneration": 1,
+  "generation": 1709821798532,
+  "contentType": "application/octet-stream",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "7acde2b9-1bd7-429a-9c07-d7db17a315b4"
+  ],
+  "etag": "vLpyCxFNFloTbzOS6VIgLL8eg5Y",
+  "customMetadata": {},
+  "timeCreated": "2024-03-07T14:29:58.532Z",
+  "updated": "2024-03-07T14:29:58.532Z",
+  "size": 3963611,
+  "md5Hash": "7hIJRqSPcCOA7VVQy32HXA==",
+  "crc32c": "953200811"
+}
