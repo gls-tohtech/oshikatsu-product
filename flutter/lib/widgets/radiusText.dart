@@ -8,18 +8,18 @@ class RadiusTextComponent extends StatelessWidget {
   late final double _widthRaio;
   late final double _widthFactorRatio;
 
-  RadiusTextComponent(
-    String text, {
-    Alignment? alignment,
-    Function()? textTapped,
-    double? widthRatio,
-    double? widthFactorRatio
-  }){
+  RadiusTextComponent(String text,
+      {Alignment? alignment,
+      Function()? textTapped,
+      double? widthRatio,
+      double? widthFactorRatio}) {
     _text = text;
     alignment != null ? _alignment = alignment : _alignment = Alignment.center;
     textTapped != null ? _textTapped = textTapped : _textTapped = (() => {});
     widthRatio != null ? _widthRaio = widthRatio : _widthRaio = 0.2;
-    widthFactorRatio != null ? _widthFactorRatio = widthFactorRatio : _widthFactorRatio = 1;
+    widthFactorRatio != null
+        ? _widthFactorRatio = widthFactorRatio
+        : _widthFactorRatio = 1;
   }
 
   @override

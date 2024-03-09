@@ -15,9 +15,7 @@ import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   try {
     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8088);
@@ -66,19 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
     Text("profile"),
   ];
 
-  void initState(){
-    final _userController = UserController(); 
+  void initState() {
+    final _userController = UserController();
 
-    var userAuthInfo = UserAuthInfo(
-        "nenireru@gmail.com", 
-        "qwertyuiop"
-    );
+    var userAuthInfo = UserAuthInfo("nenireru@gmail.com", "qwertyuiop");
 
     _userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
     super.initState();
   }
 
-  void _onItemTapped(int indexArg){
+  void _onItemTapped(int indexArg) {
     setState(() {
       _currentPageIndex = indexArg;
     });
