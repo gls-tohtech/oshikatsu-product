@@ -17,13 +17,27 @@ class ProjectListItemImgComponent extends StatelessWidget{
           ? Image.network(
             _imageUrl,
             width: size.width * 0.48,
+            errorBuilder: (c, o, s) {
+              print("error = $c $o $s");
+              return SizedBox(
+                width: size.width * 0.48,
+                height: size.height * 0.14,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.2, vertical: size.height * 0.05),
+                  child: const Icon(
+                    Icons.error,
+                    color: Colors.red,
+                 ),
+                )
+              );
+            },
           )
           : SizedBox(
             width: size.width * 0.48,
             height: size.height * 0.14,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.2, vertical: size.height * 0.05),
-              child: const CircularProgressIndicator(),
+              child: const Icon(Icons.image),
             )
           )
       ),
