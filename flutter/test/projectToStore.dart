@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/models/projects/projectStorage.dart';
 import 'package:oshikatsu_product/models/projects/projectStore.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 
@@ -17,14 +18,15 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform
   );
 
-  try {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8088);
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-  } catch (e) {
-    // ignore: avoid_print
-    print(e);
-  }
+  // try {
+  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8088);
+  //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  //   FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  // } catch (e) {
+  //   // ignore: avoid_print
+  //   print(e);
+  // }
+
   test("project-store", () async {
     final userController = UserController(); 
 
@@ -34,6 +36,11 @@ void main() async {
     );
 
     await userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
+
+    expect(userController.isLogin, true);
+
+    // final uploader = ProjectImageUploader();
+    // await uploader.uploadImageAndFetchUrl();
 
     final project1 = Project(
       createdAt: Timestamp.now(), 
@@ -45,10 +52,11 @@ void main() async {
       discription: "このプロジェクトは芦田愛菜さんを応援するものです。", 
       deadline: Timestamp.fromDate(DateTime(2042, 11, 18)), 
       hashtags: ["idol", "cute"], 
-      thumbnailUrl: "https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2F2024-01-13_12.07.43.png?alt=media&token=321335a6-2246-46c1-857b-6d95e08abcf9", 
+      thumbnailUrl: "", 
       moneyGoal: 100000,
       moneyDonated: 50000
     );
+
 
     final project2 = Project(
       createdAt: Timestamp.now(), 
