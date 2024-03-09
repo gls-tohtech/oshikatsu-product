@@ -89,9 +89,14 @@ class UserInformationSection extends StatelessWidget {
             children: <Widget>[
               CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(userProfile.name), // 仮の画像URL
+                child:  userProfile.iconImageUrl != ""
+                  ? Image.network(userProfile.iconImageUrl)
+                  : const Icon(
+                    Icons.person,
+                    size: 40,
+                  ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 30),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +104,7 @@ class UserInformationSection extends StatelessWidget {
                     Text(userProfile.name,
                       style: Theme.of(context).textTheme.headline6
                     ),
-                    Text(userProfile.biography),
+                    if(userProfile.biography != "") Text(userProfile.biography),
                   ],
                 ),
               ),
