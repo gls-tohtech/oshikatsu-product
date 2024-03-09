@@ -48,10 +48,10 @@ void main() async {
       admins: [userController.userRef], 
       members: [], 
       donaters: [], 
-      title: "芦田愛菜応援会", 
+      title: "芦田愛菜応援会",
       discription: "このプロジェクトは芦田愛菜さんを応援するものです。", 
       deadline: Timestamp.fromDate(DateTime(2042, 11, 18)), 
-      hashtags: ["idol", "cute"], 
+      hashtags: ["idol", "cute"],
       thumbnailUrl: "", 
       moneyGoal: 100000,
       moneyDonated: 50000
