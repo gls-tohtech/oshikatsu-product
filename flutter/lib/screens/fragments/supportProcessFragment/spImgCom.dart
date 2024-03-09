@@ -12,12 +12,38 @@ class SPImgComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
-    return ClipRRect( 
-      borderRadius: BorderRadius.circular(16),
-      child: Image.network(
+    return _imageUrl != ""
+      ? Image.network(
         _imageUrl,
-        width : size.width * 0.9,
-      ),
+        width: size.width,
+        errorBuilder: (c, o, s) {
+          print("error = $c $o $s");
+          return SizedBox(
+            width: size.width,
+            height: size.height * 0.2,
+            child: const Center(
+              child: Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
+            ),
+          );
+        },
+      )
+      : Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: Colors.grey,
+            width: 1
+          )
+        ),
+        height: 180,
+        width: double.infinity,
+        child: const Icon(
+          Icons.image,
+          size: 100,
+        ),
     );
   }
 }
