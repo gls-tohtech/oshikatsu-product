@@ -21,36 +21,42 @@ class UserProfileLabelComponent extends StatelessWidget {
     return FutureBuilder(
       future: _fetcher.fetchUserProfileFromRef(userRef: userRef), 
       builder: (context, snapshot) {
-        return InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) {
-                return UserProfileComponent(userProfile: snapshot.data!);
-              }
-            ));
-          },
-          child: SizedBox(
-            height: size.height * 0.05,
-            width: size.width * widthRatio,
-            child: Row(
-              children: [
-                CircleAvatar(
-                  child:  snapshot.data!.iconImageUrl != ""
-                    ? Image.network(snapshot.data!.iconImageUrl)
-                    : const Icon(Icons.person),
-                ),
-                SizedBox(width: size.width * 0.01,),
-                FittedBox(
-                  child: Text(
-                    snapshot.data!.name,
-                    style: const TextStyle(fontSize: 240),
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator()); // ローディング表示
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('エラーが発生しました')); // エラーハンドリング
+        } else {
+          return InkWell(
+            borderRadius: BorderRadius.circular(8),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) {
+                  return UserProfileComponent(userProfile: snapshot.data!);
+                }
+              ));
+            },
+            child: SizedBox(
+              height: size.height * 0.05,
+              width: size.width * widthRatio,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    child:  snapshot.data!.iconImageUrl != ""
+                      ? Image.network(snapshot.data!.iconImageUrl)
+                      : const Icon(Icons.person),
                   ),
-                )
-              ],
-            ),   
-          ),
-        );
+                  SizedBox(width: size.width * 0.01,),
+                  FittedBox(
+                    child: Text(
+                      snapshot.data!.name,
+                      style: const TextStyle(fontSize: 240),
+                    ),
+                  )
+                ],
+              ),   
+            ),
+          ); // データ表示
+        }
       }
     );
   }

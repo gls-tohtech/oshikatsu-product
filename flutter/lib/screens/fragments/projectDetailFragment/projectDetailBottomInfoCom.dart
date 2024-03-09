@@ -57,7 +57,9 @@ class ProjectDetailBottomInfoComponent extends StatelessWidget{
                 "作成者",
               ),
             ),
-            UserProfileLabelComponent(userRef: _createrRef, widthRatio: 0.5)
+            SizedBox(
+              child: UserProfileLabelComponent(userRef: _createrRef, widthRatio: 0.5)
+            ),
           ],
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
