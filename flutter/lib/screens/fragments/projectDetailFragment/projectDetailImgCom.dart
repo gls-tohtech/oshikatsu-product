@@ -11,9 +11,25 @@ class ProjectDetailImgComponent extends StatelessWidget{
     final Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        Image.network(
-          _imageUrl,
-          width: size.width,
+        _imageUrl != ""
+          ? Image.network(
+            _imageUrl,
+            width: size.width,
+          )
+          : Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: Colors.grey,
+                width: 1
+              )
+            ),
+            height: 180,
+            width: double.infinity,
+            child: const Icon(
+              Icons.image,
+              size: 100,
+            ),
         ),
         Align(
           alignment: Alignment.centerRight,
