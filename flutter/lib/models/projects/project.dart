@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oshikatsu_product/utils/formatIntToSixDigits.dart';
 
 const PROJECTS_TABLE_COLLECTION_NAME = "projects";
 
@@ -31,7 +32,7 @@ class Project{
   final int moneyGoal;
   final int moneyDonated;
 
-  String get projectId => "$createdBy-$title-$createdAt";
+  String get projectId => "${((title + discription).hashCode.formatIntToAnyDigits(16))}${createdAt.toString().hashCode.formatIntToAnyDigits(8)}${moneyGoal.formatIntToAnyDigits(8)}";
 
   const Project({
     required this.createdAt,
@@ -66,19 +67,20 @@ class Project{
   }
 
   factory Project.fromMap(Map<String, dynamic> mapArg){
+    if(mapArg == {}) throw Exception("failed to convert, $mapArg.fromMap");
     return Project(
-      createdAt: mapArg[ProjectTableColumn.CREATED_AT.name] as Timestamp,
-      createdBy: mapArg[ProjectTableColumn.CREATED_BY.name] as DocumentReference,
-      admins: List<DocumentReference>.from(mapArg[ProjectTableColumn.ADMINS.name] as List),
-      members: List<DocumentReference>.from(mapArg[ProjectTableColumn.MEMBERS.name] as List),
-      donaters: List<DocumentReference>.from(mapArg[ProjectTableColumn.DONATERS.name] as List),
-      title: mapArg[ProjectTableColumn.TITLE.name] as String,
-      discription: mapArg[ProjectTableColumn.DISCRIPTION.name] as String,
+      createdAt: mapArg[ProjectTableColumn.CREATED_AT.name],
+      createdBy: mapArg[ProjectTableColumn.CREATED_BY.name],
+      admins: List<DocumentReference>.from(mapArg[ProjectTableColumn.ADMINS.name] ?? []),
+      members: List<DocumentReference>.from(mapArg[ProjectTableColumn.MEMBERS.name] ?? []),
+      donaters: List<DocumentReference>.from(mapArg[ProjectTableColumn.DONATERS.name] ?? []),
+      title: mapArg[ProjectTableColumn.TITLE.name]  ?? "",
+      discription: mapArg[ProjectTableColumn.DISCRIPTION.name]  ?? "",
       deadline: mapArg[ProjectTableColumn.DEADLINE.name] as Timestamp,
-      hashtags: List<String>.from(mapArg[ProjectTableColumn.HASHTAGS.name] as List),
-      thumbnailUrl: mapArg[ProjectTableColumn.THUMBNAIL_URL.name] as String,
-      moneyGoal: mapArg[ProjectTableColumn.MONEY_GOAL.name] as int,
-      moneyDonated: mapArg[ProjectTableColumn.MONEY_DONATED.name] as int,
+      hashtags: List<String>.from(mapArg[ProjectTableColumn.HASHTAGS.name] ?? []),
+      thumbnailUrl: mapArg[ProjectTableColumn.THUMBNAIL_URL.name] ?? "",
+      moneyGoal: mapArg[ProjectTableColumn.MONEY_GOAL.name] ?? 65536,
+      moneyDonated: mapArg[ProjectTableColumn.MONEY_DONATED.name] ?? 0,
     );
   }
 }

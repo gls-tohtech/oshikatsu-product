@@ -9,16 +9,17 @@ import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
+import 'package:oshikatsu_product/screens/pages/myPageUI.dart';
+import 'package:oshikatsu_product/screens/pages/submitUI.dart';
+import 'package:oshikatsu_product/screens/pages/supportUI.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   try {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8088);
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   } catch (e) {
@@ -36,16 +37,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-      child:  MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: const MyHomePage(),
-      )
-    );
+        child: MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const MyHomePage(),
+    ));
   }
 }
 
@@ -61,24 +61,20 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _pages = [
     HomePage(),
     SPSucecssPopupComponent(),
-    Text("submit"),
-    RoomsPage(),
-    Text("profile"),
+    SubmitUI(),
+    MyPageUI()
   ];
 
-  void initState(){
-    final _userController = UserController(); 
+  void initState() {
+    final _userController = UserController();
 
-    var userAuthInfo = UserAuthInfo(
-        "nenireru@gmail.com", 
-        "qwertyuiop"
-    );
+    var userAuthInfo = UserAuthInfo("nenireru@gmail.com", "qwertyuiop");
 
     _userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
     super.initState();
   }
 
-  void _onItemTapped(int indexArg){
+  void _onItemTapped(int indexArg) {
     setState(() {
       _currentPageIndex = indexArg;
     });
@@ -97,16 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
             label: "ホーム"
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "検索"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: "投稿"
+            icon: Icon(Icons.hail),
+            label: "みんなの推し広告"
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.campaign),
-            label: "応援広告"
+            label: "応援"
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

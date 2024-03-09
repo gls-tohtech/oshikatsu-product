@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:oshikatsu_product/controllers/UserController.dart';
@@ -14,6 +16,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
+
+  try {
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8088);
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  } catch (e) {
+    // ignore: avoid_print
+    print(e);
+  }
   test("project-store", () async {
     final userController = UserController(); 
 
@@ -22,29 +33,61 @@ void main() async {
         "qwertyuiop"
     );
 
-    userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
+    await userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
 
-    final project = Project(
+    final project1 = Project(
       createdAt: Timestamp.now(), 
       createdBy: userController.userRef,
-      admins: [], 
+      admins: [userController.userRef], 
       members: [], 
       donaters: [], 
-      title: "ここにはプロジェクトタイトル", 
-      discription: "ここにはプロジェクト説明文", 
+      title: "芦田愛菜応援会", 
+      discription: "このプロジェクトは芦田愛菜さんを応援するものです。", 
       deadline: Timestamp.fromDate(DateTime(2042, 11, 18)), 
-      hashtags: ["ここには", "ハッシュタグが", "入ります"], 
+      hashtags: ["idol", "cute"], 
       thumbnailUrl: "https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2F2024-01-13_12.07.43.png?alt=media&token=321335a6-2246-46c1-857b-6d95e08abcf9", 
       moneyGoal: 100000,
       moneyDonated: 50000
     );
 
+    final project2 = Project(
+      createdAt: Timestamp.now(), 
+      createdBy: userController.userRef,
+      admins: [userController.userRef], 
+      members: [], 
+      donaters: [], 
+      title: "POEMを応援したい!", 
+      discription: "POEMを応援したい人集まれ!", 
+      deadline: Timestamp.fromDate(DateTime(2024, 12, 31)), 
+      hashtags: ["idol", "cute"], 
+      thumbnailUrl: "", 
+      moneyGoal: 10000,
+      moneyDonated: 0
+    );
+
+    final project3 = Project(
+      createdAt: Timestamp.now(), 
+      createdBy: userController.userRef,
+      admins: [userController.userRef], 
+      members: [], 
+      donaters: [], 
+      title: "地元アイドル：アイクルガールズ", 
+      discription: "ボランティアアイドルのため、収益なしらしい。。。", 
+      deadline: Timestamp.fromDate(DateTime(2024, 3, 31)), 
+      hashtags: ["idol", "cute"], 
+      thumbnailUrl: "", 
+      moneyGoal: 65535,
+      moneyDonated: 1024
+    );
+
     final ProjectRegistry registry = ProjectRegistry();
-    registry.add(newProjectData: project);
+    registry.add(newProjectData: project1);
+    registry.add(newProjectData: project2);
+    registry.add(newProjectData: project3);
 
     final ProjectDataFetcher fetcher = ProjectDataFetcher();
-    final Project fetchedProject = Project.fromMap(await fetcher.fetch(targetProjectId: project.projectId) ?? {});
+    final Project fetchedProject = Project.fromMap(await fetcher.fetch(targetProjectId: project3.projectId) ?? {});
 
-    expect(fetchedProject.createdBy, project.createdBy);
+    expect(fetchedProject.createdBy, project3.createdBy);
   });
 }
