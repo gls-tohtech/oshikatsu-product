@@ -36,7 +36,26 @@ class SubmitSucecssPopupComponent extends StatelessWidget{
                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                       child: Image.network(imageUrl),
                     )
-                    : Container(),
+                    : Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1
+                      )
+                    ),
+                    height: size.height * 0.15,
+                    width: double.infinity,
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                          Icon(
+                          Icons.check,
+                          size: 50,
+                        ),
+                      ],
+                    )
+                  ),
                   StandartPaddingComponent(),
                   const Text(
                     "投稿が完了しました!",

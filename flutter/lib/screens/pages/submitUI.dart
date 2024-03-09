@@ -178,8 +178,7 @@ class _SubmitUIState extends State<SubmitUI> {
                         radius: 8,
                         onTap: () async {
                           ProjectController projectController = ProjectController();
-                          final result =
-                              await projectController.pickImageAndUpload();
+                          final result = await projectController.pickImageAndUpload();
                           setState(() {
                             _imageUrl = result;
                           });
@@ -194,9 +193,15 @@ class _SubmitUIState extends State<SubmitUI> {
                           ),
                           height: 180,
                           width: double.infinity,
-                          child: const Icon(
-                            Icons.image_search,
-                            size: 100,
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                               Icon(
+                                Icons.image_search,
+                                size: 100,
+                              ),
+                              Text("サムネイルイメージを選択する"),
+                            ],
                           )
                         ),
                     ),
