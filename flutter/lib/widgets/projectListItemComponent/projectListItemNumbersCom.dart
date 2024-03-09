@@ -51,26 +51,28 @@ class ProjectListItemNumberesConponent extends StatelessWidget {
             textScaler: TextScaler.linear(0.9),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 2),
-        //   child: Container(
-        //     width: size.width * 0.15,
-        //     decoration: BoxDecoration(
-        //       border: Border.all(
-        //         color: Colors.black,
-        //         width: 2,
-        //       ),
-        //       borderRadius: BorderRadius.circular(16),
-        //     ),
-        //     child: Text("  $leftValue / $rightValue  "),
-        //   ),
-        // ),
-        RadiusTextComponent(
-          "$leftValue / $rightValue",
-          widthRatio: 0.15,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: Container(
+            width: size.width * 0.15,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Center(
+              child: Text("  $leftValue / $rightValue  "),
+            )
+          ),
         ),
-        const SizedBox(width: 8,),
-        const Text(" 人"),
+        // RadiusTextComponent(
+        //   "$leftValue / $rightValue",
+        //   widthRatio: 0.15,
+        // ),
+        // const SizedBox(width: 8,),
+        // const Text(" 人"),
       ],
     );
   }
