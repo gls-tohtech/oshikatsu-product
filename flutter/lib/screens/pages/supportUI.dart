@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-// 必要なパッケージをimportします。これらはダミーであり、実際のパッケージに置き換えてください。
-// import 'package:oshikatsu_product/controllers/projectController.dart';
-// import 'package:oshikatsu_product/widgets/radiusText.dart';
-// import 'package:oshikatsu_product/widgets/standardPadding.dart';
-
-void main() {
-  runApp(MaterialApp(home: SupportUI()));
-}
+import 'submitUI.dart'; // 必要に応じてパスを調整してください
 
 class SupportUI extends StatefulWidget {
   const SupportUI({Key? key}) : super(key: key);
@@ -15,12 +8,19 @@ class SupportUI extends StatefulWidget {
   State<SupportUI> createState() => _SupportUIState();
 }
 
-class _SupportUIState extends State<SupportUI> {
-  final TextEditingController _amountController = TextEditingController();
+class _SupportUIState extends State<SupportUI>
+    with SingleTickerProviderStateMixin {
+  TabController? _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
 
   @override
   void dispose() {
-    _amountController.dispose();
+    _tabController?.dispose();
     super.dispose();
   }
 
@@ -28,29 +28,53 @@ class _SupportUIState extends State<SupportUI> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Support Page"), // constを追加
+        title: const Text('TabBar'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: '投稿一覧', icon: Icon(Icons.list)),
+            Tab(text: '投稿作成', icon: Icon(Icons.create)),
+          ],
+        ),
       ),
-      body: SingleChildScrollView(
-        // SingleChildScrollViewを追加
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          Itiran(title: '投稿一覧です', icon: Icons.list), // '投稿一覧' タブの内容
+          // 第二のタブの内容はここでは省略し、_handleTabSelectionで処理を行う意図を変更していません。
+          SubmitUI(),
+        ],
+      ),
+    );
+  }
+}
+
+class Itiran extends StatelessWidget {
+  final String title;
+  final IconData icon;
+
+  const Itiran({Key? key, required this.title, required this.icon})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              'assets/image.png', // 画像ファイルへのパス
-              width: 100, // 画像の幅
-              height: 100, // 画像の高さ
-            ),
-            SizedBox(width: 20), // 画像とテキストの間隔
+            Icon(icon, size: 100), // アイコンを使用
+            SizedBox(width: 20),
             Column(
               children: <Widget>[
                 Text(
-                  'タイトル', // 表示したいテキスト
-                  style: TextStyle(fontSize: 24), // テキストのスタイル
+                  title, // プロパティからのタイトルを使用
+                  style: TextStyle(fontSize: 24),
                 ),
                 TextField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'タイトルを入力', // ユーザーがテキストフィールドに何を入力すべきか示すラベル
+                    labelText: 'タイトルを入力',
                   ),
                 ),
               ],
