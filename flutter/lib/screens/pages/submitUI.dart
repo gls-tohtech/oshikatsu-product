@@ -5,6 +5,7 @@ import 'package:oshikatsu_product/controllers/projectController.dart';
 import 'package:oshikatsu_product/controllers/roomController.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/models/projects/projectStore.dart';
+import 'package:oshikatsu_product/widgets/hashtags.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'package:oshikatsu_product/widgets/submitSuccessPopup.dart';
@@ -28,6 +29,9 @@ class _SubmitUIState extends State<SubmitUI> {
   String _imageUrl = "";
   TextEditingController _moneyGoal = TextEditingController();
   TextEditingController _roomName = TextEditingController();
+  TextEditingController _hashtagsController = TextEditingController();
+
+  List<String> _hashtags = [];
 
   bool _isShowSuccessPopup = false;
 
@@ -302,9 +306,11 @@ class _SubmitUIState extends State<SubmitUI> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            RadiusTextComponent("期限を選択",
-                                widthRatio: 0.3,
-                                textTapped: () => _pickDateTime(context)),
+                            RadiusTextComponent(
+                              "期限を選択",
+                              widthRatio: 0.3,
+                              textTapped: () => _pickDateTime(context)
+                            ),
                           ],
                         ),
                         Padding(
@@ -372,33 +378,60 @@ class _SubmitUIState extends State<SubmitUI> {
                       color: Colors.grey,
                       thickness: 1,
                     ),
-                    Row(
-                      children: <Widget>[
-                        const Expanded(
-                          flex: 2,
-                          child: Text(
-                            'ハッシュタグ',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: SizedBox(
-                            height: 40.0, // ここでコンテナの高さを設定
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                isDense: true, // 追加：フィールドの密度を高くする
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
-                                border: OutlineInputBorder(),
-                                hintText: 'ハッシュタグを追加する',
+                    Column(
+                      children: [
+                        Row(
+                          children: <Widget>[
+                            const Expanded(
+                              flex: 2,
+                              child: Text(
+                                'ハッシュタグ',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(
+                                height: 40.0, // ここでコンテナの高さを設定
+                                child: TextFormField(
+                                  controller: _hashtagsController,
+                                  decoration: const InputDecoration(
+                                    isDense: true, // 追加：フィールドの密度を高くする
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 8.0), // 上下のパディングを調整
+                                    border: OutlineInputBorder(),
+                                    hintText: 'ハッシュタグを追加する',
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: SizedBox(
+                                height: 40.0, // ここでコンテナの高さを設定
+                                child: RadiusTextComponent(
+                                  "追加",
+                                  textTapped: () {
+                                    setState(() {
+                                      String hashtag = _hashtagsController.text;
+                                      if(hashtag == "") return; 
+                                      _hashtags.add(hashtag);
+                                      _hashtagsController.text = "";
+                                    });
+                                  },
+                                )
+                              ),
+                            ),
+                          ],
                         ),
+                        StandartPaddingComponent(),
+                        HashtagsComponent(hashtags: _hashtags)
                       ],
                     ),
                     const Divider(

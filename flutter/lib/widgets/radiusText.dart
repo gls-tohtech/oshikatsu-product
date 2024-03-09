@@ -25,34 +25,38 @@ class RadiusTextComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final customPurpleColor = Color(0xFF694D9F);
+    final customPurpleColor = Color(0xFFcb6ce6);
     return Align(
-        alignment: _alignment,
-        widthFactor: _widthFactorRatio,
-        child: Container(
-          width: size.width * _widthRaio,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: customPurpleColor,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(256),
+      alignment: _alignment,
+      widthFactor: _widthFactorRatio,
+      child: Container(
+        width: size.width * _widthRaio,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: customPurpleColor,
+            width: 2,
           ),
-          child: InkWell(
-              borderRadius: BorderRadius.circular(256),
-              onTap: _textTapped,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: size.height * 0.005),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      _text,
-                      textScaler: const TextScaler.linear(1),
-                      style: TextStyle(
-                          color: customPurpleColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ))),
-        ));
+          borderRadius: BorderRadius.circular(256),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(256),
+          onTap: _textTapped,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: size.height * 0.005),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                _text,
+                textScaler: const TextScaler.linear(1),
+                style: TextStyle(
+                  color: customPurpleColor,
+                  //fontWeight: FontWeight.bold
+                ),
+              ),
+            )
+          )
+        ),
+      )
+    );
   }
 }

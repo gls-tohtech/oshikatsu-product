@@ -97,8 +97,8 @@ class UserInformationSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(userProfile.name,
-                        style: Theme.of(context).textTheme.headline6),
-                    Text('@kanata', style: Theme.of(context).textTheme.caption),
+                      style: Theme.of(context).textTheme.headline6
+                    ),
                     Text(userProfile.biography),
                   ],
                 ),
@@ -106,7 +106,6 @@ class UserInformationSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          // フォロー数とフォロワー数の行
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
