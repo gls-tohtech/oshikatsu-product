@@ -1,19 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
+import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/screens/fragments/projectDetailFragment/projectDetailBorderCom.dart';
+import 'package:oshikatsu_product/widgets/userProfile.dart';
+import 'package:oshikatsu_product/widgets/userProfileLabel.dart';
 
 class ProjectDetailBottomInfoComponent extends StatelessWidget{
-  late final String _creater;
+  late final DocumentReference _createrRef;
   late final String _platform;
   late final Timestamp _deadLine;
 
-
   ProjectDetailBottomInfoComponent({
-    required String creater,
+    required DocumentReference createrRef,
     required String platform,
     required Timestamp deadLine,
   }){
-    _creater = creater;
+    _createrRef = createrRef;
     _platform = platform;
     _deadLine = deadLine;
   }
@@ -21,18 +24,22 @@ class ProjectDetailBottomInfoComponent extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
-    return Column(
+    return Stack(
       children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "広告情報",
-            textScaler: TextScaler.linear(1.5),
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        Column(
+          children: [
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "広告情報",
+                textScaler: TextScaler.linear(1.5),
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            ProjectDetailBorderComponent(),
+            buildInfo(context),
+          ],
         ),
-        ProjectDetailBorderComponent(),
-        buildInfo(context),
       ],
     );
   }
@@ -46,9 +53,11 @@ class ProjectDetailBottomInfoComponent extends StatelessWidget{
             Padding(padding: EdgeInsets.symmetric(horizontal: size.width * 0.015)),
             SizedBox(
               width: size.width * 0.4,
-              child: const Text("作成者"),
+              child: const Text(
+                "作成者",
+              ),
             ),
-            Text(_creater)
+            UserProfileLabelComponent(userRef: _createrRef, widthRatio: 0.5)
           ],
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
