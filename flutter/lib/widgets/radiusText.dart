@@ -25,7 +25,7 @@ class RadiusTextComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final customPurpleColor = Color(0xFFcb6ce6);
+    final customPurpleColor = Color(0xFF9900ff);
     return Align(
       alignment: _alignment,
       widthFactor: _widthFactorRatio,
