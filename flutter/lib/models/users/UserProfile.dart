@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserProfile{
   final String name;
   final int birthdayYear;
@@ -5,6 +7,7 @@ class UserProfile{
   final String gender;
   final String iconImageUrl;
   final String biography;
+  final List<DocumentReference> relatedProjects; 
 
   const UserProfile({
     required this.name, 
@@ -13,6 +16,7 @@ class UserProfile{
     required this.gender, 
     required this.iconImageUrl,
     required this.biography,
+    required this.relatedProjects
   });
 
   factory UserProfile.fromMap(Map<String, dynamic> mapArg){
@@ -23,6 +27,7 @@ class UserProfile{
         gender: mapArg[UserTableColumn.GENDER.name],
         iconImageUrl: mapArg[UserTableColumn.ICON_IMAGE_URL.name],
         biography: mapArg[UserTableColumn.BIOGRAPHY.name],
+        relatedProjects: mapArg[UserTableColumn.RELATED_PROJECTS.name] ?? []
       );
   }
 
@@ -34,6 +39,7 @@ class UserProfile{
       UserTableColumn.GENDER.name: gender,
       UserTableColumn.ICON_IMAGE_URL.name: iconImageUrl,
       UserTableColumn.BIOGRAPHY.name: biography,
+      UserTableColumn.RELATED_PROJECTS.name: relatedProjects
     };
   }
 }
@@ -45,4 +51,5 @@ enum UserTableColumn{
   GENDER,               //req
   ICON_IMAGE_URL,       
   BIOGRAPHY,
+  RELATED_PROJECTS
 }

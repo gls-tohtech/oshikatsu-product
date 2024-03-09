@@ -36,7 +36,8 @@ class ProjectController{
       moneyDonated: existedProjectInfo.moneyDonated
     );
 
-    _registry.update(newProjectData: newProjectInfo);
+    var docRef = await _registry.update(newProjectData: newProjectInfo);
+    _registry.addRelationToUserProfile(relatedProject: docRef);
   }
 
   Future<void> fetchFromStorage({required String projectId}) async {

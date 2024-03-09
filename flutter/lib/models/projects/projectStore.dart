@@ -1,21 +1,52 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
+import 'package:oshikatsu_product/models/users/UserProfile.dart';
+import 'package:oshikatsu_product/models/users/UserStore.dart';
 import 'project.dart';
 
 class ProjectRegistry{
   final db = FirebaseFirestore.instance;
 
   Future add({required Project newProjectData}) async{
-    await db
+    var docRef = db
       .collection(PROJECTS_TABLE_COLLECTION_NAME)
-      .doc(newProjectData.projectId)
-      .set(newProjectData.getDbProcessedMap());
+      .doc(newProjectData.projectId);
+
+    await docRef.set(newProjectData.getDbProcessedMap());
+
+    addRelationToUserProfile(
+      relatedProject: docRef
+    );
   }
 
-  Future update({required Project newProjectData}) async{
-    await db
+  Future<DocumentReference> update({required Project newProjectData}) async{
+    var docRef = db
       .collection(PROJECTS_TABLE_COLLECTION_NAME)
-      .doc(newProjectData.projectId)
-      .update(newProjectData.getDbProcessedMap());
+      .doc(newProjectData.projectId);
+
+      await docRef.update(newProjectData.getDbProcessedMap());
+
+      return docRef;
+  }
+
+  void addRelationToUserProfile({required DocumentReference relatedProject}){
+    final userProfile = UserController().userProfile!;
+    final newUserProfile = UserProfile(
+      name: userProfile.name, 
+      birthdayYear: userProfile.birthdayYear, 
+      birthdayMonth: userProfile.birthdayMonth, 
+      gender: userProfile.gender, 
+      iconImageUrl: userProfile.iconImageUrl,
+      biography: userProfile.biography, 
+      relatedProjects: (userProfile.relatedProjects)..add(relatedProject)
+    );
+
+    final registry = UserRegistry();
+    registry.update(newUserDataArg: UserStoreInfo(
+      uidArg: UserController().uid!, 
+      profileArg: newUserProfile
+    ));
   }
 }
 
