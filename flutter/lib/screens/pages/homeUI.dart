@@ -31,29 +31,29 @@ class _ProjectListState extends ConsumerState<ProjectList> {
   Widget build(BuildContext context) {
     final streamProv = ref.watch(projectsStreamProvider);
     return Scaffold(
-      body: streamProv.when(
-        data: (List<Project> ad){
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                for(Project item in ad) Column(
+        body: streamProv.when(
+      data: (List<Project> ad) {
+        return SafeArea(
+            child: SingleChildScrollView(
+          child: Column(
+            children: [
+              for (Project item in ad)
+                Column(
                   children: [
                     StandartPaddingComponent(),
                     ProjectListItem(projectId: item.projectId),
                   ],
                 )
-              ],
-            ),
-          );
-        }, error:((error, stackTrace) {
-          return ;
-        }), 
-        loading: () => Container(),
-      )
-    );
+            ],
+          ),
+        ));
+      },
+      error: ((error, stackTrace) {
+        return;
+      }),
+      loading: () => Container(),
+    ));
   }
 }
 
-class ProjectRecommender{
-
-}
+class ProjectRecommender {}
