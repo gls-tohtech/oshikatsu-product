@@ -31,7 +31,10 @@ class UserProfileLabelComponent extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) {
-                  return UserProfileComponent(userProfile: snapshot.data!);
+                  return UserProfileComponent(
+                    userProfile: snapshot.data!,
+                    showSettingButton: false,
+                  );
                 }
               ));
             },

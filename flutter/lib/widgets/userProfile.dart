@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
+import 'package:oshikatsu_product/screens/fragments/profileSettingFragment.dart';
 
 class UserProfileComponent extends StatefulWidget {
   final UserProfile userProfile;
-  UserProfileComponent({required this.userProfile});
+  final bool showSettingButton;
+  UserProfileComponent({required this.userProfile, required this.showSettingButton});
 
   @override
   _UserProfileComponentState createState() => _UserProfileComponentState();
@@ -32,10 +34,12 @@ class _UserProfileComponentState extends State<UserProfileComponent>
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(
+          if(widget.showSettingButton) IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // 設定ページへ遷移するロジックをここに記述
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                return const ProfileSettingFragment();
+              }));
             },
           ),
         ],

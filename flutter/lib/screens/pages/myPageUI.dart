@@ -10,7 +10,8 @@ class MyPageUI extends StatelessWidget{
   Widget build(BuildContext context){
     final UserController userController = UserController();
     return UserProfileComponent(
-      userProfile: userController.userProfile!
+      userProfile: userController.userProfile!,
+      showSettingButton: true,
     );
   }
 }
