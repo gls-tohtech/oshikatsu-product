@@ -95,8 +95,11 @@ class _SwipeUIState extends State<SwipeUI> {
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: CircleAvatar(
-                                          backgroundImage: NetworkImage(post.avatarUrl),
+                                        child: const CircleAvatar(
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 16,
+                                          ),
                                           radius: 12,
                                         ),
                                       ),
