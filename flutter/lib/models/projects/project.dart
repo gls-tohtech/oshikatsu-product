@@ -84,3 +84,12 @@ class Project{
     );
   }
 }
+
+extension ProjectGetFromRefEx on DocumentReference{
+  Future<Project> convertProjectData() async {
+    DocumentReference ref = this;
+    DocumentSnapshot snapshot = await ref.get();
+    Map<String, dynamic> b = snapshot.data() as Map<String, dynamic>;
+    return Project.fromMap(b);
+  }
+}
