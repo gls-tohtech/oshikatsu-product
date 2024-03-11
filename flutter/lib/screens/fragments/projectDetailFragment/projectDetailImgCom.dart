@@ -44,20 +44,20 @@ class ProjectDetailImgComponent extends StatelessWidget{
               size: 100,
             ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child:  Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(1024),
-            ),
-            child: IconButton(
-              onPressed: () => { 
-                Navigator.of(context).pop(),
-              }, 
-              icon: const Icon(Icons.close)
-            ),
-          )
-        )
+        // Align(
+        //   alignment: Alignment.centerRight,
+        //   child:  Card(
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(1024),
+        //     ),
+        //     child: IconButton(
+        //       onPressed: () => { 
+        //         Navigator.of(context).pop(),
+        //       }, 
+        //       icon: const Icon(Icons.close)
+        //     ),
+        //   )
+        // )
       ],
     );
   }

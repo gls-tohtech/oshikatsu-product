@@ -74,6 +74,16 @@ class ProjectDetailFragment extends StatelessWidget{
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: const Icon(
+          Icons.close,
+          size: 32,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 }

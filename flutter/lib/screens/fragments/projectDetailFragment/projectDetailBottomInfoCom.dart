@@ -70,7 +70,8 @@ class ProjectDetailBottomInfoComponent extends StatelessWidget{
               width: size.width * 0.4,
               child: const Text("掲載場所"),
             ),
-            Text(_platform)
+            //Text(_platform)
+            const Text("X")
           ],
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
