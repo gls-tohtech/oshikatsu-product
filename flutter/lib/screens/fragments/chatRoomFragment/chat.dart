@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -5,8 +6,11 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:oshikatsu_product/controllers/chatController.dart';
 import 'package:oshikatsu_product/controllers/roomController.dart';
+import 'package:oshikatsu_product/utils/convertRefFromUser.dart';
+import 'package:oshikatsu_product/utils/duplidatesRemover.dart';
 import 'package:oshikatsu_product/widgets/memberLIst.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
+import 'package:oshikatsu_product/widgets/userProfileLabel.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -108,6 +112,8 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
+    final List<types.User> users = widget.room.users.removeDuplicates as List<types.User>;
+    final List<DocumentReference> usersRef = users.convertRefFromUser();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -160,17 +166,6 @@ class _ChatPageState extends State<ChatPage> {
               style: TextStyle(fontSize: 32),
             ),
             StandartPaddingComponent(),
-            // buildDrawerItem(
-            //   () {
-            //     var roomController = RoomController();
-            //     roomController.deleteUserFromRoom(widget.room);
-            //     Navigator.of(context).pop();
-            //     Navigator.of(context).pop();
-            //   },
-            //   Icons.delete,
-            //   "このワークスペースから退出する。"
-            // ),
-            // StandartPaddingComponent(),
             buildDrawerItem(
               () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -178,8 +173,21 @@ class _ChatPageState extends State<ChatPage> {
                 }));
               }, 
               Icons.person, 
-              "メンバ一覧を表示する。"
-            )
+              "メンバ一覧"
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.005),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    for(DocumentReference userRef in usersRef) UserProfileLabelComponent(
+                      userRef: userRef, 
+                      widthRatio: 0.7
+                    ),
+                  ],
+                )
+              ),
+            ),
           ],
         ),
       ),
@@ -193,6 +201,7 @@ class _ChatPageState extends State<ChatPage> {
       child: InkWell(
         onTap: onPressed,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               iconData,
