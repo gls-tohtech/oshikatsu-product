@@ -21,14 +21,12 @@ class ProjectListItemNumberesConponent extends StatelessWidget {
             context: context, 
             labelTitle: "広告応援", 
             leftValue: _aiderNumbers, 
-            rightValue: 0
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.002)),
           buildRowCom(
             context: context, 
             labelTitle: "クリエイター", 
             leftValue: _createrNumbers, 
-            rightValue: 0
           ),
         ],
       )
@@ -39,7 +37,6 @@ class ProjectListItemNumberesConponent extends StatelessWidget {
     required BuildContext context,
     required String labelTitle, 
     required int leftValue,
-    required int rightValue
   }){
     final Size size = MediaQuery.of(context).size;
     return Row(
@@ -63,16 +60,10 @@ class ProjectListItemNumberesConponent extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Center(
-              child: Text("  $leftValue / $rightValue  "),
+              child: Text("$leftValue  人"),
             )
           ),
         ),
-        // RadiusTextComponent(
-        //   "$leftValue / $rightValue",
-        //   widthRatio: 0.15,
-        // ),
-        // const SizedBox(width: 8,),
-        // const Text(" 人"),
       ],
     );
   }
