@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/screens/fragments/submitFragment.dart';
 import 'package:oshikatsu_product/widgets/relatedProjectList.dart';
 
@@ -39,9 +40,9 @@ class _SupportUIState extends State<SupportUI>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          RelatedProjectList(),
-          SubmitFragment()
+        children: [
+          RelatedProjectList(userRef: UserController().userRef,),
+          const SubmitFragment()
         ],
       ),
     );

@@ -33,7 +33,8 @@ class UserProfileLabelComponent extends StatelessWidget {
                 builder: (context) {
                   return UserProfileComponent(
                     userProfile: snapshot.data!,
-                    showSettingButton: false,
+                    userRef: userRef,
+                    isLoginedUser: false,
                   );
                 }
               ));
@@ -48,15 +49,16 @@ class UserProfileLabelComponent extends StatelessWidget {
                       ? Image.network(snapshot.data!.iconImageUrl)
                       : const Icon(Icons.person),
                   ),
-                  SizedBox(width: size.width * widthRatio * 0.1),
+                  SizedBox(width: size.width * widthRatio * 0.05),
                   FittedBox(
+                    fit: BoxFit.fitWidth,
                     child: Text(
                       snapshot.data!.name,
-                      style: const TextStyle(fontSize: 240),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   )
                 ],
-              ),   
+              ),
             ),
           ); // データ表示
         }

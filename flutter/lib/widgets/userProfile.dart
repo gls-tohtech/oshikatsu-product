@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/screens/fragments/profileSettingFragment.dart';
+import 'package:oshikatsu_product/widgets/relatedProjectList.dart';
 
 class UserProfileComponent extends StatefulWidget {
+  final DocumentReference userRef;
   final UserProfile userProfile;
-  final bool showSettingButton;
-  UserProfileComponent({required this.userProfile, required this.showSettingButton});
+  final bool isLoginedUser;
+  UserProfileComponent({required this.userProfile, required this.userRef, required this.isLoginedUser});
 
   @override
   _UserProfileComponentState createState() => _UserProfileComponentState();
@@ -33,8 +36,9 @@ class _UserProfileComponentState extends State<UserProfileComponent>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: <Widget>[
-          if(widget.showSettingButton) IconButton(
+          if(widget.isLoginedUser) IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -42,35 +46,22 @@ class _UserProfileComponentState extends State<UserProfileComponent>
               }));
             },
           ),
+          if(!widget.isLoginedUser) IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.close),
+          )
         ],
       ),
       body: Column(
         children: <Widget>[
-          // ユーザー情報セクション
           UserInformationSection(
             userProfile: _userProfile,
           ),
-          // タブバー
-          TabBar(
-            controller: _tabController,
-            tabs: const [
-              Tab(text: 'プロジェクト'),
-              Tab(text: 'クリエイト'),
-            ],
-          ),
-          // タブビュー
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: <Widget>[
-                Container(color: Colors.white), // プロジェクトタブのコンテンツ
-                Container(color: Colors.white), // クリエイトタブのコンテンツ
-              ],
-            ),
-          ),
+          //if(!widget.isLoginedUser) RelatedProjectList(userRef: widget.userRef)
         ],
       ),
-      // ここに他のコードを追加
     );
   }
 }

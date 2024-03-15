@@ -4,14 +4,13 @@ import 'package:oshikatsu_product/widgets/userProfile.dart';
 
 class MyPageUI extends StatelessWidget{
 
-  MyPageUI(){}
-
   @override
   Widget build(BuildContext context){
     final UserController userController = UserController();
     return UserProfileComponent(
       userProfile: userController.userProfile!,
-      showSettingButton: true,
+      userRef: userController.userRef,
+      isLoginedUser: true,
     );
   }
 }
