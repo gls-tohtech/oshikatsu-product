@@ -44,7 +44,7 @@ class _UserProfileComponentState extends State<UserProfileComponent>
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-                return const ProfileSettingFragment();
+                return ProfileSettingFragment(profile: _userProfile);
               }));
             },
           ),
