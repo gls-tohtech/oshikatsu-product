@@ -21,26 +21,24 @@ class RelatedProjectListState extends ConsumerState<RelatedProjectList> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: _fetcher.fetchUserProfileFromRef(userRef: widget.userRef), 
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator()); // ローディング表示
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('エラーが発生しました')); // エラーハンドリング
-            } else {
-              return Column(
+    return FutureBuilder(
+        future: _fetcher.fetchUserProfileFromRef(userRef: widget.userRef), 
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator()); // ローディング表示
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('エラーが発生しました')); // エラーハンドリング
+          } else {
+            return SingleChildScrollView(
+              child: Column(
                 children: [
                   StandartPaddingComponent(),
                   for(var ref in snapshot.data!.relatedProjects) RelatedProjectListItem(projectRef: ref)
                 ],
-              );
-            }
+              )
+            );
           }
-        ),
-      )
-    );
+        }
+      );
   }
 }

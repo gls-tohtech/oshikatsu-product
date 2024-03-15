@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/screens/fragments/profileSettingFragment.dart';
+import 'package:oshikatsu_product/widgets/border.dart';
 import 'package:oshikatsu_product/widgets/relatedProjectList.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 
 class UserProfileComponent extends StatefulWidget {
   final DocumentReference userRef;
@@ -59,7 +61,16 @@ class _UserProfileComponentState extends State<UserProfileComponent>
           UserInformationSection(
             userProfile: _userProfile,
           ),
-          //if(!widget.isLoginedUser) RelatedProjectList(userRef: widget.userRef)
+          StandartPaddingComponent(),
+          if(!widget.isLoginedUser) Column(
+            children: [
+              StandartPaddingComponent(),
+              HorizontalBorderComponent(heightRatio: 0.002),
+              const Text("この人の最近のアクティビティ"),
+              StandartPaddingComponent(),
+            ],
+          ),
+          if(!widget.isLoginedUser) Expanded(child: RelatedProjectList(userRef: widget.userRef))
         ],
       ),
     );
