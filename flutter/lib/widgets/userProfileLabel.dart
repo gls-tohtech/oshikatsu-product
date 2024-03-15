@@ -44,17 +44,22 @@ class UserProfileLabelComponent extends StatelessWidget {
               width: size.width * widthRatio,
               child: Row(
                 children: [
-                  CircleAvatar(
-                    child:  snapshot.data!.iconImageUrl != ""
-                      ? Image.network(snapshot.data!.iconImageUrl)
-                      : const Icon(Icons.person),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(32),
+                    child: CircleAvatar(
+                      child: snapshot.data!.iconImageUrl != ""
+                        ? Image.network(snapshot.data!.iconImageUrl)
+                        : const Icon(Icons.person),
+                    ),
                   ),
                   SizedBox(width: size.width * widthRatio * 0.05),
                   FittedBox(
                     fit: BoxFit.fitWidth,
-                    child: Text(
+                    child: StrokedText(
                       snapshot.data!.name,
-                      style: const TextStyle(fontSize: 16),
+                      fontSize: 16,
+                      color: Colors.black,
+                      strokeColor: Colors.white,
                     ),
                   )
                 ],
@@ -65,4 +70,50 @@ class UserProfileLabelComponent extends StatelessWidget {
       }
     );
   }
+}
+
+class StrokedText extends StatelessWidget {
+ const StrokedText(
+    this.text, {
+    this.color,
+    this.strokeColor,
+    this.fontSize,
+    this.strokeSize,
+    Key? key,
+ }) : super(key: key);
+
+ final String text;
+ final Color? color;
+ final Color? strokeColor;
+ final double? fontSize;
+ final double? strokeSize;
+
+ @override
+ Widget build(BuildContext context) {
+    final fontSize = this.fontSize ??
+        Theme.of(context).textTheme.bodyMedium?.fontSize ??
+        16.0;
+
+    return Stack(
+      children: <Widget>[
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: fontSize,
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = strokeSize ?? 4
+              ..color = strokeColor ?? Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: fontSize,
+            color: color ?? Theme.of(context).colorScheme.primary,
+          ),
+        ),
+      ],
+    );
+ }
 }
