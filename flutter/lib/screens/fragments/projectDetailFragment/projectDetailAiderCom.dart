@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/widgets/userProfileLabel.dart';
 
 class ProjectDetailAiderComponent extends StatelessWidget{
   late final List<DocumentReference> _donaters;
@@ -21,16 +22,8 @@ class ProjectDetailAiderComponent extends StatelessWidget{
               child: const Text("応援者"),
             ),
             
-        //for(var ele in _donaters) buildAider(context, ele)
+        for(DocumentReference userRef in _donaters) UserProfileLabelComponent(userRef: userRef, widthRatio: 0.4)
       ],
-    );
-  }
-
-  Widget buildAider(BuildContext context, String aiderArg){
-    final Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.001),
-      child: Text(aiderArg),
     );
   }
 }

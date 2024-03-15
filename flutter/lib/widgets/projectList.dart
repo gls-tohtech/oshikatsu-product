@@ -4,6 +4,7 @@ import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/providers/projectProvider.dart';
 import 'package:oshikatsu_product/widgets/projectListItemComponent/projectListItemCom.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
+import 'package:oshikatsu_product/widgets/topPadding.dart';
 
 class ProjectList extends ConsumerStatefulWidget {
   const ProjectList({super.key});
@@ -22,6 +23,7 @@ class _ProjectListState extends ConsumerState<ProjectList> {
           return SingleChildScrollView(
             child: Column(
               children: [
+                TopPaddingComponent(),
                 for(Project item in ad) Column(
                   children: [
                     StandartPaddingComponent(),
