@@ -44,16 +44,10 @@ class RoomController{
   }
 
   Future enterChatRoom(String roomId, BuildContext context) async {
-    final Completer<types.Room> completer = Completer();
-
-    await CHAT_CORE.room(roomId).listen((catchedRoom) {
-        completer.complete(catchedRoom);
+    CHAT_CORE.room(roomId).listen((catchedRoom) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+        return ChatPage(room: catchedRoom);
+      }));
     });
-
-    final types.Room room = await completer.future;
-
-    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-        return ChatPage(room: room);
-    }));
   }
 }

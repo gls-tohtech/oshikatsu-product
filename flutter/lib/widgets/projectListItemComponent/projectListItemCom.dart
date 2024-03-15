@@ -96,13 +96,11 @@ class ProjectListItemContent extends StatelessWidget{
               if(isShowRoomEnterBtn && project.roomID != null) Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.login),
-                      SizedBox(width: size.width * 0.05),
                       RadiusTextComponent(
                         "共同制作部屋に入る",
-                        widthRatio: 0.5,
+                        widthRatio: 0.7,
                         textTapped: () {
                           final roomController = RoomController();
                           roomController.enterChatRoom(project.roomID!, context);

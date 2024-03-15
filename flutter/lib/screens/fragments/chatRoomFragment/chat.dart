@@ -5,10 +5,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:oshikatsu_product/controllers/chatController.dart';
-import 'package:oshikatsu_product/controllers/roomController.dart';
 import 'package:oshikatsu_product/utils/convertRefFromUser.dart';
 import 'package:oshikatsu_product/utils/duplidatesRemover.dart';
-import 'package:oshikatsu_product/widgets/memberLIst.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'package:oshikatsu_product/widgets/userProfileLabel.dart';
 
@@ -167,11 +165,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
             StandartPaddingComponent(),
             buildDrawerItem(
-              () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-                  return RoomMemberList(room: widget.room);
-                }));
-              }, 
+              () { }, 
               Icons.person, 
               "メンバ一覧"
             ),
