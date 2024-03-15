@@ -29,52 +29,59 @@ class SubmitSucecssPopupComponent extends StatelessWidget{
                 borderRadius: BorderRadius.circular(8)
               ),
               elevation: 8,
-              child: Column(
-                children: [
-                  imageUrl != ""
-                    ? ClipRRect(
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                      child: Image.network(imageUrl),
-                    )
-                    : Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    imageUrl != ""
+                      ? ClipRRect(
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                        child: SizedBox(
+                          child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Image.network(imageUrl),
+                          ),
+                        )
+                      )
+                      : Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1
+                        )
+                      ),
+                      height: size.height * 0.15,
+                      width: double.infinity,
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            Icon(
+                            Icons.check,
+                            size: 50,
+                          ),
+                        ],
                       )
                     ),
-                    height: size.height * 0.15,
-                    width: double.infinity,
-                    child: const Column(
+                    StandartPaddingComponent(),
+                    const Text(
+                      "投稿が完了しました!",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                    StandartPaddingComponent(),
+                    const Text("この投稿をシェアしませんか?"),
+                    StandartPaddingComponent(),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                          Icon(
-                          Icons.check,
-                          size: 50,
-                        ),
+                        IconButton(
+                          onPressed: () {}, 
+                          icon: const Icon(Icons.copy)
+                        )
                       ],
                     )
-                  ),
-                  StandartPaddingComponent(),
-                  const Text(
-                    "投稿が完了しました!",
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  StandartPaddingComponent(),
-                  const Text("この投稿をシェアしませんか?"),
-                  StandartPaddingComponent(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {}, 
-                        icon: const Icon(Icons.copy)
-                      )
-                    ],
-                  )
-                ],
-              ),
+                  ],
+                ),
+              )
             ),
           ),
         ),
