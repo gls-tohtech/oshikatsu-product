@@ -1,82 +1,99 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/providers/projectProvider.dart';
+import 'package:oshikatsu_product/widgets/userProfileLabel.dart';
 
-class SwipeUI extends StatefulWidget {
+class SwipeUI extends ConsumerStatefulWidget {
+  const SwipeUI({super.key});
+
   @override
-  _SwipeUIState createState() => _SwipeUIState();
+  SwipeUIContentsState createState() => SwipeUIContentsState();
 }
 
-class _SwipeUIState extends State<SwipeUI> {
-  final List<Post> posts = [
-    Post(
-      imageUrl: 'https://pbs.twimg.com/media/Fsi7o2uacAsolwi?format=jpg&name=4096x4096',
-      avatarUrl: "https://kotonohaworks.com/free-icons/wp-content/uploads/kkrn_icon_user_4.png",
-      avatarName: "あやか",
-      projectName: "☆Wセンター記念☆ 応援広告作成プロジェクト",
-      description: "",
-    ),
-    Post(
-      imageUrl: 'https://pbs.twimg.com/media/F2LDbpHbAAEidt6?format=jpg&name=4096x4096',
-      avatarUrl: "https://kotonohaworks.com/free-icons/wp-content/uploads/kkrn_icon_user_1.png",
-      avatarName: "ずっと応援者",
-      projectName: "生誕祭広告つくりましょう！",
-      description: "",
-    ),
-    Post(
-      imageUrl: "https://pbs.twimg.com/media/GHvJQKCaIAALlxA?format=jpg&name=4096x4096",
-      avatarUrl: "https://kotonohaworks.com/free-icons/wp-content/uploads/kkrn_icon_user_2.png",
-      avatarName: "夢見るサポーター",
-      projectName: "勝手にコラボ！ W広告でお祝いしましょう！",
-      description: "",
-    ),
-    Post(
-      imageUrl: "https://pbs.twimg.com/media/E5HgSQRUYAMCnOW?format=jpg&name=large",
-      avatarUrl: "https://kotonohaworks.com/free-icons/wp-content/uploads/kkrn_icon_user_3.png",
-      avatarName: "めいめい",
-      projectName: "【!!!デビュー記念!!!】みんなに番組みてもらおう！",
-      description: "",
-    ),
-    Post(
-      imageUrl: "https://pbs.twimg.com/media/FxqDNMiaQAAuU-H?format=jpg&name=large",
-      avatarUrl: "https://kotonohaworks.com/free-icons/wp-content/uploads/kkrn_icon_user_5.png",
-      avatarName: "mayu",
-      projectName: "毎朝会いたいからバス停広告作りましょう♡",
-      description: "",
-    )
-  ];
-
+class SwipeUIContentsState extends ConsumerState<SwipeUI> {
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final streamProv = ref.watch(projectsStreamProvider);
+    return Scaffold(
+      body: streamProv.when(
+        data: (List<Project> projects){
+          return SwipeUIContents(projects: projects);
+        }, error:((error, stackTrace) {
+          return Text("エラーが発生しました");
+        }), 
+        loading: () => const CircularProgressIndicator()
+      )
+    );
+  }
+}
+
+class SwipeUIContents extends StatefulWidget {
+  final List<Project> projects;
+
+  const SwipeUIContents({required this.projects});
+
+  @override
+  _SwipeUIContentsState createState() => _SwipeUIContentsState();
+}
+
+class _SwipeUIContentsState extends State<SwipeUIContents> {
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: PageView.builder(
-        itemCount: posts.length,
+        itemCount: widget.projects.length,
         scrollDirection: Axis.vertical, // 縦方向にスワイプ
         itemBuilder: (context, index) {
-          Post post = posts[index];
+          Project project = widget.projects[index];
           return Container(
               color: Colors.grey,
               child: Stack(
                 alignment: AlignmentDirectional.center,
                 children: <Widget>[
                   ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-                    child: Image.network(post.imageUrl, fit: BoxFit.fill, height: 1000),
+                    imageFilter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+                    child: project.thumbnailUrl != ""
+                    ? Image.network(
+                      project.thumbnailUrl, 
+                      fit: BoxFit.fitWidth
+                    )
+                    : Image.network(
+                      "https://firebasestorage.googleapis.com/v0/b/oshikatsu-dev-8bb0d.appspot.com/o/PROJECT_IMAGE_STORAGE%2Fimage%20(1).png?alt=media&token=df4deb2e-66b4-4dbc-87b7-9d29cfa4236c",
+                      fit: BoxFit.fitWidth
+                    ),
                   ),
-                  Image.network(post.imageUrl, fit: BoxFit.fitWidth),
+                  project.thumbnailUrl != ""
+                    ? Image.network(
+                      project.thumbnailUrl, 
+                      fit: BoxFit.fitWidth
+                    )
+                    : Image.network(
+                      "https://firebasestorage.googleapis.com/v0/b/oshikatsu-dev-8bb0d.appspot.com/o/PROJECT_IMAGE_STORAGE%2Fimage%20(1).png?alt=media&token=df4deb2e-66b4-4dbc-87b7-9d29cfa4236c",
+                      fit: BoxFit.fitWidth
+                    ),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      height: 100,
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      height: 120,
+                      width: size.width,
+                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold, 
+                              fontSize: 16,
+                              color: Colors.white
+                            ),
                             overflow: TextOverflow.ellipsis,
-                            post.projectName,
+                            project.title,
                           ),
                           Container(
                             margin: const EdgeInsets.only(top: 8),
@@ -86,33 +103,18 @@ class _SwipeUIState extends State<SwipeUI> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
+                                    color: Colors.white
                                   ),
                                   "オーナー",
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: const CircleAvatar(
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 16,
-                                          ),
-                                          radius: 12,
-                                        ),
-                                      ),
-                                      Text(
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                        post.avatarName,
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                const SizedBox(width: 20,),
+                                FittedBox(
+                                  fit:BoxFit.none,
+                                  child: UserProfileLabelComponent(
+                                    userRef: project.createdBy, 
+                                    widthRatio: 0.7
+                                  )
+                                )
                               ],
                             ),
                           ),
@@ -128,15 +130,16 @@ class _SwipeUIState extends State<SwipeUI> {
   }
 }
 
-class Post {
-  String imageUrl;
-  String avatarUrl;
-  String avatarName;
-  String projectName;
-  String description;
 
-  Post({required this.imageUrl, required this.avatarUrl, required this.avatarName, required this.projectName, required this.description});
-}
+// class Post {
+//   String imageUrl;
+//   String avatarUrl;
+//   String avatarName;
+//   String projectName;
+//   String description;
+
+//   Post({required this.imageUrl, required this.avatarUrl, required this.avatarName, required this.projectName, required this.description});
+// }
 
 
-// https://kotonohaworks.com/free-icons/user/
+// // https://kotonohaworks.com/free-icons/user/
