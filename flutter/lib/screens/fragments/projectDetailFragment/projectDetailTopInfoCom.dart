@@ -187,6 +187,7 @@ class ProjectDetailTopInfoComponent extends StatelessWidget{
     return Row(
       children: [
         const Icon(Icons.schedule),
+        const SizedBox(width: 8,),
         Text("残り ${calcDaysRemaining(_deadLine.toDate())} 日")
       ],
     );

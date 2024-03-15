@@ -80,7 +80,7 @@ class ProjectDetailBottomInfoComponent extends StatelessWidget{
             Padding(padding: EdgeInsets.symmetric(horizontal: size.width * 0.015)),
             SizedBox(
               width: size.width * 0.4,
-              child: const Text("広告掲載までの日時"),
+              child: const Text("広告掲載期限"),
             ),
             Text("${_deadLine.toDate().year}  年   ${_deadLine.toDate().month}  月   ${_deadLine.toDate().day}  日")
           ],

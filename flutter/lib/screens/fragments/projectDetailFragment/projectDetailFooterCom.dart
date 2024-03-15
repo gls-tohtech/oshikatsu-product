@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/screens/fragments/supportProcessFragment/supportProcessFragment.dart';
 
-class ProjectDetailFooterComponent extends StatelessWidget{
-  late final Function() _bookmarkTapped;
+import 'package:flutter/material.dart';
 
-  late final Project _project;
+class ProjectDetailFooterComponent extends StatefulWidget {
+  final Project project;
+  final Function() bookmarkTapped;
+  
+  const ProjectDetailFooterComponent({super.key, required this.project, required this.bookmarkTapped});
 
-  ProjectDetailFooterComponent({
-    required Project project,
-    required Function() bookmarkTapped,
-  }){
-    _project = project;
-    _bookmarkTapped = bookmarkTapped;
-  }
+  @override
+  _ProjectDetailFooterComponentState createState() => _ProjectDetailFooterComponentState();
+}
+
+class _ProjectDetailFooterComponentState extends State<ProjectDetailFooterComponent> {
+  bool _isBookmarked = false;
 
   @override
   Widget build(BuildContext context){
@@ -33,8 +35,15 @@ class ProjectDetailFooterComponent extends StatelessWidget{
             padding: EdgeInsets.all(size.width * 0.01),
             child: InkWell(
               borderRadius: BorderRadius.circular(256),
-              onTap: _bookmarkTapped,
-              child: const Icon(Icons.bookmark),
+              onTap: (){
+                widget.bookmarkTapped();
+                setState(() {
+                  _isBookmarked = !_isBookmarked;
+                });
+              },
+              child: _isBookmarked
+              ? const Icon(Icons.bookmark)
+              : const Icon(Icons.bookmark_border),
             )
           )
         ),
@@ -60,7 +69,7 @@ class ProjectDetailFooterComponent extends StatelessWidget{
               borderRadius: BorderRadius.circular(256),
               onTap: () => {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                  return SupportProcessFragment(project: _project);
+                  return SupportProcessFragment(project: widget.project);
                 })),
               },
               child: Padding(
