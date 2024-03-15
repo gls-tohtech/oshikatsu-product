@@ -25,7 +25,7 @@ class _ProjectListState extends ConsumerState<ProjectList> {
                 for(Project item in ad) Column(
                   children: [
                     StandartPaddingComponent(),
-                    ProjectListItem(projectId: item.projectId, isShowRoomEnterBtn: false,),
+                    ProjectListItem(projectId: item.projectId, isShowRoomEnterBtn: true),
                   ],
                 )
               ],

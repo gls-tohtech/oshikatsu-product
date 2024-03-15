@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'submitUI.dart'; // 必要に応じてパスを調整してください
+import 'package:oshikatsu_product/screens/fragments/submitFragment.dart';
 
 class SupportUI extends StatefulWidget {
   const SupportUI({Key? key}) : super(key: key);
@@ -28,7 +28,6 @@ class _SupportUIState extends State<SupportUI>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TabBar'),
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
@@ -39,10 +38,9 @@ class _SupportUIState extends State<SupportUI>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          Itiran(title: '投稿一覧です', icon: Icons.list), // '投稿一覧' タブの内容
-          // 第二のタブの内容はここでは省略し、_handleTabSelectionで処理を行う意図を変更していません。
-          SubmitUI(),
+        children: const [
+          Itiran(title: '投稿一覧です', icon: Icons.list),
+          SubmitFragment()
         ],
       ),
     );
@@ -64,18 +62,12 @@ class Itiran extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(icon, size: 100), // アイコンを使用
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Column(
               children: <Widget>[
                 Text(
-                  title, // プロパティからのタイトルを使用
-                  style: TextStyle(fontSize: 24),
-                ),
-                TextField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'タイトルを入力',
-                  ),
+                  title,
+                  style: const TextStyle(fontSize: 24),
                 ),
               ],
             )

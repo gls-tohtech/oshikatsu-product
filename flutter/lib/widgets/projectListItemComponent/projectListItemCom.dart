@@ -10,26 +10,19 @@ import 'projectListItemHashtagCom.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProjectListItem extends ConsumerStatefulWidget {
-  late final String _projectId;
+  final String projectId;
+  final bool isShowRoomEnterBtn;
 
-  ProjectListItem({required String projectId}){
-    _projectId = projectId;
-  }
+  ProjectListItem({required this.projectId, required this.isShowRoomEnterBtn});
 
   @override
-  _ProjectListItemState createState() => _ProjectListItemState(_projectId);
+  _ProjectListItemState createState() => _ProjectListItemState();
 }
 
 class _ProjectListItemState extends ConsumerState<ProjectListItem> {
-  late final String _projectId;
-
-  _ProjectListItemState(String projectId){
-    _projectId = projectId;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final streamProv = ref.watch(projectStreamProvider(_projectId));
+    final streamProv = ref.watch(projectStreamProvider(widget.projectId));
     return streamProv.when(
         data: (Project project){
           return buildProjectListItem(context, project);
@@ -44,7 +37,7 @@ class _ProjectListItemState extends ConsumerState<ProjectListItem> {
     final Size size = MediaQuery.of(context).size;
     return IntrinsicHeight(
       child: Card(
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: const Color.fromARGB(255, 255, 255, 255),
         elevation: 4,
         child: InkWell(
           onTap: () {
@@ -70,7 +63,7 @@ class _ProjectListItemState extends ConsumerState<ProjectListItem> {
               Padding(padding: EdgeInsets.all(size.height * 0.01)),
               Row(
                 children: [
-                  ProjectListItemImgComponent(project.thumbnailUrl,),
+                  ProjectListItemImgComponent(project.thumbnailUrl),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
                     child: Column(
