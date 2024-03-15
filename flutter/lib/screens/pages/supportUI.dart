@@ -33,7 +33,7 @@ class _SupportUIState extends State<SupportUI>
         title: TabBar(
           controller: _tabController,
           tabs: const [
-            Tab(text: '投稿一覧', icon: Icon(Icons.list)),
+            Tab(text: '関わった広告一覧', icon: Icon(Icons.list)),
             Tab(text: '投稿作成', icon: Icon(Icons.create)),
           ],
         ),
