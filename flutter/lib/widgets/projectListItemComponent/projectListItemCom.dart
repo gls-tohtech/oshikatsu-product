@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/controllers/roomController.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/providers/projectProvider.dart';
 import 'package:oshikatsu_product/screens/fragments/projectDetailFragment/projectDetailFragment.dart';
+import 'package:oshikatsu_product/widgets/radiusText.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'projectListItemGoalCom.dart';
 import 'projectListItemImgCom.dart';
@@ -24,16 +26,24 @@ class _ProjectListItemState extends ConsumerState<ProjectListItem> {
   Widget build(BuildContext context) {
     final streamProv = ref.watch(projectStreamProvider(widget.projectId));
     return streamProv.when(
-        data: (Project project){
-          return buildProjectListItem(context, project);
-        }, error:((error, stackTrace) {
-          return Text("error = \n${error.toString()}");
-        }), 
-        loading: () => Container()
-      );
+      data: (Project project){
+        return ProjectListItemContent(project: project, isShowRoomEnterBtn: false,);
+      }, error:((error, stackTrace) {
+        return Text("error = \n${error.toString()}");
+      }), 
+      loading: () => Container()
+    );
   }
+}
 
-  Widget buildProjectListItem(BuildContext context, Project project){
+class ProjectListItemContent extends StatelessWidget{
+  final Project project;
+  final bool isShowRoomEnterBtn;
+
+  ProjectListItemContent({required this.project, required this.isShowRoomEnterBtn});
+
+  @override
+  Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
     return IntrinsicHeight(
       child: Card(
@@ -82,7 +92,28 @@ class _ProjectListItemState extends ConsumerState<ProjectListItem> {
                   )
                 ],
               ),
-              StandartPaddingComponent()
+              StandartPaddingComponent(),
+              if(isShowRoomEnterBtn && project.roomID != null) Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Icon(Icons.login),
+                      SizedBox(width: size.width * 0.05),
+                      RadiusTextComponent(
+                        "共同制作部屋に入る",
+                        widthRatio: 0.5,
+                        textTapped: () {
+                          final roomController = RoomController();
+                          roomController.enterChatRoom(project.roomID!, context);
+                        },
+                      ),
+                      SizedBox(width: size.width * 0.05),
+                    ],
+                  ),
+                  StandartPaddingComponent()
+                ],
+              )
             ],
           ),
         ),

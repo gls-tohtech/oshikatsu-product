@@ -15,7 +15,8 @@ enum ProjectTableColumn{
   HASHTAGS,
   THUMBNAIL_URL,
   MONEY_GOAL,
-  MONEY_DONATED
+  MONEY_DONATED,
+  ROOM_ID
 }
 
 class Project{
@@ -31,6 +32,7 @@ class Project{
   final String thumbnailUrl;
   final int moneyGoal;
   final int moneyDonated;
+  final String? roomID;
 
   String get projectId => "${((title + discription).hashCode.formatIntToAnyDigits(16))}${createdAt.toString().hashCode.formatIntToAnyDigits(8)}${moneyGoal.formatIntToAnyDigits(8)}";
 
@@ -47,6 +49,7 @@ class Project{
     required this.thumbnailUrl,
     required this.moneyGoal,
     required this.moneyDonated,
+    this.roomID
   });
 
   Map<String, dynamic> getDbProcessedMap(){
@@ -81,6 +84,7 @@ class Project{
       thumbnailUrl: mapArg[ProjectTableColumn.THUMBNAIL_URL.name] ?? "",
       moneyGoal: mapArg[ProjectTableColumn.MONEY_GOAL.name] ?? 65536,
       moneyDonated: mapArg[ProjectTableColumn.MONEY_DONATED.name] ?? 0,
+      roomID: mapArg[ProjectTableColumn.ROOM_ID.name]
     );
   }
 }

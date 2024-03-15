@@ -58,7 +58,8 @@ class _SubmitFragmentState extends State<SubmitFragment> {
       hashtags: [], 
       thumbnailUrl: _imageUrl, 
       moneyGoal: int.tryParse(_moneyGoal.text) ?? 0, 
-      moneyDonated: 0
+      moneyDonated: 0,
+      roomID: _roomName.text
     );
 
     registry.add(newProjectData: project);
