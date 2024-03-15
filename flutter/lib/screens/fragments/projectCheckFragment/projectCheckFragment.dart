@@ -5,6 +5,7 @@ import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/screens/fragments/projectCheckFragment/projectCheckBorderCom.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
+import 'package:oshikatsu_product/widgets/topPadding.dart';
 
 class ProjectCheckFragment extends StatelessWidget{
   late final Project _project;
@@ -33,6 +34,7 @@ class ProjectCheckFragment extends StatelessWidget{
         padding: EdgeInsets.all(size.width * 0.04),
         child: Column(
           children: [
+            TopPaddingComponent(),
             buildHeader(context),
             ProjectCheckBorderComponent(),
             buildTitle(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/widgets/termOfService.dart';
+import 'package:oshikatsu_product/widgets/topPadding.dart';
 import 'spBorderCom.dart';
 import 'spContentsCom.dart';
 import 'spImgCom.dart';
@@ -23,6 +24,7 @@ class SupportProcessFragment extends StatelessWidget{
           padding: EdgeInsets.all(size.width * 0.04),
           child: Column(
             children: [
+              TopPaddingComponent(),
               buildHeader(context),
               SpBorderComponent(),
               Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.01)),

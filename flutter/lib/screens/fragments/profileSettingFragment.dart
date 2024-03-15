@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/screens/fragments/supportProcessFragment/spBorderCom.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
+import 'package:oshikatsu_product/widgets/topPadding.dart';
 
 class ProfileSettingFragment extends StatefulWidget {
   const ProfileSettingFragment({super.key});
@@ -26,6 +27,7 @@ class _ProfileSettingFragmentState extends State<ProfileSettingFragment> {
           padding: EdgeInsets.all(size.width * 0.04),
           child: Column(
             children: [
+              TopPaddingComponent(),
               buildHeader(context),
               SpBorderComponent(),
               SizedBox(height: size.height * 0.02),
