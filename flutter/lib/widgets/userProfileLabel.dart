@@ -48,7 +48,7 @@ class UserProfileLabelComponent extends StatelessWidget {
                       ? Image.network(snapshot.data!.iconImageUrl)
                       : const Icon(Icons.person),
                   ),
-                  SizedBox(width: size.width * 0.01,),
+                  SizedBox(width: size.width * widthRatio * 0.1),
                   FittedBox(
                     child: Text(
                       snapshot.data!.name,
