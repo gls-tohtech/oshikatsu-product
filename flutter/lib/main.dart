@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
-        showUnselectedLabels: true,
+        // showUnselectedLabels: true,
       ),
     );
   }

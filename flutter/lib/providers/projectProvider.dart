@@ -29,7 +29,7 @@ final projectStreamProviderFromRef = StreamProvider.autoDispose.family((ref, Doc
   final projectsSnapshot = projectRef.snapshots();
   final project = 
     projectsSnapshot.map((snapshot) => 
-      Project.fromMap(snapshot.data() as Map<String, dynamic> ?? {})
+      Project.fromMap(snapshot.data() as Map<String, dynamic>)
     );
 
   return project;
