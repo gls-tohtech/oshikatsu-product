@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/models/rooms.dart';
+import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/chat.dart';
 
 class RoomController{
   final FirebaseChatCore CHAT_CORE = FirebaseChatCore.instance;
@@ -37,5 +41,19 @@ class RoomController{
     await docRef.update({
       'userIds': FieldValue.arrayRemove([_userController.uid])
     });
+  }
+
+  Future enterChatRoom(String roomId, BuildContext context) async {
+    final Completer<types.Room> completer = Completer();
+
+    await CHAT_CORE.room(roomId).listen((catchedRoom) {
+        completer.complete(catchedRoom);
+    });
+
+    final types.Room room = await completer.future;
+
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+        return ChatPage(room: room);
+    }));
   }
 }

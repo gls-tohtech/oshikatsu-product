@@ -82,14 +82,6 @@ class _CreateRoomFragmentState extends State<CreateRoomFragment> {
       if(_userController.uid == null) return;
       final types.User user = types.User(id: _userController.uid!);
 
-      // await FirebaseChatCore.instance.createUserInFirestore(
-      //   types.User(
-      //     firstName: "_firstName",
-      //     id: _userController.uid,
-      //     lastName: "_lastName",
-      //   ),
-      // );
-
       final roomName = _roomNameController!.text;
       await _roomController.createGroupRoom(roomName, [_userController.uid!]);
 

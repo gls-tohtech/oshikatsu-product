@@ -120,6 +120,12 @@ class _ChatPageState extends State<ChatPage> {
             icon: const Icon(Icons.menu)
           )
         ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          }, 
+          icon: const Icon(Icons.arrow_back)
+        ),
       ),
       body: StreamBuilder<types.Room>(
         initialData: widget.room,
@@ -154,17 +160,17 @@ class _ChatPageState extends State<ChatPage> {
               style: TextStyle(fontSize: 32),
             ),
             StandartPaddingComponent(),
-            buildDrawerItem(
-              () {
-                var roomController = RoomController();
-                roomController.deleteUserFromRoom(widget.room);
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              Icons.delete,
-              "このワークスペースから退出する。"
-            ),
-            StandartPaddingComponent(),
+            // buildDrawerItem(
+            //   () {
+            //     var roomController = RoomController();
+            //     roomController.deleteUserFromRoom(widget.room);
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).pop();
+            //   },
+            //   Icons.delete,
+            //   "このワークスペースから退出する。"
+            // ),
+            // StandartPaddingComponent(),
             buildDrawerItem(
               () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -190,7 +196,10 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             Icon(
               iconData,
-              size: 64,
+              size: 50,
+            ),
+            const SizedBox(
+              width: 8,
             ),
             Flexible(
               child: Text(
