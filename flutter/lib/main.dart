@@ -12,6 +12,7 @@ import 'package:oshikatsu_product/screens/pages/homeUI.dart';
 import 'package:oshikatsu_product/screens/pages/myPageUI.dart';
 import 'package:oshikatsu_product/screens/pages/supportUI.dart';
 import 'package:oshikatsu_product/screens/pages/swipeUI.dart';
+import 'package:oshikatsu_product/settings/appColors.dart';
 import 'package:oshikatsu_product/widgets/spSuccessPopup.dart';
 
 void main() async {
@@ -85,6 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: _pages[_currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.red, // 背景色を赤に設定
+        selectedItemColor: AppColors().primaryColor,
+        unselectedItemColor: Colors.black,
         currentIndex: _currentPageIndex,
         onTap: _onItemTapped,
         items: const [
@@ -105,9 +109,6 @@ class _MyHomePageState extends State<MyHomePage> {
             label: "マイページ"
           ),
         ],
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        // showUnselectedLabels: true,
       ),
     );
   }
