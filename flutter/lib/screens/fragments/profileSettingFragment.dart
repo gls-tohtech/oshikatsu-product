@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/screens/fragments/supportProcessFragment/spBorderCom.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
 import 'package:oshikatsu_product/widgets/topPadding.dart';
 
 class ProfileSettingFragment extends StatefulWidget {
-  const ProfileSettingFragment({super.key});
+  final UserProfile profile;
+  const ProfileSettingFragment({super.key, required this.profile});
 
   @override
   _ProfileSettingFragmentState createState() => _ProfileSettingFragmentState();
@@ -20,6 +22,8 @@ class _ProfileSettingFragmentState extends State<ProfileSettingFragment> {
 
   @override
   Widget build(BuildContext context){
+    _nameEditController.text = widget.profile.name;
+    _discriptionEditController.text = widget.profile.biography;
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
@@ -32,10 +36,12 @@ class _ProfileSettingFragmentState extends State<ProfileSettingFragment> {
               SpBorderComponent(),
               SizedBox(height: size.height * 0.02),
               CircleAvatar(
-                child: Icon(
+                child: widget.profile.iconImageUrl != ""
+                  ? Image.network(widget.profile.iconImageUrl)
+                  : Icon(
                   Icons.person,
-                  size: size.height * 0.1
-                ),
+                    size: size.height * 0.1
+                  ),
                 radius: 64,
               ),
               SizedBox(height: size.height * 0.06),
@@ -46,6 +52,9 @@ class _ProfileSettingFragmentState extends State<ProfileSettingFragment> {
               RadiusTextComponent(
                 "保存",
                 widthRatio: 0.7,
+                textTapped: () {
+                  Navigator.of(context).pop();
+                },
               )
             ],
           ),
