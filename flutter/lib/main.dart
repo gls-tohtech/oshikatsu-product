@@ -8,6 +8,7 @@ import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/firebase_options.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/room.dart';
+import 'package:oshikatsu_product/screens/fragments/loginFragment.dart';
 import 'package:oshikatsu_product/screens/pages/homeUI.dart';
 import 'package:oshikatsu_product/screens/pages/myPageUI.dart';
 import 'package:oshikatsu_product/screens/pages/supportUI.dart';
@@ -57,22 +58,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _userController = UserController();
   int _currentPageIndex = 0;
 
-  List<Widget> _pages = [
-    HomePage(),
-    SwipeUI(),
-    SupportUI(),
+  final List<Widget> _pages = [
+    const HomePage(),
+    const SwipeUI(),
+    const SupportUI(),
     MyPageUI()
   ];
 
   void initState() {
-    final _userController = UserController();
-
-    var userAuthInfo = UserAuthInfo("nenireru@gmail.com", "qwertyuiop");
-
-    _userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
     super.initState();
+    //if(!_userController.isLogin) _moveLoginFragment();
+  }
+
+  void _moveLoginFragment(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+      return const LoginFragment();
+    }));
   }
 
   void _onItemTapped(int indexArg) {
@@ -83,6 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(!_userController.isLogin) _moveLoginFragment();
+    });
     return Scaffold(
       body: _pages[_currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
