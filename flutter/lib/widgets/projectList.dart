@@ -17,26 +17,30 @@ class _ProjectListState extends ConsumerState<ProjectList> {
   @override
   Widget build(BuildContext context) {
     final streamProv = ref.watch(projectsStreamProvider);
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: streamProv.when(
-        data: (List<Project> ad){
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                TopPaddingComponent(),
-                for(Project item in ad) Column(
-                  children: [
-                    StandartPaddingComponent(),
-                    ProjectListItem(projectId: item.projectId, isShowRoomEnterBtn: true),
-                  ],
-                )
-              ],
-            ),
-          );
-        }, error:((error, stackTrace) {
-          return ;
-        }), 
-        loading: () => Container(),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+        child: streamProv.when(
+          data: (List<Project> ad){
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  TopPaddingComponent(),
+                  for(Project item in ad) Column(
+                    children: [
+                      StandartPaddingComponent(),
+                      ProjectListItem(projectId: item.projectId, isShowRoomEnterBtn: true),
+                    ],
+                  )
+                ],
+              ),
+            );
+          }, error:((error, stackTrace) {
+            return ;
+          }), 
+          loading: () => Container(),
+        ),
       )
     );
   }
