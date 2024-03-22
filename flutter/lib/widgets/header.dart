@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:oshikatsu_product/widgets/border.dart';
+import 'package:oshikatsu_product/widgets/standardPadding.dart';
 import 'package:oshikatsu_product/widgets/topPadding.dart';
 
 class HeaderTitleWidget extends StatelessWidget{
@@ -17,14 +19,11 @@ class HeaderTitleWidget extends StatelessWidget{
           children: [
             Align(
               alignment: Alignment.center,
-              child: Padding(
-                padding: EdgeInsets.only(top: size.height * 0.01),
-                child: Text(
-                  title,
-                  textScaler: const TextScaler.linear(1.5),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              )
+              child: Text(
+                title,
+                textScaler: const TextScaler.linear(1.5),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -34,9 +33,11 @@ class HeaderTitleWidget extends StatelessWidget{
                 }, 
                 icon: const Icon(Icons.close)
               ),
-            )
+            ),
           ],
-        )
+        ),
+        HorizontalBorderComponent(heightRatio: 0.002),
+        StandartPaddingComponent()
       ],
     );
   }

@@ -5,6 +5,7 @@ import 'package:oshikatsu_product/controllers/projectController.dart';
 import 'package:oshikatsu_product/controllers/roomController.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/models/projects/projectStore.dart';
+import 'package:oshikatsu_product/settings/appColors.dart';
 import 'package:oshikatsu_product/widgets/hashtags.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
 import 'package:oshikatsu_product/widgets/standardPadding.dart';
@@ -192,7 +193,7 @@ class _SubmitFragmentState extends State<SubmitFragment> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: Colors.grey,
+                              color: AppColors().primaryColor,
                               width: 1
                             )
                           ),
