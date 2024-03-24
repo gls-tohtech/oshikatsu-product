@@ -2,8 +2,9 @@ import 'package:flutter/widgets.dart';
 
 class VerticalPaddingWidget extends StatelessWidget{
   final Widget child;
+  final double paddingFactor;
   
-  const VerticalPaddingWidget({required this.child});
+  const VerticalPaddingWidget({required this.child, this.paddingFactor = 1});
 
   @override
   Widget build(BuildContext context){
