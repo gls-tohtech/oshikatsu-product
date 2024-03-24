@@ -3,8 +3,10 @@ import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/screens/fragments/accountRegisterFragment/pageTItle.dart';
 import 'package:oshikatsu_product/utils/showDialog.dart';
+import 'package:oshikatsu_product/utils/validate.dart';
 import 'package:oshikatsu_product/widgets/header.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
+import 'package:oshikatsu_product/widgets/verticalPadding.dart';
 
 class AuthRegister extends StatefulWidget {
   final Function(UserAuthInfo) authSetCallback;
@@ -33,14 +35,8 @@ final _emailText = TextEditingController();
   }
 
   bool _checkEntered(){
-    if(_emailText.text == ""){
-      showWarnDialog(context, "メールアドレスが入力されていません。");
-      return false;
-    }
-    if(_passwordText.text == ""){
-      showWarnDialog(context, "パスワードが入力されていません。");
-      return false;
-    }
+    if(!isNotIncludeInvalidValue(context, Validate(value: _emailText.text, validateType: AddressValidateType()))) return false;
+    if(!isNotIncludeInvalidValue(context, Validate(value: _passwordText.text, validateType: PasswordValidateType()))) return false;
     return true;
   }
 
@@ -57,36 +53,32 @@ final _emailText = TextEditingController();
       padding: EdgeInsets.symmetric(vertical: size.height * 0.005),
       child: Column(
         children: [
-          Form(
-            child: Column(
-              children: [
-                const RegisterPageTitleWidget(title: "アカウント基本情報の登録"),
-                buildForm(
-                  _emailText, 
-                  'メールアドレスを入力', 
-                  TextInputType.emailAddress
-                ),
-                buildForm(
-                  _passwordText,
-                  'パスワードを入力', 
-                  TextInputType.visiblePassword
-                ),
-                const SizedBox(height: 32),
-                RadiusTextComponent(
-                  "これでよし",
-                  widthRatio: 0.7,
-                  textTapped: () {
-                    UserAuthInfo auth = UserAuthInfo(
-                      _emailText.text,
-                      _passwordText.text 
-                    );
-
-                    widget.authSetCallback(auth);
-                  },
-                )
-              ],
-            )
+          const RegisterPageTitleWidget(title: "アカウント基本情報の登録"),
+          buildForm(
+            _emailText, 
+            'メールアドレスを入力', 
+            TextInputType.emailAddress
           ),
+          buildForm(
+            _passwordText,
+            'パスワードを入力', 
+            TextInputType.visiblePassword
+          ),
+          const SizedBox(height: 32),
+          RadiusTextComponent(
+            "決定",
+            widthRatio: 0.7,
+            textTapped: () {
+              if(!_checkEntered()) return;
+
+              UserAuthInfo auth = UserAuthInfo(
+                _emailText.text,
+                _passwordText.text 
+              );
+
+              widget.authSetCallback(auth);
+            },
+          )
         ]
       ),
     );
@@ -94,8 +86,7 @@ final _emailText = TextEditingController();
   
   Widget buildForm(TextEditingController controller, String hintText, TextInputType textInputType){
     final Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
+    return VerticalPaddingWidget(
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
