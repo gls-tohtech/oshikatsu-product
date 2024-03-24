@@ -1,0 +1,16 @@
+import 'package:flutter/widgets.dart';
+
+class VerticalPaddingWidget extends StatelessWidget{
+  final Widget child;
+  
+  const VerticalPaddingWidget({required this.child});
+
+  @override
+  Widget build(BuildContext context){
+    final Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
+      child: child,
+    );
+  }
+}
