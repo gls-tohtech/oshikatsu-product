@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/utils/showDialog.dart';
 
 bool isNotIncludeInvalidValue(BuildContext context, Validate target){
-  List<String> invalidCharList = findInvalidValue(target.value.toString(), target.validateType.allowListStr);
+  List<String> invalidCharList = getInvalidValue(target.value.toString(), target.validateType.allowListStr);
   if(isIncludeKeys(target.value.toString(), target.validateType.allowListStr)){
     showWarnDialog(
       context, 
@@ -50,7 +50,7 @@ bool isIncludeKeys(String value, String keys){
   return !keys.split("").any((char) => value.contains(char));
 }
 
-List<String> findInvalidValue(String value, String keys){
+List<String> getInvalidValue(String value, String keys){
   String invalidValue = value.replaceAll(RegExp('[$keys]'), '');
   return invalidValue.split("");
 }
@@ -59,7 +59,7 @@ class Validate{
   final String value;
   final ValidateType validateType;
 
-  Validate({
+  const Validate({
     required this.value,
     required this.validateType,
   });
