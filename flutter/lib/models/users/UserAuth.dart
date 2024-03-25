@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:oshikatsu_product/utils/result.dart';
 import './UserAuthInfo.dart';
 
 class UserAuthentifier{
@@ -19,13 +20,13 @@ class UserAuthentifier{
     }
   }
 
-  Future<User?> createUserWithEmailAndPassWord() async {
+  Future<Result<User?>> createUserWithEmailAndPassWord() async {
     return await _userAuthController.createUserWithEmailAndPassWord(_userAuthInfo);
   }
 
-  Future<User?> signInWithEmailAndPassWord() async {
-    final User? user = await _userAuthController.signInWithEmailAndPassWord(_userAuthInfo);
-    if(user != null) _isLogin = true;
+  Future<Result<User?>> signInWithEmailAndPassWord() async {
+    final Result<User?> user = await _userAuthController.signInWithEmailAndPassWord(_userAuthInfo);
+    if(user.isOk) _isLogin = true;
     return user;
   }
 
@@ -42,7 +43,7 @@ class UserAuthentifier{
 class _UserAuthController{
   final AUTH = FirebaseAuth.instance;
 
-  Future<User?> createUserWithEmailAndPassWord(UserAuthInfo userAuthInfoArg) async {
+  Future<Result<User?>> createUserWithEmailAndPassWord(UserAuthInfo userAuthInfoArg) async {
     try{
         final User? user = (
         await AUTH.createUserWithEmailAndPassword(
@@ -51,14 +52,20 @@ class _UserAuthController{
         )
       ).user;
 
-      return user;
+      return Result<User?>(
+        isOk: true,
+        value: user
+      );
     }
     catch(e){
-      print(e);
+      return Result(
+        isOk: false,
+        executedMessage: e.toString()
+      );
     }
   }
 
-  Future<User?> signInWithEmailAndPassWord(UserAuthInfo userAuthInfoArg) async {
+  Future<Result<User?>> signInWithEmailAndPassWord(UserAuthInfo userAuthInfoArg) async {
     try{
         final User? user = (
         await AUTH.signInWithEmailAndPassword(
@@ -67,10 +74,16 @@ class _UserAuthController{
         )
       ).user;
 
-      return user;
+      return Result<User?>(
+        isOk: true,
+        value: user
+      );
     }
     catch(e){
-      print(e);
+      return Result(
+        isOk: false,
+        executedMessage: e.toString()
+      );
     }
   }
 

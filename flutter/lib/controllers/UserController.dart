@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
+import 'package:oshikatsu_product/utils/result.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
 import '../models/users/UserStore.dart';
@@ -37,29 +39,37 @@ class UserController{
   UserProfile? get userProfile => _userProfile;
   RoomUser? get roomUser => _roomUser;
 
-  Future createUserWithEmailAndPassWord({required UserAuthInfo userAuthInfo, required UserProfile userProfile}) async {
+  Future<Result> createUserWithEmailAndPassWord({required UserAuthInfo userAuthInfo, required UserProfile userProfile}) async {
     _userAuthInfo = userAuthInfo;
     _userProfile = userProfile;
     _auth = UserAuthentifier(_userAuthInfo!);
 
-    _user = await _auth!.createUserWithEmailAndPassWord();
+    Result result = await _auth!.createUserWithEmailAndPassWord();
+    if(result.isOk) _auth = result.value;
+    if(!result.isOk) return result;
+
     _createChatCoreUserAccount();
 
     _isAccountCreated = true;
 
     _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
     _addToStore();
+
+    return const Result(isOk: true);
   }
 
-  Future signInWithEmailAndPassWord({required UserAuthInfo userAuthInfo}) async { 
+  Future<Result> signInWithEmailAndPassWord({required UserAuthInfo userAuthInfo}) async { 
     _userAuthInfo = userAuthInfo;
     
     _auth = UserAuthentifier(_userAuthInfo!);
-    _user = await _auth!.signInWithEmailAndPassWord();
+
+    Result result = await _auth!.signInWithEmailAndPassWord();
+    if(result.isOk) _auth = result.value;
+    if(!result.isOk) return result;
 
     if(_user == null) {
       print("_user variable is null in createUserWithEmailAndPassWord method of userController class");
-      return;
+      return const Result(isOk: false);
     }
 
     final UserProfile? userProfile = await _fetchUserProfileFromStore();
@@ -68,6 +78,8 @@ class UserController{
     _userProfile = await _fetchUserProfileFromStore();
     _roomUser = await _fetchRoomUserFromStore();
     _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
+
+    return const Result(isOk: true);
   }
 
   Future<void> _createChatCoreUserAccount() async {

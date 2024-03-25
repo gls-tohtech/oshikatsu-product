@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
 import 'package:oshikatsu_product/screens/fragments/accountRegisterFragment/pageTItle.dart';
+import 'package:oshikatsu_product/utils/result.dart';
 import 'package:oshikatsu_product/utils/showDialog.dart';
 import 'package:oshikatsu_product/utils/validate.dart';
 import 'package:oshikatsu_product/widgets/header.dart';
@@ -24,8 +25,8 @@ final _emailText = TextEditingController();
   Future<bool> _login() async {
     if(!_checkEntered()) return false;
     final userAuthInfo = UserAuthInfo(_emailText.text, _passwordText.text);
-    await _userContoroller.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
-    if(!_checkLogined()) return false;
+    Result result = await _userContoroller.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
+    if(result.isOk == false) return false;
     return true;
   }
 
