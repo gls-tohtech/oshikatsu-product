@@ -9,13 +9,12 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:oshikatsu_product/settings/tables.dart';
 import 'package:path_provider/path_provider.dart';
 
 
 
 class ChatController{
-  final CHAT_FILE_STORAGE = "CHAT_FILE_STORAGE";
-
   void handleAtachmentPressed(BuildContext context, types.Room room) {
     showModalBottomSheet<void>(
       context: context,

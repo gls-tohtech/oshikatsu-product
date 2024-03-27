@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oshikatsu_product/models/projects/project.dart';
+import 'package:oshikatsu_product/settings/tables.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final projectsCollection = firestore.collection(PROJECTS_TABLE_COLLECTION_NAME);

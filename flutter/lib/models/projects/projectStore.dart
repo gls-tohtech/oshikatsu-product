@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/models/users/UserProfile.dart';
 import 'package:oshikatsu_product/models/users/UserStore.dart';
+import 'package:oshikatsu_product/settings/tables.dart';
 import 'project.dart';
 
 class ProjectRegistry{

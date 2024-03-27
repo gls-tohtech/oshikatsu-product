@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oshikatsu_product/utils/formatIntToSixDigits.dart';
 
-const PROJECTS_TABLE_COLLECTION_NAME = "projects";
-
 enum ProjectTableColumn{
   CREATED_AT,
   CREATED_BY,

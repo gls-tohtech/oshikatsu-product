@@ -2,33 +2,18 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-
-const PROJECT_IMAGE_STORAGE = "PROJECT_IMAGE_STORAGE";
+import 'package:oshikatsu_product/settings/tables.dart';
+import 'package:oshikatsu_product/utils/imagePicker.dart';
 
 class ProjectImageUploader{
     Future<String?> uploadImageAndFetchUrl() async {
     final _ProjectStorageController storageController = _ProjectStorageController();
-    final File? pickedImageFile = await _pickImageFromLocal();
+    final File? pickedImageFile = await ImagePickerManager().pickImageFromLocal();
 
     if(pickedImageFile == null) return null;
 
     String imageUrl = await storageController.uploadAndFetchImageUrl(imageFile: pickedImageFile);
     return imageUrl;
-  }
-  
-
-  Future<File?> _pickImageFromLocal() async {
-    try{
-      final pickerFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(pickerFile == null) return null;
-
-      File file = File(pickerFile.path);
-
-      return file;
-    }
-    catch(e){
-      return null;
-    }
   }
 }
 

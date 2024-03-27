@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oshikatsu_product/models/users/UserStore.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
 import './UserProfile.dart';
-
-const USERS_TABLE_COLLECTION_NAME = "users";
-const ROOM_USERS_TABLE_COLLECTION_NAME = "room_users";
 
 ///このデータベースでのdocumentId(uid)はFirebase Authenticationで取得できるuidとなる。
 class UserStoreInfo{

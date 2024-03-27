@@ -3,8 +3,6 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:oshikatsu_product/models/users/UserStore.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
 
-const ROOM_TABLE_COLLECTION_NAME = "rooms";
-
 typedef Role = types.Role;
 
 enum RoomsTableColumn {

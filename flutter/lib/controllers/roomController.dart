@@ -7,6 +7,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:oshikatsu_product/controllers/UserController.dart';
 import 'package:oshikatsu_product/models/rooms.dart';
 import 'package:oshikatsu_product/screens/fragments/chatRoomFragment/chat.dart';
+import 'package:oshikatsu_product/settings/tables.dart';
 
 class RoomController{
   final FirebaseChatCore CHAT_CORE = FirebaseChatCore.instance;
