@@ -10,7 +10,7 @@ class VerticalPaddingWidget extends StatelessWidget{
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
+      padding: EdgeInsets.symmetric(vertical: size.height * 0.03 * paddingFactor),
       child: child,
     );
   }
