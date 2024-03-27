@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
+import 'package:oshikatsu_product/settings/tables.dart';
 import 'package:oshikatsu_product/utils/result.dart';
 import '../models/users/UserAuthInfo.dart';
 import '../models/users/UserAuth.dart';
@@ -64,7 +65,7 @@ class UserController{
     _auth = UserAuthentifier(_userAuthInfo!);
 
     Result result = await _auth!.signInWithEmailAndPassWord();
-    if(result.isOk) _auth = result.value;
+    if(result.isOk) _user = result.value;
     if(!result.isOk) return result;
 
     if(_user == null) {

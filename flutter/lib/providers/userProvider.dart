@@ -4,6 +4,7 @@ import 'package:oshikatsu_product/models/users/UserProfile.dart';
 
 import 'package:oshikatsu_product/models/users/UserStore.dart';
 import 'package:oshikatsu_product/models/users/roomUser.dart';
+import 'package:oshikatsu_product/settings/tables.dart';
 
 final FirebaseFirestore firesotre = FirebaseFirestore.instance;
 final usersRef = firesotre.collection(USERS_TABLE_COLLECTION_NAME);
