@@ -56,7 +56,7 @@ class UserController{
     _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
     _addToStore();
 
-    return const Result(isOk: true);
+    return Result(isOk: true);
   }
 
   Future<Result> signInWithEmailAndPassWord({required UserAuthInfo userAuthInfo}) async { 
@@ -70,7 +70,7 @@ class UserController{
 
     if(_user == null) {
       print("_user variable is null in createUserWithEmailAndPassWord method of userController class");
-      return const Result(isOk: false);
+      return Result(isOk: false);
     }
 
     final UserProfile? userProfile = await _fetchUserProfileFromStore();
@@ -80,7 +80,7 @@ class UserController{
     _roomUser = await _fetchRoomUserFromStore();
     _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile!);
 
-    return const Result(isOk: true);
+    return Result(isOk: true);
   }
 
   Future<void> _createChatCoreUserAccount() async {

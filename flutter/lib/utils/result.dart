@@ -3,7 +3,7 @@ class Result<T>{
   final T? value;
   final String executedMessage;
  
-  const Result({
+  Result({
     required this.isOk,
     this.value,
     this.executedMessage = ""
