@@ -48,7 +48,7 @@ class ProjectListItemContent extends StatelessWidget{
     return IntrinsicHeight(
       child: Card(
         color: const Color.fromARGB(255, 255, 255, 255),
-        elevation: 4,
+        elevation: 2,
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context){
@@ -75,7 +75,7 @@ class ProjectListItemContent extends StatelessWidget{
                 children: [
                   ProjectListItemImgComponent(project.thumbnailUrl),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.019),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
