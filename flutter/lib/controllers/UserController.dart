@@ -46,7 +46,7 @@ class UserController{
     _auth = UserAuthentifier(_userAuthInfo!);
 
     Result result = await _auth!.createUserWithEmailAndPassWord();
-    if(result.isOk) _auth = result.value;
+    if(result.isOk) _user = result.value;
     if(!result.isOk) return result;
 
     _createChatCoreUserAccount();
