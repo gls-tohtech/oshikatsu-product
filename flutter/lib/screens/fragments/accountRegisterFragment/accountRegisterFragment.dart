@@ -35,8 +35,24 @@ class _AccountRegisterFragmentState extends State<AccountRegisterFragment> {
     _pageController.dispose();
   }
 
-  void _setAuth(UserAuthInfo auth) => _auth = auth;
-  void _setProfile(UserProfile profile) => _profile = profile;
+  void _setAuth(UserAuthInfo auth){
+    _auth = auth;
+    _moveNextPage();
+  }
+
+  void _setProfile(UserProfile profile) {
+    _profile = profile;
+    _moveNextPage();
+  }
+
+  void _moveNextPage(){
+    _pageController.animateToPage(
+      1, 
+      duration: const Duration(milliseconds: 300), 
+      curve: Curves.easeInOut
+    );
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
   @override
   Widget build(BuildContext context){
@@ -61,6 +77,7 @@ class _AccountRegisterFragmentState extends State<AccountRegisterFragment> {
                 height: size.height * 0.7,
                 child: PageView.builder(
                   controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: _pages.length,
                   itemBuilder: (_, index) {
                     return Padding(

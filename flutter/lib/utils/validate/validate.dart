@@ -37,6 +37,9 @@ Result<List<String>> _isNotContainsInvalidValue(Validate target){
   String invalidValue = target.value.replaceAll(target.validateType.allowRegExp, '');
   List<String> invalidValueList = invalidValue.split("");
 
+  final result = target.validateType.isMatchedAllowRange(target);
+  if(!result.isOk) return Result(isOk: true);
+
   if(invalidValue.isEmpty){
     return Result(isOk: true);
   }

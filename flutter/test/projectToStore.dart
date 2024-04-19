@@ -10,6 +10,7 @@ import 'package:oshikatsu_product/models/projects/project.dart';
 import 'package:oshikatsu_product/models/projects/projectStorage.dart';
 import 'package:oshikatsu_product/models/projects/projectStore.dart';
 import 'package:oshikatsu_product/models/users/UserAuthInfo.dart';
+import 'package:oshikatsu_product/models/users/UserProfile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,17 @@ void main() async {
         "qwertyuiop"
     );
 
+    var userProfile = UserProfile(
+      name: "rerurate",
+      birthdayYear: 23,
+      birthdayMonth: 32,
+      gender: "male",
+      iconImageUrl: "https://firebasestorage.googleapis.com/v0/b/oshikatsu-dev-8bb0d.appspot.com/o/USER_ICON_IMAGE%2Fskadi.jpg?alt=media&token=bb0a37e3-a5be-4096-a458-2436ec551b61",
+      biography: "",
+      relatedProjects: []
+    );
+
+    await userController.createUserWithEmailAndPassWord(userAuthInfo: userAuthInfo, userProfile: userProfile);
     await userController.signInWithEmailAndPassWord(userAuthInfo: userAuthInfo);
 
     expect(userController.isLogin, true);

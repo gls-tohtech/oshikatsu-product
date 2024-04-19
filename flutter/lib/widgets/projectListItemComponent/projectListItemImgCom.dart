@@ -10,7 +10,7 @@ class ProjectListItemImgComponent extends StatelessWidget{
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
     return Card(
-      elevation: 8,
+      elevation: 2,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: _imageUrl != ""

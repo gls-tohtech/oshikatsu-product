@@ -107,12 +107,12 @@ class _SwipeUIContentsState extends State<SwipeUIContents> {
                                   ),
                                   "オーナー",
                                 ),
-                                const SizedBox(width: 20,),
+                                const SizedBox(width: 20),
                                 FittedBox(
                                   fit:BoxFit.none,
                                   child: UserProfileLabelComponent(
                                     userRef: project.createdBy, 
-                                    widthRatio: 0.7
+                                    widthRatio: 0.5
                                   )
                                 )
                               ],

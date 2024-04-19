@@ -75,7 +75,7 @@ class ProjectListItemContent extends StatelessWidget{
                 children: [
                   ProjectListItemImgComponent(project.thumbnailUrl),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.019),
+                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -9,17 +9,16 @@ abstract class ValidateType{
   String get title;
 
   Result<String> isMatchedAllowRange(Validate target){
-    int strLen = allowRangeEnd - allowRangeStart;
-    if(target.value.length > strLen){
+    if(target.value.length > allowRangeEnd){
       return Result<String>(
         isOk: false,
-        value: "文字数は$allowRangeEndより少なくしてください"
+        value: "$titleの文字数は$allowRangeEnd字より少なくしてください。\n"
       );
     }
-    else if(target.value.length < strLen){
+    else if(target.value.length < allowRangeStart){
       return Result<String>(
         isOk: false,
-        value: "文字数は$allowRangeStartより多くしてください"
+        value: "$titleの文字数は$allowRangeStart字より多くしてください。\n"
       );
     }
     else{
@@ -42,7 +41,7 @@ class AddressValidateType extends ValidateType{
 class PasswordValidateType extends ValidateType{
   @override
   // ignore: valid_regexps
-  RegExp get allowRegExp => RegExp(r'^[a-zA-Z0-9!"#$%&()*+,-./:;<=>?@[\]^_`{|}~]{8,24}$');
+  RegExp get allowRegExp => RegExp(r'^[a-zA-Z0-9!"#$%&()*+,-./:;<=>?@[\]^_`{|}~]{8,24}');
 
   @override
   int get allowRangeStart => 8;

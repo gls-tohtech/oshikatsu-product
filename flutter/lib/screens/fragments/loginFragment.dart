@@ -6,6 +6,7 @@ import 'package:oshikatsu_product/utils/result.dart';
 import 'package:oshikatsu_product/utils/showDialog.dart';
 import 'package:oshikatsu_product/widgets/header.dart';
 import 'package:oshikatsu_product/widgets/radiusText.dart';
+import 'package:oshikatsu_product/widgets/textFormField.dart';
 
 class LoginFragment extends StatefulWidget {
   const LoginFragment({super.key});
@@ -48,68 +49,51 @@ class _LoginFragmentState extends State<LoginFragment> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: size.height * 0.05, horizontal: size.width * 0.03),
-        child: Column(
-          children: [
-            HeaderTitleWidget("ログイン"),
-            Form(
-              child: Column(
-                children: [
-                  buildForm(
-                    _emailText, 
-                    'メールアドレスを入力', 
-                    TextInputType.emailAddress
-                  ),
-                  buildForm(
-                    _passwordText,
-                    'パスワードを入力', 
-                    TextInputType.visiblePassword
-                  ),
-                  const SizedBox(height: 30),
-                  RadiusTextComponent(
-                    "ログイン",
-                    widthRatio: 0.6,
-                    textTapped: () async {
-                      bool isLogin = await _login();
-                      _showSnackBar();
-                      if(isLogin) Navigator.of(context).pop();
-                    },
-                  ),
-                  const SizedBox(height: 20,),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                        return AccountRegisterFragment();
-                      }));
-                    },
-                    child: const Text("アカウント登録していない場合はこちらへ")
-                  )
-                ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: size.height * 0.05, horizontal: size.width * 0.03),
+          child: Column(
+            children: [
+              HeaderTitleWidget("ログイン"),
+              Form(
+                child: Column(
+                  children: [
+                    TextFieldWidget(
+                      controller: _emailText, 
+                      formTitle: 'メールアドレス',
+                      textInputType: TextInputType.emailAddress,
+                    ),
+                    TextFieldWidget(
+                      controller: _passwordText, 
+                      formTitle: 'パスワード', 
+                      textInputType: TextInputType.visiblePassword,
+                    ),
+                    const SizedBox(height: 30),
+                    RadiusTextComponent(
+                      "ログイン",
+                      widthRatio: 0.6,
+                      textTapped: () async {
+                        bool isLogin = await _login();
+                        _showSnackBar();
+                        if(isLogin) Navigator.of(context).pop();
+                      },
+                    ),
+                    const SizedBox(height: 20,),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                          return AccountRegisterFragment();
+                        }));
+                      },
+                      child: const Text("アカウント登録していない場合はこちらへ")
+                    )
+                  ],
+                )
               )
-            )
-          ]
-        ),
-      ),
-    );
-  }
-  
-  Widget buildForm(TextEditingController controller, String hintText, TextInputType textInputType){
-    final Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 10.0, horizontal: 8.0
+            ]
           ),
-          border: const OutlineInputBorder(),
-          hintText: hintText,
         ),
-        keyboardType: textInputType
-      ),
+      )
     );
   }
 }
